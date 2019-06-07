@@ -4,7 +4,7 @@ var utilities = require("../utilities/utilities");
 
 async function createGrievances(req,res) {
     try {
-        //
+        
         let create_obj = {
             description: req.body.description,
             status: false,
@@ -41,15 +41,20 @@ async function createGrievances(req,res) {
 }
 
 
-async function getEmployeeGrievances(req, res) {
-
-
+async function getGrievances(req, res) {
+    
     try {
-        //
+
         let query = {};
 
         if(req.query.empCode){
             query.empCode = req.query.empCode;
+        }
+
+        if(req.query.status){
+            query.status = req.query.status;
+        }
+
             let grievances = await db.public.grievances.findAll({
                 where: query
             })
@@ -58,16 +63,6 @@ async function getEmployeeGrievances(req, res) {
                 success: true,
                 grievance: grievances
             });
-        }else{
-            res.status(500).json({
-                success: false,
-                error: {
-                    message: "Please give employee ID as a parameter",
-                }
-            });
-        }
-
-
 
     } catch (err) {
         console.log(err);
@@ -80,70 +75,10 @@ async function getEmployeeGrievances(req, res) {
         });
     }
 }
-
-
-async function getEmployeeResolvedGrievances(req, res) {
-
-
-    try {
-        //
-        let query = {};
-
-        query.status = true
-        let grievances = await db.public.grievances.findAll({
-                where: query
-        })
-
-        res.status(200).json({
-                success: true,
-                grievance: grievances
-        });
-
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({
-            success: false,
-            error: {
-                message: "Internal Server Error",
-                description: err.description
-            }
-        });
-    }
-}
-
-async function getEmployeePendingGrievances(req, res) {
-
-
-    try {
-        //
-        let query = {};
-
-        query.status = false
-        let grievances = await db.public.grievances.findAll({
-                where: query
-        })
-
-        res.status(200).json({
-                success: true,
-                grievance: grievances
-        });
-
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({
-            success: false,
-            error: {
-                message: "Internal Server Error",
-                description: err.description
-            }
-        });
-    }
-}
-
 
 async function updateGrievances(req,res) {
     try {
-        //
+        
         let query = {};
         query.grievanceId = req.body.grievanceId;
         if (query){
@@ -173,8 +108,6 @@ async function updateGrievances(req,res) {
 
 module.exports = {
     createGrievances,
-    getEmployeeGrievances,
-    getEmployeeResolvedGrievances,
-    getEmployeePendingGrievances,
+    getGrievances,
     updateGrievances
 }

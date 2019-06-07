@@ -48,9 +48,7 @@ router.get('/get/attendance',attendanceCtrl.get);
 
 //Grievance EndPoints
 router.post('/create/addGrievance',grievance.createGrievances);
-router.get('/get/employeeGrievance',grievance.getEmployeeGrievances);
-router.get('/get/resolvedGrievance',grievance.getEmployeeResolvedGrievances);
-router.get('/get/pendingGrievance',grievance.getEmployeePendingGrievances);
+router.get('/get/Grievance',grievance.getGrievances);
 router.post('/update/employeeGrievance',grievance.updateGrievances);
 
 module.exports = router;
