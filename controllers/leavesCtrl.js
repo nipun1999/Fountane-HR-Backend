@@ -43,8 +43,16 @@ async function get(req, res) {
         //
         let query = {};
 
-        if(req.query.key){
-            query.key = req.query.key;
+        if(req.query.empCode){
+            query.empCode = req.query.empCode;
+        }
+        
+        if(req.query.leaveType){
+            query.leaveType = req.query.leaveType;
+        }
+        
+        if(req.query.status){
+            query.status = req.query.status;
         }
 
         let values = await db.public.leavesobj.findAll({
