@@ -42,8 +42,16 @@ async function get(req, res) {
         //
         let query = {};
 
-        if(req.query.key){
-            query.key = req.query.key;
+        if(req.query.empCode){
+            query.empCode = req.query.empCode;
+        }
+
+        if(req.query.branch){
+            query.branch = req.query.branch;
+        }
+
+        if(req.query.department){
+            query.department = req.query.department;
         }
 
         let values = await db.public.companyobj.findAll({
