@@ -42,9 +42,14 @@ router.get('/get/company', companyCtrl.get);
 
 
 // Attendance EndPoints
-router.post('/create/attendance',attendanceCtrl.create);
-router.get('/get/attendance',attendanceCtrl.get);
-
+router.post('/create/attendance',attendanceCtrl.createAttendance);
+router.post('/updateCheckOut/attendance',attendanceCtrl.updateCheckOut);
+router.post('/addComment/attendance',attendanceCtrl.addComment);
+router.post('/updateComment/attendance',attendanceCtrl.addComment);
+router.post('/deleteComment/attendance',attendanceCtrl.deleteComment);
+router.get('/getByEmp/attendance',attendanceCtrl.getEmployeeAttendanceByCode);
+router.get('/getByDate/attendance',attendanceCtrl.getEmployeeAttendanceByDate);
+router.get('/getByCodeAndDate/attendance',attendanceCtrl.getByCodeAndDate);
 
 //Grievance EndPoints
 router.post('/create/addGrievance',grievance.createGrievances);
