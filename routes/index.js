@@ -61,6 +61,7 @@ router.post('/update/employeeGrievanceTrue',grievance.updateGrievancesTrue);
 router.post('/update/employeeGrievanceFalse',grievance.updateGrievancesFalse);
 
 //Registration Endpoints
-router.post('/register/hr',registerCtrl.hrCreate);
+router.post('/register',registerCtrl.create);
+router.post('/signup',registerCtrl.signup);
 
 module.exports = router;
