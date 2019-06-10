@@ -56,6 +56,7 @@ router.get('/getByCodeAndDate/attendance',attendanceCtrl.getByCodeAndDate);
 //Grievance EndPoints
 router.post('/create/addGrievance',grievance.createGrievances);
 router.get('/get/Grievance',grievance.getGrievances);
-router.post('/update/employeeGrievance',grievance.updateGrievances);
+router.post('/update/employeeGrievanceTrue',grievance.updateGrievancesTrue);
+router.post('/update/employeeGrievanceFalse',grievance.updateGrievancesFalse);
 
 module.exports = router;
