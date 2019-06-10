@@ -21,6 +21,7 @@ async function checkUser(req, res){
             fountaneEmail: req.body.fountaneEmail
         }
     })
+    
     console.log(user);
     if (user) {
         let password = crypto.pbkdf2Sync(req.body.password, user.salt, 1000, 512, "sha512").toString('hex');
