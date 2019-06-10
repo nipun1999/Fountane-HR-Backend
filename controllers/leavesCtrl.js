@@ -73,7 +73,7 @@ async function get(req, res) {
     }
 }
 
-async function updatetrue(req,res) {
+async function updateTrue(req,res) {
     try {
         
         let query = {};
@@ -101,7 +101,7 @@ async function updatetrue(req,res) {
     }
 }
 
-async function updatefalse(req,res) {
+async function updateFalse(req,res) {
     try {
         
         let query = {};
@@ -133,6 +133,6 @@ async function updatefalse(req,res) {
 module.exports = {
     create,
     get,
-    updatetrue,
-    updatefalse
+    updateTrue,
+    updateFalse
 }
