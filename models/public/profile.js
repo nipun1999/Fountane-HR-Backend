@@ -23,9 +23,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false 
         },
         
-        profilePic : {
-            type:DataTypes.STRING
-        },
+        profilePic : {type:DataTypes.STRING},
         
         status : {
             type : DataTypes.BOOLEAN , 

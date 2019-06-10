@@ -60,7 +60,7 @@ async function signup(req, res){
         }else{
             res.status(200).json({
                 success: true,
-                message:'Email not fount. Contact HR.'
+                message:'Email not found. Contact HR.'
             });
         }
 
