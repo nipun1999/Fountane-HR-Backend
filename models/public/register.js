@@ -1,6 +1,6 @@
 
 module.exports = (sequelize, DataTypes) => {
-    const register = sequelize.define('register', {
+    const register = sequelize.define('registration', {
         
         empCode: {
             type: DataTypes.STRING,

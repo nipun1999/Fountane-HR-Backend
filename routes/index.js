@@ -12,7 +12,7 @@ var companyCtrl = require("../controllers/companyCtrl");
 var attendanceCtrl = require("../controllers/attendanceCtrl");
 var signInCtrl = require("../controllers/signInCtrl");
 var registerCtrl = require("../controllers/registerCtrl")
-
+var loginCtrl = require("../controllers/loginCtrl");
 var profile = require("../controllers/profileCtrl");
 
 var docsCtrl = require("../controllers/docsCtrl");
@@ -36,7 +36,7 @@ var docsCtrl = require("../controllers/docsCtrl");
 router.post('/create/kv', crud.create);
 router.get('/get/kv', crud.get);
 
-
+router.post('/login',loginCtrl.login);
 //Leaves EndPoints
 router.post('/leaves/create', leavesCtrl.create);
 router.get('leaves/get', leavesCtrl.get);
@@ -48,6 +48,7 @@ router.post('leaves/updateFalse',leavesCtrl.updateFalse);
 // Company EndPoints
 router.post('/create/company', companyCtrl.create);
 router.get('/get/company', companyCtrl.get);
+router.get('/update/company',companyCtrl.update);
 
 
 // Attendance EndPoints

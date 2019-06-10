@@ -16,15 +16,16 @@ async function checkUser(req, res){
         return;
     }
     //if email not present in sign in table then null will be returned when findOne function is used
-    let user = await db.public.signInObj.findAll({
+    let user = await db.public.signInObj.findOne({
         where: {
             fountaneEmail: req.body.fountaneEmail
         }
     })
+    console.log(user);
     if (user) {
-        password = crypto.pbkdf2Sync(req.body.password, user.salt, 1000, 512, "sha512").toString('hex');
+        let password = crypto.pbkdf2Sync(req.body.password, user.salt, 1000, 512, "sha512").toString('hex');
 
-        if (user.password === password) {
+        if (user.password == password) {
             res.status(200).json({
                 success: true,
                 message: "Succesful sign in",

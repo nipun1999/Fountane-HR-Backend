@@ -7,7 +7,7 @@ async function createProfile(req,res) {
         
         let create_obj = {
             empCode: req.body.empCode,
-            status: false,
+            status: req.body.status,
             name:req.body.name,
             fountaneEmail:req.body.fountaneEmail,
             mobileNo:req.body.mobileNo,
@@ -23,7 +23,7 @@ async function createProfile(req,res) {
 
             res.status(200).json({
                 success: true,
-                profile: profile_created
+                profile: profileCreated
             });
         }else{
             res.status(500).json({
@@ -84,7 +84,7 @@ async function updateProfile(req,res) {
         
         let query = {};
         if (req.body.empCode){
-            empCode = req.body.empCode;
+            query.empCode = req.body.empCode;
         }
 
         let create_obj = {}
