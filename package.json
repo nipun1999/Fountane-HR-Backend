@@ -24,6 +24,7 @@
     "express-fileupload": "^0.4.0",
     "express-session": "^1.15.6",
     "firebase-admin": "^5.12.1",
+    "googleapis": "^40.0.0",
     "hashids": "^1.2.2",
     "ioredis": "^4.2.0",
     "jade": "~1.11.0",
