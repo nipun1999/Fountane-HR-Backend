@@ -102,19 +102,23 @@ async function update(req,res) {
         
         let query = {};
 
-       if(query)
-       {
+        query.empCode = req.body.empCode;
+      if(query)
+      {
         var key = req.body;
-        console.log(key);
         for(var obj in key)
         {
-             companyUpdate = await db.public.companyobj.update({obj},
-                 { where :query 
+            console.log(obj);
+            var value = key[obj];
+            if(true)
+            {
+             companyUpdate = await db.public.companyobj.update({ obj: value},
+                 { 
+                     where :query
                  });
-        }
-       }
-
-        
+             }
+         }
+      }
 
         res.status(200).json({
             success : true,
