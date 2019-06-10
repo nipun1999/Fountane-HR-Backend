@@ -161,81 +161,8 @@ async function deleteComment(req, res){
     }
 
 }
-async function getEmployeeAttendanceByCode(req, res){
 
-    try {
-        //
-        let query = {};
-
-        if(req.query.empCode){
-            query.empCode = req.query.empCode;
-        }
-
-        
-        // if(req.query.date){
-        //     query.date = req.query.date;
-        // }
-
-        let values = await db.public.attendanceobj.findAll({
-            where: query
-        })
-        // if(Object.keys(values).length==0) Empty object condition
-        res.status(200).json({
-            success: true,
-            attendanceobj: values
-        });
-
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({
-            success: false,
-            error: {
-                message: "Internal Server Error",
-                description: err.description
-            }
-        });
-    }
-
-}
-
-async function getEmployeeAttendanceByDate(req, res){
-
-    try {
-        //
-        let query = {};
-
-        // if(req.query.empCode){
-        //     query.empCode = req.query.empCode;
-        // }
-
-        
-        if(req.query.date){
-            query.date = req.query.date;
-        }
-
-        let values = await db.public.attendanceobj.findAll({
-            where: query
-        })
-        // if(Object.keys(values).length==0) Empty object condition
-        res.status(200).json({
-            success: true,
-            attendanceobj: values
-        });
-
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({
-            success: false,
-            error: {
-                message: "Internal Server Error",
-                description: err.description
-            }
-        });
-    }
-
-}
-
-async function getByCodeAndDate(req, res){
+async function getEmployeeAttendance(req, res){
 
     try {
         //
@@ -277,7 +204,5 @@ module.exports = {
     updateCheckOut,
     addComment,
     deleteComment,
-    getEmployeeAttendanceByCode,
-    getEmployeeAttendanceByDate,
-    getByCodeAndDate
+    getEmployeeAttendance,
 }
