@@ -7,21 +7,73 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true,
             allowNull: false
         },
+        dateJoin:{
+            type: DataTypes.DATEONLY,
+            allowNull :false
+        },
+        location:{
+            type: DataTypes.STRING,
+            allowNull :false
+        },
+        typeOfEmployee:{
+            type: DataTypes.STRING,
+            allowNull : false
+        },
+        status:{
+            type: DataTypes.STRING,
+            allowNull : false,
+        },
+        personalEmail:{
+            type: DataTypes.STRING,
+            allowNull : false
+        },
+        postalAddress:{
+            type: DataTypes.TEXT,
+            allowNull : false
+        },
+        PWT:{
+            type: DataTypes.STRING,
+            allowNull : false
+        },
+        manager:{
+            type: DataTypes.STRING,
+            allowNull : false
+        },
 
-        companyName: {
+        department: {
             type: DataTypes.STRING,
             allowNull: false
         },
 
-        branch: { 
+        panCardNo: { 
             type: DataTypes.STRING,
             allowNull: false 
         },
 
-        department: { 
+        bankCardNo: { 
             type: DataTypes.STRING,
             allowNull: false 
-        }
+        },
+        ifscCode:{
+            type: DataTypes.STRING,
+            allowNull : false
+        },
+        RR:{
+            type: DataTypes.TEXT,
+            allowNull : false
+        },
+        EXPFountane:{
+            type: DataTypes.STRING,
+            allowNull : false
+        },
+        EXPOthers:{
+            type: DataTypes.STRING,
+            allowNull : false
+        },
+        EDUQualification:{
+            type: DataTypes.STRING,
+            allowNull : false
+        },
     });
 
     companyobj.addHook('afterCreate', 'postOnboarding', (permission, options) => {

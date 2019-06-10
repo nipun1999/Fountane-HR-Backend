@@ -46,6 +46,7 @@ router.post('leaves/updateFalse',leavesCtrl.updateFalse);
 // Company EndPoints
 router.post('/create/company', companyCtrl.create);
 router.get('/get/company', companyCtrl.get);
+router.get('/update/company',companyCtrl.update);
 
 
 // Attendance EndPoints
