@@ -1,30 +1,31 @@
+
 module.exports = (sequelize, DataTypes) => {
-    const signInObj = sequelize.define('signIn', {
+    const docs = sequelize.define('documents', {
         
-        empCode: {
-            type: DataTypes.STRING,
+        documentId: {
+            type: DataTypes.INTEGER,
             primaryKey: true,
+            allowNull: false,
+            autoIncrement: true
+        },
+
+        empCode: {
+            type: DataTypes.TEXT,
             allowNull: false
         },
 
-        fountaneEmail: {
-            type: DataTypes.STRING,
-            unique: true,
-            allowNull: false
-        },
-
-        password: { 
-            type:DataTypes.TEXT ,
-            allowNull: false 
-        },
-
-        salt: { 
-            type:DataTypes.TEXT ,
-            allowNull: false 
-        },
-
-        role: { 
+        name: { 
             type:DataTypes.STRING ,
+            allowNull: false 
+        },
+
+        type: { 
+            type:DataTypes.STRING ,
+            allowNull: false 
+        },
+
+        firebaseLink: { 
+            type: DataTypes.STRING, 
             allowNull: false 
         },
         created_at: {
@@ -38,8 +39,8 @@ module.exports = (sequelize, DataTypes) => {
             underscored: true
         });
 
-        signInObj.addHook('afterCreate', 'postOnboarding', (permission, options) => {
+    docs.addHook('afterCreate', 'postOnboarding', (permission, options) => {
         console.log("Data to be written in redis here");
     });
-    return signInObj;
+    return docs;
 };
