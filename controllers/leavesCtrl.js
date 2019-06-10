@@ -4,10 +4,8 @@ var utilities = require("../utilities/utilities");
 
 
 async function create(req, res){
-    
-
     try {
-        //
+        
         let create_obj = {
            empCode: req.body.empCode,
            leaveType: req.body.leaveType,
@@ -37,10 +35,8 @@ async function create(req, res){
 } 
 
 async function get(req, res) {
-
-
     try {
-        //
+        
         let query = {};
 
         if(req.query.empCode){
@@ -77,8 +73,66 @@ async function get(req, res) {
     }
 }
 
+async function updatetrue(req,res) {
+    try {
+        
+        let query = {};
+        query.empCode = req.body.empCode;
+        if (query){
+            leaveUpdated = await db.public.leavesobj.update({status:true},
+                { where :query 
+                });
+        }
+
+        res.status(200).json({
+            success : true,
+            leavesobj : leaveUpdated
+        });
+        
+    } catch(err) {
+        console.log(err);
+        res.status(500).json({
+            success: false,
+            error: {
+                message: "Please put all body parameters",
+                description: err.description
+            }
+        });
+    }
+}
+
+async function updatefalse(req,res) {
+    try {
+        
+        let query = {};
+        query.empCode = req.body.empCode;
+        if (query){
+            leaveUpdated = await db.public.leavesobj.update({status:false},
+                { where :query 
+                });
+        }
+
+        res.status(200).json({
+            success : true,
+            leavesobj : leaveUpdated
+        });
+        
+    } catch(err) {
+        console.log(err);
+        res.status(500).json({
+            success: false,
+            error: {
+                message: "Please put all body parameters",
+                description: err.description
+            }
+        });
+    }
+}
+
 
 module.exports = {
     create,
-    get
+    get,
+    updatetrue,
+    updatefalse
 }
