@@ -34,8 +34,8 @@ router.get('/get/kv', crud.get);
 //Leaves EndPoints
 router.post('/leaves/create', leavesCtrl.create);
 router.get('leaves/get', leavesCtrl.get);
-router.post('leaves/updateTrue'.leavesCtrl.updateTrue);
-router.post('leaves/updateFalse'.leavesCtrl.updateFalse);
+router.post('leaves/updateTrue',leavesCtrl.updateTrue);
+router.post('leaves/updateFalse',leavesCtrl.updateFalse);
 
 
 // Company EndPoints
