@@ -37,6 +37,7 @@ db.companyobj = require('./company.js')(sequelize,Sequelize);
 db.attendanceobj = require('./attendance.js')(sequelize,Sequelize);
 db.docs = require('./documents.js')(sequelize,Sequelize);
 
+db.signInObj = require('./signIn.js')(sequelize,Sequelize);
 //Relations
 // db.profile.belongsTo(db.login, {onDelete: "CASCADE"});
 
