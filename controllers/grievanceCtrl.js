@@ -76,7 +76,7 @@ async function getGrievances(req, res) {
     }
 }
 
-async function updateGrievances(req,res) {
+async function updateGrievancesTrue(req,res) {
     try {
         
         let query = {};
@@ -104,10 +104,38 @@ async function updateGrievances(req,res) {
     }
 }
 
+async function updateGrievancesFalse(req,res) {
+    try {
+        
+        let query = {};
+        query.grievanceId = req.body.grievanceId;
+        if (query){
+            grievanceUpdate = await db.public.grievances.update({status:false},
+                { where :query 
+                });
+        }
+
+        res.status(200).json({
+            success : true,
+            grievance : grievanceUpdate
+        });
+        
+    } catch(err) {
+        console.log(err);
+        res.status(500).json({
+            success: false,
+            error: {
+                message: "Please put all body parameters",
+                description: err.description
+            }
+        });
+    }
+}
 
 
 module.exports = {
     createGrievances,
     getGrievances,
-    updateGrievances
+    updateGrievancesTrue,
+    updateGrievancesFalse
 }
