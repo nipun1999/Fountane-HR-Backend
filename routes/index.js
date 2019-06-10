@@ -10,6 +10,7 @@ var grievance = require("../controllers/grievanceCtrl");
 var leavesCtrl = require("../controllers/leavesCtrl");
 var companyCtrl = require("../controllers/companyCtrl");
 var attendanceCtrl = require("../controllers/attendanceCtrl");
+var registerCtrl = require("../controllers/registerCtrl")
 
 // // Login and onboarding
 // router.post("/register", login.register);
@@ -58,5 +59,8 @@ router.post('/create/addGrievance',grievance.createGrievances);
 router.get('/get/Grievance',grievance.getGrievances);
 router.post('/update/employeeGrievanceTrue',grievance.updateGrievancesTrue);
 router.post('/update/employeeGrievanceFalse',grievance.updateGrievancesFalse);
+
+//Registration Endpoints
+router.post('/register/create',registerCtrl.create);
 
 module.exports = router;
