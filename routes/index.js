@@ -82,6 +82,7 @@ router.get('/get/employeeProfile',profile.getProfile);
 //Documents EndPoints
 router.post('/create/documents',docsCtrl.create);
 router.get('/get/documents',docsCtrl.get);
+router.delete('/delete/documents',docsCtrl.destroy);
 
 
 module.exports = router;
