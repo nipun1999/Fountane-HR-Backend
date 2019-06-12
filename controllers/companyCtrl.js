@@ -10,9 +10,22 @@ async function create(req, res){
         //
         let create_obj = {
             empCode: req.body.empCode,
-            companyName: req.body.companyName,
-            branch: req.body.branch,
+            dateJoin: req.body.dateJoin,
+            location: req.body.location,
+            typeOfEmployee: req.body.typeOfEmployee,
+            status: req.body.status,
+            personalEmail: req.body.personalEmail,
+            postalAddress: req.body.postalAddress,
+            PWT: req.body.PWT,
+            manager: req.body.manager,
             department: req.body.department,
+            panCardNo: req.body.panCardNo,
+            bankCardNo: req.body.bankCardNo,
+            ifscCode: req.body.ifscCode,
+            RR: req.body.RR,
+            EXPFountane: req.body.EXPFountane,
+            EXPOthers: req.body.EXPOthers,
+            EDUQualification: req.body.EDUQualification,
         };
 
         let companyobj_created = await db.public.companyobj.create(create_obj);
@@ -50,6 +63,13 @@ async function get(req, res) {
             query.branch = req.query.branch;
         }
 
+        if(req.query.dateJoin){
+            query.dateJoin = req.query.dateJoin;
+        }
+        if(req.query.manager){
+            query.manager = req.query.manager;
+        }
+
         if(req.query.department){
             query.department = req.query.department;
         }
@@ -77,7 +97,49 @@ async function get(req, res) {
 }
 
 
+async function update(req,res) {
+    try {
+        
+        let query = {};
+
+        query.empCode = req.body.empCode;
+      if(query)
+      {
+        var key = req.body;
+        for(var obj in key)
+        {
+            console.log(obj);
+            var value = key[obj];
+            if(true)
+            {
+             companyUpdate = await db.public.companyobj.update({ obj: value},
+                 { 
+                     where :query
+                 });
+             }
+         }
+      }
+
+        res.status(200).json({
+            success : true,
+            companyobj : companyUpdate
+        });
+        
+    } catch(err) {
+        console.log(err);
+        res.status(500).json({
+            success: false,
+            error: {
+                message: "Please put all body parameters",
+                description: err.description
+            }
+        });
+    }
+}
+
+
 module.exports = {
     create,
-    get
+    get,
+    update
 }

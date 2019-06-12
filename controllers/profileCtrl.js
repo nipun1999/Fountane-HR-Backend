@@ -29,6 +29,8 @@ async function createProfile(req,res) {
                 }
             }
         }
+        
+        
 
         let profileCreated = await db.public.profiles.create(create_obj);
         res.status(200).json({
@@ -56,7 +58,7 @@ async function createProfile(req,res) {
         res.status(500).json({
             success: false,
             error: {
-                message: "Internal server error",
+                message: "Employ code already exists",
                 description: err.description
             }
         });
@@ -101,7 +103,7 @@ async function updateProfile(req,res) {
         
         let query = {};
         if (req.body.empCode){
-            empCode = req.body.empCode;
+            query.empCode = req.body.empCode;
         }
 
         let create_obj = {}

@@ -10,7 +10,9 @@ var grievance = require("../controllers/grievanceCtrl");
 var leavesCtrl = require("../controllers/leavesCtrl");
 var companyCtrl = require("../controllers/companyCtrl");
 var attendanceCtrl = require("../controllers/attendanceCtrl");
-
+var signInCtrl = require("../controllers/signInCtrl");
+var registerCtrl = require("../controllers/registerCtrl")
+var loginCtrl = require("../controllers/loginCtrl");
 var profile = require("../controllers/profileCtrl");
 
 var docsCtrl = require("../controllers/docsCtrl");
@@ -34,7 +36,7 @@ var docsCtrl = require("../controllers/docsCtrl");
 router.post('/create/kv', crud.create);
 router.get('/get/kv', crud.get);
 
-
+router.post('/login',loginCtrl.login);
 //Leaves EndPoints
 router.post('/leaves/create', leavesCtrl.create);
 router.get('leaves/get', leavesCtrl.get);
@@ -46,6 +48,7 @@ router.post('leaves/updateFalse',leavesCtrl.updateFalse);
 // Company EndPoints
 router.post('/create/company', companyCtrl.create);
 router.get('/get/company', companyCtrl.get);
+router.post('/update/company',companyCtrl.update);
 
 
 // Attendance EndPoints
@@ -54,9 +57,7 @@ router.post('/updateCheckOut/attendance',attendanceCtrl.updateCheckOut);
 router.post('/addComment/attendance',attendanceCtrl.addComment);
 router.post('/updateComment/attendance',attendanceCtrl.addComment);
 router.post('/deleteComment/attendance',attendanceCtrl.deleteComment);
-router.get('/getByEmp/attendance',attendanceCtrl.getEmployeeAttendanceByCode);
-router.get('/getByDate/attendance',attendanceCtrl.getEmployeeAttendanceByDate);
-router.get('/getByCodeAndDate/attendance',attendanceCtrl.getByCodeAndDate);
+router.get('/get/attendance',attendanceCtrl.getEmployeeAttendance);
 
 //Grievance EndPoints
 router.post('/create/addGrievance',grievance.createGrievances);
@@ -64,6 +65,12 @@ router.get('/get/Grievance',grievance.getGrievances);
 router.post('/update/employeeGrievanceTrue',grievance.updateGrievancesTrue);
 router.post('/update/employeeGrievanceFalse',grievance.updateGrievancesFalse);
 
+//SignIn EndPoints
+router.post('/checkUser/signIn',signInCtrl.checkUser);
+
+//Registration Endpoints
+router.post('/register',registerCtrl.create);
+router.post('/signup',registerCtrl.signup);
 
 //Profile EndPoints
 router.post('/create/employeeProfile',profile.createProfile);

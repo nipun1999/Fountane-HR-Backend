@@ -2,6 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
     const profile = sequelize.define('profile', {
         
+
         empCode: {type:DataTypes.STRING,
             primaryKey : true
         },
@@ -10,7 +11,9 @@ module.exports = (sequelize, DataTypes) => {
 
         fountaneEmail: { type: DataTypes.STRING},
         
+
         mobileNo: { type: DataTypes.STRING},
+
         
         profilePic : {type:DataTypes.STRING},
         
@@ -21,7 +24,10 @@ module.exports = (sequelize, DataTypes) => {
 
         designation : {type:DataTypes.STRING},
 
+    
+
         DOB : {type:DataTypes.DATEONLY},
+
 
         address : {type:DataTypes.STRING},
 
