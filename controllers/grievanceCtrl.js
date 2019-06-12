@@ -7,33 +7,52 @@ async function createGrievances(req,res) {
         
         let create_obj = {
             description: req.body.description,
-            status: false,
+            status: req.body.empCode,
             empCode: req.body.empCode
         };
 
-        
-        if(req.body.description!=""&&req.body.employeeId!=""){
-            let grievance_created = await db.public.grievances.create(create_obj);
-
-            res.status(200).json({
-                success: true,
-                grievance: grievance_created
-            });
-        }else{
-            res.status(500).json({
-                success: false,
-                error: {
-                    message: "Please input value of all parameters"
+        for (var i in create_obj) {
+            if (i!="status"){ 
+                if (!create_obj[i]) {
+                    console.log("No " + i);
+                    res.status(500).json({
+                        success: false,
+                        message: i + " is a required field"
+                    });
+                    return;
                 }
-            });
+            }
         }
+        
+        
+
+        let grievanceCreated = await db.public.profiles.create(create_obj);
+        res.status(200).json({
+            success: true,
+            grievance: grievanceCreated
+        });        
+        // if(req.body.description!=""&&req.body.employeeId!=""){
+        //     let grievance_created = await db.public.grievances.create(create_obj);
+
+        //     res.status(200).json({
+        //         success: true,
+        //         grievance: grievance_created
+        //     });
+        // }else{
+        //     res.status(500).json({
+        //         success: false,
+        //         error: {
+        //             message: "Please input value of all parameters"
+        //         }
+        //     });
+        // }
         
     } catch(err) {
         console.log(err);
         res.status(500).json({
             success: false,
             error: {
-                message: "Please put all body parameters",
+                message: "Internal Server Error!",
                 description: err.description
             }
         });
