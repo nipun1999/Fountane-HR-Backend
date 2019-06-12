@@ -7,7 +7,7 @@ async function createProfile(req,res) {
         
         let create_obj = {
             empCode: req.body.empCode,
-            status: false,
+            status: req.body.status,
             name:req.body.name,
             fountaneEmail:req.body.fountaneEmail,
             mobileNo:req.body.mobileNo,
@@ -17,29 +17,46 @@ async function createProfile(req,res) {
             address:req.body.address
         };
 
-        
-        if(req.body.empCode!=""&&req.body.name!=""&&req.body.fountaneEmail!=""&&req.body.mobileNo!=""&&req.body.designation!=""&&req.body.address!=""){
-            let profileCreated = await db.public.profiles.create(create_obj);
-
-            res.status(200).json({
-                success: true,
-                profile: profile_created
-            });
-        }else{
-            res.status(500).json({
-                success: false,
-                error: {
-                    message: "Please input value of all parameters"
+        for (var i in create_obj) {
+            if (create_obj[i]!="profilePic" && create_obj!="status"){ 
+                if (!create_obj) {
+                    console.log("No " + i);
+                    res.status(500).json({
+                        success: false,
+                        message: i + " is a required field"
+                    });
+                    return;
                 }
-            });
+            }
         }
+
+        let profileCreated = await db.public.profiles.create(create_obj);
+        res.status(200).json({
+            success: true,
+            profile: profileCreated
+        });
+        // if(req.body.empCode!=""&&req.body.name!=""&&req.body.fountaneEmail!=""&&req.body.mobileNo!=""&&req.body.designation!=""&&req.body.address!=""){
+        //     let profileCreated = await db.public.profiles.create(create_obj);
+
+        //     res.status(200).json({
+        //         success: true,
+        //         profile: profile_created
+        //     });
+        // }else{
+        //     res.status(500).json({
+        //         success: false,
+        //         error: {
+        //             message: "Please input value of all parameters"
+        //         }
+        //     });
+        // }
         
     } catch(err) {
         console.log(err);
         res.status(500).json({
             success: false,
             error: {
-                message: "Please put all body parameters",
+                message: "Internal server error",
                 description: err.description
             }
         });

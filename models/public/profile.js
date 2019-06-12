@@ -2,27 +2,28 @@
 module.exports = (sequelize, DataTypes) => {
     const profile = sequelize.define('profile', {
         
-        empCode: {type:DataTypes.STRING , allowNull:false},
+        empCode: {type:DataTypes.STRING,
+            primaryKey : true
+        },
 
-        name: { type:DataTypes.STRING , allowNull:false },
+        name: { type:DataTypes.STRING},
 
-        fountaneEmail: { type: DataTypes.STRING, allowNull: false },
+        fountaneEmail: { type: DataTypes.STRING},
         
-        mobileNo: { type: DataTypes.STRING, allowNull: false },
+        mobileNo: { type: DataTypes.STRING},
         
-        profilePic : {type:DataTypes.STRING}
+        profilePic : {type:DataTypes.STRING},
         
         status : {
             type : DataTypes.BOOLEAN , 
-            allowNull : false,
             defaultValue : false
-        }
+        },
 
-        designation : {type:DataTypes.STRING , allowNull:false}
+        designation : {type:DataTypes.STRING},
 
-        DOB : {type:DataTypes.DATEONLY , allowNull:false}
+        DOB : {type:DataTypes.DATEONLY},
 
-        address : {type:DataTypes.STRING , allowNull:false}
+        address : {type:DataTypes.STRING},
 
         other_data: { type: DataTypes.JSONB },
 
