@@ -70,7 +70,49 @@ async function get(req, res){
 
 }
 
+async function destroy(req, res){
+
+    try {
+        //
+        let query = {};
+
+        if(req.query.documentId){
+            query.documentId = req.query.documentId;
+        }
+           
+        let values = await db.public.docs.destroy({
+            where: query
+        })
+        if(values==0){
+            res.status(200).json({
+                error:"document not found"
+            });
+        }else{
+            res.status(200).json({
+                success: true,
+                docs: values,
+                deleted: true
+            });
+        }
+
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            success: false,
+            error: {
+                message: "Internal Server Error",
+                description: err.description
+            }
+        });
+    }
+
+}
+
+
+
 module.exports = {
     create,
-    get
+    get,
+    destroy
 }
