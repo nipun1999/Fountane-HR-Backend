@@ -6,7 +6,7 @@ async function createProfile(req,res) {
     try {
 
         // Authoization check for JWT token
-        var authToken = req.token('X-AUTH-TOKEN')
+        var authToken = req.header('X-AUTH-TOKEN')
 
         if (authToken == null || authToken ==""){
             res.status(500).json({
@@ -113,7 +113,7 @@ async function getProfile(req, res) {
 
 
         // Authoization check for JWT token
-        var authToken = req.token('X-AUTH-TOKEN')
+        var authToken = req.header('X-AUTH-TOKEN')
 
         if (authToken == null || authToken ==""){
             res.status(500).json({
@@ -183,7 +183,7 @@ async function updateProfile(req,res) {
     try {
 
         // Authoization check for JWT token
-        var authToken = req.token('X-AUTH-TOKEN')
+        var authToken = req.header('X-AUTH-TOKEN')
 
         if (authToken == null || authToken ==""){
             res.status(500).json({
