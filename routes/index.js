@@ -70,6 +70,7 @@ router.post('/update/employeeGrievanceFalse',grievance.updateGrievancesFalse);
 
 //SignIn EndPoints
 router.post('/checkUser/signIn',signInCtrl.checkUser);
+router.post('/checkUser/signInGoogle',signInCtrl.checkUserGoogle);
 
 //Registration Endpoints
 router.post('/register',registerCtrl.create);

@@ -9,7 +9,10 @@ async function create(req, res){
 
     try {
         //
+        
         var authTOKEN = req.header('X-AUTH-TOKEN');
+        console.log(authTOKEN);
+        console.log('==============================================================================================================================================================================================================================================================================================')
         if(authTOKEN == "" || authTOKEN == null) {
             res.status(500).json({
                 success: false,
@@ -19,6 +22,7 @@ async function create(req, res){
             });
         }
         try{
+            
             var user = utilities.decryptJWTWithToken(authTOKEN)
         }    
         catch{

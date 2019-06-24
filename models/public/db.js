@@ -36,6 +36,7 @@ db.register = require('./register.js')(sequelize,Sequelize);
 
 db.profiles = require('./profile.js')(sequelize,Sequelize);
 
+db.login = require('./login.js')(sequelize,Sequelize);
 
 db.docs = require('./documents.js')(sequelize,Sequelize);
 

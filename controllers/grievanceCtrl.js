@@ -90,7 +90,7 @@ async function getGrievances(req, res) {
     
     try {
         // Authoization check for JWT token
-        var authToken = req.token('X-AUTH-TOKEN')
+        var authToken = req.header('X-AUTH-TOKEN')
 
         if (authToken == null || authToken ==""){
             res.status(500).json({

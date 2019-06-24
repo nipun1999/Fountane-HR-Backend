@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const signInObj = sequelize.define('signIn', {
+    const signInObj = sequelize.define('sign', {
         
         empCode: {
             type: DataTypes.STRING,

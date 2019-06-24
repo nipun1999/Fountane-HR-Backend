@@ -42,14 +42,16 @@ async function checkUser(req, res){
     })
     
     console.log(user);
-    if (user.length) {
+    if (user) {
         let password = crypto.pbkdf2Sync(req.body.password, user.salt, 1000, 512, "sha512").toString('hex');
+
+
 
         if (user.password === password) {
             // Get user profile
             
             var auth_data = {
-                fountaneEmail: user.fountanEmail,
+                fountaneEmail: user.fountaneEmail,
                 empCode: user.empCode,
                 created_at: new Date()
             };
