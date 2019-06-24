@@ -8,32 +8,63 @@ async function create(req, res){
 
     try {
         //
-        let create_obj = {
-            empCode: req.body.empCode,
-            dateJoin: req.body.dateJoin,
-            location: req.body.location,
-            typeOfEmployee: req.body.typeOfEmployee,
-            status: req.body.status,
-            personalEmail: req.body.personalEmail,
-            postalAddress: req.body.postalAddress,
-            PWT: req.body.PWT,
-            manager: req.body.manager,
-            department: req.body.department,
-            panCardNo: req.body.panCardNo,
-            bankCardNo: req.body.bankCardNo,
-            ifscCode: req.body.ifscCode,
-            RR: req.body.RR,
-            EXPFountane: req.body.EXPFountane,
-            EXPOthers: req.body.EXPOthers,
-            EDUQualification: req.body.EDUQualification,
-        };
-
-        let companyobj_created = await db.public.companyobj.create(create_obj);
-
-        res.status(200).json({
-            success: true,
-            companyobj: companyobj_created
-        });
+        var authTOKEN = req.header('X-AUTH-TOKEN');
+        if(authTOKEN == "" || authTOKEN == null) {
+            res.status(500).json({
+                success: false,
+                error: {
+                    message: "Token not passed"
+                }
+            });
+        }
+        try{
+            var user = utilities.decryptJWTWithToken(authTOKEN)
+        }    
+        catch{
+            res.status(500).json({
+                success: false,
+                error: {
+                    message: "invalid Token"
+                }
+            });    
+        }
+        if(user) {
+            let create_obj = {
+                empCode: req.body.empCode,
+                dateJoin: req.body.dateJoin,
+                location: req.body.location,
+                typeOfEmployee: req.body.typeOfEmployee,
+                status: req.body.status,
+                personalEmail: req.body.personalEmail,
+                postalAddress: req.body.postalAddress,
+                PWT: req.body.PWT,
+                manager: req.body.manager,
+                department: req.body.department,
+                panCardNo: req.body.panCardNo,
+                bankCardNo: req.body.bankCardNo,
+                ifscCode: req.body.ifscCode,
+                RR: req.body.RR,
+                EXPFountane: req.body.EXPFountane,
+                EXPOthers: req.body.EXPOthers,
+                EDUQualification: req.body.EDUQualification,
+            };
+    
+            let companyobj_created = await db.public.companyobj.create(create_obj);
+    
+            res.status(200).json({
+                success: true,
+                companyobj: companyobj_created
+            });
+        }
+        else {
+            res.status(500).json({
+                success: false,
+                error: {
+                    message: "Token not found"
+                }
+            });
+        }
+        
 
     } catch(err) {
         console.log(err);
@@ -53,36 +84,67 @@ async function get(req, res) {
 
     try {
         //
-        let query = {};
-
-        if(req.query.empCode){
-            query.empCode = req.query.empCode;
+        var authTOKEN = req.header('X-AUTH-TOKEN');
+        if(authTOKEN == "" || authTOKEN == null) {
+            res.status(500).json({
+                success: false,
+                error: {
+                    message: "Token not passed"
+                }
+            });
         }
-
-        if(req.query.branch){
-            query.branch = req.query.branch;
+        try{
+            var user = utilities.decryptJWTWithToken(authTOKEN)
+        }    
+        catch{
+            res.status(500).json({
+                success: false,
+                error: {
+                    message: "invalid Token"
+                }
+            });    
         }
+        if(user) {
+            let query = {};
 
-        if(req.query.dateJoin){
-            query.dateJoin = req.query.dateJoin;
+            if(req.query.empCode){
+                query.empCode = req.query.empCode;
+            }
+
+            if(req.query.branch){
+                query.branch = req.query.branch;
+            }
+
+            if(req.query.dateJoin){
+                query.dateJoin = req.query.dateJoin;
+            }
+            if(req.query.manager){
+                query.manager = req.query.manager;
+            }
+
+            if(req.query.department){
+                query.department = req.query.department;
+            }
+
+            let values = await db.public.companyobj.findAll({
+                where: query
+            })
+
+
+            res.status(200).json({
+                success: true,
+                companyobj: values
+            });
         }
-        if(req.query.manager){
-            query.manager = req.query.manager;
+        else {
+            res.status(500).json({
+                success: false,
+                error: {
+                    message: "Token not found"
+                }
+            });
         }
-
-        if(req.query.department){
-            query.department = req.query.department;
-        }
-
-        let values = await db.public.companyobj.findAll({
-            where: query
-        })
-
-
-        res.status(200).json({
-            success: true,
-            companyobj: values
-        });
+        
 
     } catch (err) {
         console.log(err);
@@ -99,31 +161,62 @@ async function get(req, res) {
 
 async function update(req,res) {
     try {
-        
-        let query = {};
+        var authTOKEN = req.header('X-AUTH-TOKEN');
+        if(authTOKEN == "" || authTOKEN == null) {
+            res.status(500).json({
+                success: false,
+                error: {
+                    message: "Token not passed"
+                }
+            });
+        }
+        try{
+            var user = utilities.decryptJWTWithToken(authTOKEN)
+        }    
+        catch{
+            res.status(500).json({
+                success: false,
+                error: {
+                    message: "invalid Token"
+                }
+            });    
+        }
+        if(user) {
+            let query = {};
 
-        query.empCode = req.body.empCode;
-      if(query)
-      {
-        var key = req.body;
-        for(var obj in key)
-        {
-            console.log(obj);
-            var value = key[obj];
-            if(true)
+            query.empCode = req.body.empCode;
+            if(query)
             {
-             companyUpdate = await db.public.companyobj.update({ obj: value},
-                 { 
-                     where :query
-                 });
-             }
-         }
-      }
+                var key = req.body;
+                for(var obj in key)
+                {
+                    console.log(obj);
+                    var value = key[obj];
+                    if(true)
+                    {
+                    companyUpdate = await db.public.companyobj.update({ obj: value},
+                        { 
+                            where :query
+                        });
+                    }
+                }
+            }
 
-        res.status(200).json({
-            success : true,
-            companyobj : companyUpdate
-        });
+            res.status(200).json({
+                success : true,
+                companyobj : companyUpdate
+            });
+        }
+        else {
+            res.status(500).json({
+                success: false,
+                error: {
+                    message: "Token not found"
+                }
+            });
+        }
+        
+        
         
     } catch(err) {
         console.log(err);

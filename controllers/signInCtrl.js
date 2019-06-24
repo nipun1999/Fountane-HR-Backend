@@ -103,7 +103,7 @@ async function checkUserGoogle(req, res){
     if(user) {
         //User exists so generate a token
         var auth_data = {
-            email: user.email,
+            fountaneEmail: user.fountaneEmail,
             empCode: user.empCode,
             created_at: new Date()
         };
