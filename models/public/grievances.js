@@ -5,14 +5,18 @@ module.exports = (sequelize, DataTypes) => {
         grievanceId: {
             type: DataTypes.BIGINT,
             primaryKey: true,
-            allowNull: false,
             autoIncrement: true
         },
 
-        empCode: { type:DataTypes.STRING,allowNull: false },
+        empCode: { type:DataTypes.STRING},
 
-        description: { type: DataTypes.TEXT, allowNull: false },
-        status: { type: DataTypes.BOOLEAN, allowNull: false },
+        description: { type: DataTypes.TEXT},
+        
+        status: { 
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
+
+        },
 
         created_at: {
             type: DataTypes.DATE,
