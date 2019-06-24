@@ -6,7 +6,7 @@ var utilities = require("../utilities/utilities");
 async function create(req, res){
     try {
         // Authoization check for JWT token
-        var authToken = req.token('X-AUTH-TOKEN')
+        var authToken = req.header('X-AUTH-TOKEN')
 
         if (authToken == null || authToken ==""){
             res.status(500).json({
@@ -79,7 +79,7 @@ async function get(req, res) {
     try {
 
         // Authoization check for JWT token
-        var authToken = req.token('X-AUTH-TOKEN')
+        var authToken = req.header('X-AUTH-TOKEN')
 
         if (authToken == null || authToken ==""){
             res.status(500).json({
@@ -158,7 +158,7 @@ async function updateTrue(req,res) {
     try {
 
         // Authoization check for JWT token
-        var authToken = req.token('X-AUTH-TOKEN')
+        var authToken = req.header('X-AUTH-TOKEN')
 
         if (authToken == null || authToken ==""){
             res.status(500).json({
@@ -225,7 +225,7 @@ async function updateFalse(req,res) {
     try {
 
         // Authoization check for JWT token
-        var authToken = req.token('X-AUTH-TOKEN')
+        var authToken = req.header('X-AUTH-TOKEN')
 
         if (authToken == null || authToken ==""){
             res.status(500).json({
