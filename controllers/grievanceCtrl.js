@@ -137,19 +137,16 @@ async function getGrievances(req, res) {
         }
 
         else {
-            console.log(err);
             res.status(500).json({
                 success : false,
                 error : {
                     message : "Token not found",
-                    description : err.description
                 }
             });
             return;
         }
 
     } catch (err) {
-        console.log(err);
         res.status(500).json({
             success: false,
             error: {

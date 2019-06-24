@@ -13,7 +13,7 @@ module.exports.decryptJWTWithToken = function (token) {
 
     // token = token.split("Bearer ")[0]; // If Bearer system is implimented
 
-    var user_credentials = jwt.verify(token, config.jwtKey);
+    var user_credentials = jwt.verify(token, config.app.jwtKey);
     return user_credentials;
 }
 

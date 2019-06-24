@@ -44,7 +44,7 @@ var cache = {
 var config = {
     dialect: "postgres",
     app: {
-        jwtKey: 'insert-a-secret-key-here',
+        jwtKey: 'nfsdikgnsdkf6agfa5wrg4awr',
         sessionKey: "SecretSessionKey",
         port: process.env.PORT || '4192',
         name: "generic Services API Platform",
