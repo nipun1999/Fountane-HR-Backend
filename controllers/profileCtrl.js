@@ -18,8 +18,8 @@ async function createProfile(req,res) {
         };
 
         for (var i in create_obj) {
-            if (i!="profilePic" && i!="status"){ 
-                if (!create_obj[i]) {
+            if (!create_obj[i]) {
+                if (i!="profilePic" && i!="status"){ 
                     console.log("No " + i);
                     res.status(500).json({
                         success: false,
