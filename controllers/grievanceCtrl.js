@@ -5,48 +5,73 @@ var utilities = require("../utilities/utilities");
 async function createGrievances(req,res) {
     try {
         
-        let create_obj = {
-            description: req.body.description,
-            status: req.body.empCode,
-            empCode: req.body.empCode
-        };
+        // Authoization check for JWT token
+        var authToken = req.token('X-AUTH-TOKEN')
 
-        for (var i in create_obj) {
-            if (i!="status"){ 
-                if (!create_obj[i]) {
-                    console.log("No " + i);
-                    res.status(500).json({
-                        success: false,
-                        message: i + " is a required field"
-                    });
-                    return;
+        if (authToken == null || authToken ==""){
+            res.status(500).json({
+                success: false,
+                error : {
+                    message : "Token not provided"
+                }
+            });
+            return;
+        }
+
+        try {
+            var user_credentials = utilities.decryptJWTWithToken(authToken);
+        }
+        catch(err){
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Invalid token provided"
+                }
+            });
+        }
+
+
+        if (user_credentials) {
+            let create_obj = {
+                description: req.body.description,
+                status: req.body.empCode,
+                empCode: req.body.empCode
+            };
+        
+            for (var i in create_obj) {
+                if (i!="status"){ 
+                    if (!create_obj[i]) {
+                        console.log("No " + i);
+                        res.status(500).json({
+                            success: false,
+                            message: i + " is a required field"
+                        });
+                        return;
+                    }
                 }
             }
+                    
+                    
+        
+            let grievanceCreated = await db.public.profiles.create(create_obj);
+            res.status(200).json({
+                success: true,
+                grievance: grievanceCreated
+            });        
         }
-        
-        
 
-        let grievanceCreated = await db.public.profiles.create(create_obj);
-        res.status(200).json({
-            success: true,
-            grievance: grievanceCreated
-        });        
-        // if(req.body.description!=""&&req.body.employeeId!=""){
-        //     let grievance_created = await db.public.grievances.create(create_obj);
-
-        //     res.status(200).json({
-        //         success: true,
-        //         grievance: grievance_created
-        //     });
-        // }else{
-        //     res.status(500).json({
-        //         success: false,
-        //         error: {
-        //             message: "Please input value of all parameters"
-        //         }
-        //     });
-        // }
-        
+        else {
+            console.log(err);
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Token not found",
+                    description : err.description
+                }
+            });
+            return;
+        }
+            
     } catch(err) {
         console.log(err);
         res.status(500).json({
@@ -57,31 +82,71 @@ async function createGrievances(req,res) {
             }
         });
     }
+    
 }
 
 
 async function getGrievances(req, res) {
     
     try {
+        // Authoization check for JWT token
+        var authToken = req.token('X-AUTH-TOKEN')
 
-        let query = {};
-
-        if(req.query.empCode){
-            query.empCode = req.query.empCode;
-        }
-
-        if(req.query.status){
-            query.status = req.query.status;
-        }
-
-            let grievances = await db.public.grievances.findAll({
-                where: query
-            })
-    
-            res.status(200).json({
-                success: true,
-                grievance: grievances
+        if (authToken == null || authToken ==""){
+            res.status(500).json({
+                success: false,
+                error : {
+                    message : "Token not provided"
+                }
             });
+            return;
+        }
+
+        try {
+            var user_credentials = utilities.decryptJWTWithToken(authToken);
+        }
+        catch(err){
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Invalid token provided"
+                }
+            });
+        }
+
+        if (user_credentials){
+
+            let query = {};
+
+            if(req.query.empCode){
+                query.empCode = req.query.empCode;
+            }
+
+            if(req.query.status){
+                query.status = req.query.status;
+            }
+
+                let grievances = await db.public.grievances.findAll({
+                    where: query
+                })
+        
+                res.status(200).json({
+                    success: true,
+                    grievance: grievances
+                });
+        }
+
+        else {
+            console.log(err);
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Token not found",
+                    description : err.description
+                }
+            });
+            return;
+        }
 
     } catch (err) {
         console.log(err);
@@ -97,20 +162,60 @@ async function getGrievances(req, res) {
 
 async function updateGrievancesTrue(req,res) {
     try {
-        
-        let query = {};
-        query.grievanceId = req.body.grievanceId;
-        if (query){
-            grievanceUpdate = await db.public.grievances.update({status:true},
-                { where :query 
-                });
+
+        // Authoization check for JWT token
+        var authToken = req.token('X-AUTH-TOKEN')
+
+        if (authToken == null || authToken ==""){
+            res.status(500).json({
+                success: false,
+                error : {
+                    message : "Token not provided"
+                }
+            });
+            return;
         }
 
-        res.status(200).json({
-            success : true,
-            grievance : grievanceUpdate
-        });
+        try {
+            var user_credentials = utilities.decryptJWTWithToken(authToken);
+        }
+        catch(err){
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Invalid token provided"
+                }
+            });
+        }
+
+        if (user_credentials){
         
+            let query = {};
+            query.grievanceId = req.body.grievanceId;
+            if (query){
+                grievanceUpdate = await db.public.grievances.update({status:true},
+                    { where :query 
+                    });
+            }
+
+            res.status(200).json({
+                success : true,
+                grievance : grievanceUpdate
+            });
+        }
+
+        else {
+            console.log(err);
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Token not found",
+                    description : err.description
+                }
+            });
+            return;
+        }
+            
     } catch(err) {
         console.log(err);
         res.status(500).json({
@@ -125,20 +230,59 @@ async function updateGrievancesTrue(req,res) {
 
 async function updateGrievancesFalse(req,res) {
     try {
-        
-        let query = {};
-        query.grievanceId = req.body.grievanceId;
-        if (query){
-            grievanceUpdate = await db.public.grievances.update({status:false},
-                { where :query 
-                });
+
+        // Authoization check for JWT token
+        var authToken = req.token('X-AUTH-TOKEN')
+
+        if (authToken == null || authToken ==""){
+            res.status(500).json({
+                success: false,
+                error : {
+                    message : "Token not provided"
+                }
+            });
+            return;
         }
 
-        res.status(200).json({
-            success : true,
-            grievance : grievanceUpdate
-        });
+        try {
+            var user_credentials = utilities.decryptJWTWithToken(authToken);
+        }
+        catch(err){
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Invalid token provided"
+                }
+            });
+        }
         
+        if (user_credentials){
+            let query = {};
+            query.grievanceId = req.body.grievanceId;
+            if (query){
+                grievanceUpdate = await db.public.grievances.update({status:false},
+                    { where :query 
+                    });
+            }
+
+            res.status(200).json({
+                success : true,
+                grievance : grievanceUpdate
+            });
+        }
+
+        else {
+            console.log(err);
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Token not found",
+                    description : err.description
+                }
+            });
+            return;
+        }
+            
     } catch(err) {
         console.log(err);
         res.status(500).json({

@@ -4,6 +4,33 @@ var utilities = require("../utilities/utilities");
 
 async function createProfile(req,res) {
     try {
+
+        // Authoization check for JWT token
+        var authToken = req.token('X-AUTH-TOKEN')
+
+        if (authToken == null || authToken ==""){
+            res.status(500).json({
+                success: false,
+                error : {
+                    message : "Token not provided"
+                }
+            });
+            return;
+        }
+
+        try {
+            var user_credentials = utilities.decryptJWTWithToken(authToken);
+        }
+        catch(err){
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Invalid token provided"
+                }
+            });
+        }
+
+        if (user_credentials){
         
         let create_obj = {
             empCode: req.body.empCode,
@@ -52,6 +79,20 @@ async function createProfile(req,res) {
         //         }
         //     });
         // }
+
+        }
+
+        else {
+            console.log(err);
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Token not found",
+                    description : err.description
+                }
+            });
+            return;
+        }
         
     } catch(err) {
         console.log(err);
@@ -70,21 +111,61 @@ async function getProfile(req, res) {
     
     try {
 
-        let query = {};
 
-        if(req.query.empCode){
-            query.empCode = req.query.empCode;
+        // Authoization check for JWT token
+        var authToken = req.token('X-AUTH-TOKEN')
+
+        if (authToken == null || authToken ==""){
+            res.status(500).json({
+                success: false,
+                error : {
+                    message : "Token not provided"
+                }
+            });
+            return;
         }
 
-
-            let profiles = await db.public.profiles.findAll({
-                where: query
-            })
-    
-            res.status(200).json({
-                success: true,
-                profile: profiles
+        try {
+            var user_credentials = utilities.decryptJWTWithToken(authToken);
+        }
+        catch(err){
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Invalid token provided"
+                }
             });
+        }
+
+        if (user_credentials){
+            let query = {};
+
+            if(req.query.empCode){
+                query.empCode = req.query.empCode;
+            }
+
+
+                let profiles = await db.public.profiles.findAll({
+                    where: query
+                })
+
+                res.status(200).json({
+                    success: true,
+                    profile: profiles
+                });
+        }
+
+        else {
+            console.log(err);
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Token not found",
+                    description : err.description
+                }
+            });
+            return;
+        }
 
     } catch (err) {
         console.log(err);
@@ -100,51 +181,90 @@ async function getProfile(req, res) {
 
 async function updateProfile(req,res) {
     try {
-        
-        let query = {};
-        if (req.body.empCode){
-            query.empCode = req.body.empCode;
+
+        // Authoization check for JWT token
+        var authToken = req.token('X-AUTH-TOKEN')
+
+        if (authToken == null || authToken ==""){
+            res.status(500).json({
+                success: false,
+                error : {
+                    message : "Token not provided"
+                }
+            });
+            return;
         }
 
-        let create_obj = {}
-        if (req.body.name && req.body.name!=""){
-            create_obj.name = req.body.name;
+        try {
+            var user_credentials = utilities.decryptJWTWithToken(authToken);
+        }
+        catch(err){
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Invalid token provided"
+                }
+            });
         }
 
-        if (req.body.mobileNo && req.body.mobileNo!=""){
-            create_obj.mobileNo = req.body.mobileNo;
+        if (user_credentials){
+            let query = {};
+            if (req.body.empCode){
+                query.empCode = req.body.empCode;
+            }
+
+            let create_obj = {}
+            if (req.body.name && req.body.name!=""){
+                create_obj.name = req.body.name;
+            }
+
+            if (req.body.mobileNo && req.body.mobileNo!=""){
+                create_obj.mobileNo = req.body.mobileNo;
+            }
+
+            if (req.body.status){
+                create_obj.status = req.body.status;
+            }
+
+            if (req.body.fountaneEmail && req.body.fountaneEmail!=""){
+                create_obj.fountaneEmail = req.body.fountaneEmail;
+            }
+
+            if (req.body.address && req.body.address!=""){
+                create_obj.address = req.body.address;
+            }
+
+            if (req.body.designation && req.body.designation!=""){
+                create_obj.designation = req.body.designation;
+            }
+
+            if (req.body.profilePic && req.body.profilePic!=""){
+                create_obj.profilePic = req.body.profilePic;
+            }
+
+            if (query){
+                profileUpdate = await db.public.profiles.update(create_obj,
+                    { where :query 
+                    });
+            }
+
+            res.status(200).json({
+                success : true,
+                profile : profileUpdate
+            });
         }
 
-        if (req.body.status){
-            create_obj.status = req.body.status;
+        else {
+            console.log(err);
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Token not found",
+                    description : err.description
+                }
+            });
+            return;
         }
-
-        if (req.body.fountaneEmail && req.body.fountaneEmail!=""){
-            create_obj.fountaneEmail = req.body.fountaneEmail;
-        }
-
-        if (req.body.address && req.body.address!=""){
-            create_obj.address = req.body.address;
-        }
-
-        if (req.body.designation && req.body.designation!=""){
-            create_obj.designation = req.body.designation;
-        }
-
-        if (req.body.profilePic && req.body.profilePic!=""){
-            create_obj.profilePic = req.body.profilePic;
-        }
-
-        if (query){
-            profileUpdate = await db.public.profiles.update(create_obj,
-                { where :query 
-                });
-        }
-
-        res.status(200).json({
-            success : true,
-            profile : profileUpdate
-        });
         
     } catch(err) {
         console.log(err);

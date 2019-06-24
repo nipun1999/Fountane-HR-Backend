@@ -5,21 +5,60 @@ var utilities = require("../utilities/utilities");
 
 async function create(req, res){
     try {
-        
-        let create_obj = {
-           empCode: req.body.empCode,
-           leaveType: req.body.leaveType,
-           fromDate: req.body.fromDate,
-           toDate: req.body.toDate,
-           status: req.body.status
-        };
+        // Authoization check for JWT token
+        var authToken = req.token('X-AUTH-TOKEN')
 
-        let leaves_created = await db.public.leavesobj.create(create_obj);
+        if (authToken == null || authToken ==""){
+            res.status(500).json({
+                success: false,
+                error : {
+                    message : "Token not provided"
+                }
+            });
 
-        res.status(200).json({
-            success: true,
-            leavesobj: leaves_created
-        });
+            return;
+        }
+
+        try {
+            var user_credentials = utilities.decryptJWTWithToken(authToken);
+        }
+        catch(err){
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Invalid token provided"
+                }
+            });
+        }
+
+        if (user_credentials){
+            let create_obj = {
+               empCode: req.body.empCode,
+               leaveType: req.body.leaveType,
+               fromDate: req.body.fromDate,
+               toDate: req.body.toDate,
+               status: req.body.status
+            };
+
+            let leaves_created = await db.public.leavesobj.create(create_obj);
+
+            res.status(200).json({
+                success: true,
+                leavesobj: leaves_created
+            });
+        }
+
+        else {
+            console.log(err);
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Token not found",
+                    description : err.description
+                }
+            });
+            return;
+        }
 
     } catch(err) {
         console.log(err);
@@ -35,31 +74,73 @@ async function create(req, res){
 } 
 
 async function get(req, res) {
+
+
     try {
-        
-        let query = {};
 
-        if(req.query.empCode){
-            query.empCode = req.query.empCode;
+        // Authoization check for JWT token
+        var authToken = req.token('X-AUTH-TOKEN')
+
+        if (authToken == null || authToken ==""){
+            res.status(500).json({
+                success: false,
+                error : {
+                    message : "Token not provided"
+                }
+            });
+            return;
         }
-        
-        if(req.query.leaveType){
-            query.leaveType = req.query.leaveType;
+
+        try {
+            var user_credentials = utilities.decryptJWTWithToken(authToken);
         }
-        
-        if(req.query.status){
-            query.status = req.query.status;
+        catch(err){
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Invalid token provided"
+                }
+            });
         }
 
-        let values = await db.public.leavesobj.findAll({
-            where: query
-        })
+        if (user_credentials){
+        
+            let query = {};
+
+            if(req.query.empCode){
+                query.empCode = req.query.empCode;
+            }
+            
+            if(req.query.leaveType){
+                query.leaveType = req.query.leaveType;
+            }
+            
+            if(req.query.status){
+                query.status = req.query.status;
+            }
+
+            let values = await db.public.leavesobj.findAll({
+                where: query
+            })
 
 
-        res.status(200).json({
-            success: true,
-            kv: values
-        });
+            res.status(200).json({
+                success: true,
+                kv: values
+            });
+        }
+
+        else {
+            console.log(err);
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Token not found",
+                    description : err.description
+                }
+            });
+            return;
+        }
 
     } catch (err) {
         console.log(err);
@@ -75,20 +156,59 @@ async function get(req, res) {
 
 async function updateTrue(req,res) {
     try {
-        
-        let query = {};
-        query.empCode = req.body.empCode;
-        if (query){
-            leaveUpdated = await db.public.leavesobj.update({status:true},
-                { where :query 
-                });
+
+        // Authoization check for JWT token
+        var authToken = req.token('X-AUTH-TOKEN')
+
+        if (authToken == null || authToken ==""){
+            res.status(500).json({
+                success: false,
+                error : {
+                    message : "Token not provided"
+                }
+            });
+            return;
         }
 
-        res.status(200).json({
-            success : true,
-            leavesobj : leaveUpdated
-        });
-        
+        try {
+            var user_credentials = utilities.decryptJWTWithToken(authToken);
+        }
+        catch(err){
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Invalid token provided"
+                }
+            });
+        }
+
+        if (user_credentials){
+            
+            let query = {};
+            query.empCode = req.body.empCode;
+            if (query){
+                leaveUpdated = await db.public.leavesobj.update({status:true},
+                    { where :query 
+                    });
+            }
+
+            res.status(200).json({
+                success : true,
+                leavesobj : leaveUpdated
+            });
+        }
+
+        else {
+            console.log(err);
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Token not found",
+                    description : err.description
+                }
+            });
+            return;
+        }
     } catch(err) {
         console.log(err);
         res.status(500).json({
@@ -103,19 +223,58 @@ async function updateTrue(req,res) {
 
 async function updateFalse(req,res) {
     try {
-        
-        let query = {};
-        query.empCode = req.body.empCode;
-        if (query){
-            leaveUpdated = await db.public.leavesobj.update({status:false},
-                { where :query 
-                });
+
+        // Authoization check for JWT token
+        var authToken = req.token('X-AUTH-TOKEN')
+
+        if (authToken == null || authToken ==""){
+            res.status(500).json({
+                success: false,
+                error : {
+                    message : "Token not provided"
+                }
+            });
+            return;
         }
 
-        res.status(200).json({
-            success : true,
-            leavesobj : leaveUpdated
-        });
+        try {
+            var user_credentials = utilities.decryptJWTWithToken(authToken);
+        }
+        catch(err){
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Invalid token provided"
+                }
+            });
+        }
+        
+        if (user_credentials){
+            let query = {};
+            query.empCode = req.body.empCode;
+            if (query){
+                leaveUpdated = await db.public.leavesobj.update({status:false},
+                    { where :query 
+                    });
+            }
+
+            res.status(200).json({
+                success : true,
+                leavesobj : leaveUpdated
+            });
+        }
+
+        else {
+            console.log(err);
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Token not found",
+                    description : err.description
+                }
+            });
+            return;
+        }
         
     } catch(err) {
         console.log(err);
