@@ -7,7 +7,15 @@ var crypto = require("crypto");
 
 async function checkUser(req, res){
 
-    if (!req.body.fountaneEmail || !req.body.password) {
+    // if (!req.body.fountaneEmail || !req.body.password) {
+    //     console.log(req.body);
+    //     res.status(500).json({
+    //         success: false,
+    //         message: "All fields are required"
+    //     });
+    //     return;
+    // }
+    if (!req.body.fountaneEmail) {
         console.log(req.body);
         res.status(500).json({
             success: false,

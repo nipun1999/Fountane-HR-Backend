@@ -20,11 +20,11 @@ db.public = require("./public/db");
 // Permissions
 // db.atc.strips.belongsTo(db.public.login, {onDelete: "CASCADE"});
 /// In case of RBAC
-db.public.permissions.belongsTo(db.public.login, {onDelete: 'CASCADE'});
-db.public.permissions.belongsTo(db.public.login, {onDelete: 'CASCADE', as: 'created_by'});
-db.public.permissions.belongsTo(db.public.policy, {onDelete: 'CASCADE'});
+// db.public.permissions.belongsTo(db.public.login, {onDelete: 'CASCADE'});
+// db.public.permissions.belongsTo(db.public.login, {onDelete: 'CASCADE', as: 'created_by'});
+// db.public.permissions.belongsTo(db.public.policy, {onDelete: 'CASCADE'});
 
-db.public.kv.belongsTo(db.public.login)
+// db.public.kv.belongsTo(db.public.login)
 
 // db.public.kv.belongsTo(db.public.permissions)
 
