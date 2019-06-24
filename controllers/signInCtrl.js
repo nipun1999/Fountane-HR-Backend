@@ -83,49 +83,72 @@ async function checkUser(req, res){
 
 
 async function checkUserGoogle(req, res){
-    const CLIENT_ID = req.header['CLIENT-ID']
-    const client = new OAuth2Client(CLIENT_ID);
-    const ticket = await client.verifyIdToken({
-        idToken: token,
-        audience: CLIENT_ID,  // Specify the CLIENT_ID of the app that accesses the backend
-        // Or, if multiple clients access the backend:
-        //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
-    });
-    const payload = ticket.getPayload();
-    const userid = payload['sub'];
-    // If request specified a G Suite domain:
-    //const domain = payload['hd'];
-    const email = payload['email'];
-    //Check if this email exists in register table
-    let user = await db.public.register.findOne({
-        where: {
-            fountaneEmail: email
-        }
-    })
-    if(user) {
-        //User exists so generate a token
-        var auth_data = {
-            fountaneEmail: user.fountaneEmail,
-            empCode: user.empCode,
-            created_at: new Date()
-        };
+        const CLIENT_ID = '498233300103-3p9u6r2rmlru42i40d421ju1ljosdca9.apps.googleusercontent.com'
+        const client = new OAuth2Client(CLIENT_ID);
+        const idToken = req.body.idToken;
+        if(idToken!=null){
 
-        var token = jwt.sign(auth_data, config.app.jwtKey);
 
-        res.status(200).json({
-            success: true,
-            token: token
-        });
-    }
-    else {
+            try{
+
+                const ticket = await client.verifyIdToken({
+                    idToken: idToken,
+                    audience: CLIENT_ID,  // Specify the CLIENT_ID of the app that accesses the backend
+                    // Or, if multiple clients access the backend:
+                    //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+                });
+                const payload = ticket.getPayload();
+                const userid = payload['sub'];
+                // If request specified a G Suite domain:
+                //const domain = payload['hd'];
+                const email = payload['email'];
+
+                let user = await db.public.register.findOne({
+                    where: {
+                        fountaneEmail: email
+                    }
+                })
+                if(user) {
+                    //User exists so generate a token
+                    var auth_data = {
+                        fountaneEmail: user.fountaneEmail,
+                        empCode: user.empCode,
+                        created_at: new Date()
+                    };
+            
+                    var token = jwt.sign(auth_data, config.app.jwtKey);
+            
+                    res.status(200).json({
+                        success: true,
+                        token: token
+                    });
+                }
+                else {
+                    res.status(500).json({
+                        success: false,
+                        message: "Email not registered.Please contact HR"
+                    });
+                }
+
+            }catch{
+
+                res.status(500).json({
+                    success: false,
+                    message: "Invalid token"
+                });
+            
+            }
+            
+        //Check if this email exists in register table
+            
+    }else{
         res.status(500).json({
             success: false,
-            message: "Email not registered.Please contact HR"
+            message: "Please input valid token"
         });
     }
        
 }
-
 
 
 module.exports = {
