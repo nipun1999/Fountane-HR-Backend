@@ -27,10 +27,7 @@ db.sequelize = sequelize;
 db.Op = Sequelize.Op;
 
 //Models/tables
-db.login = require('./login.js')(sequelize, Sequelize);
 db.permissions = require('./permissions.js')(sequelize, Sequelize);
-db.policy = require('./policy.js')(sequelize, Sequelize);
-db.kv = require('./kvStore.js')(sequelize, Sequelize);
 db.grievances = require('./grievances.js')(sequelize, Sequelize);
 db.leavesobj = require('./leaves.js')(sequelize,Sequelize);
 db.companyobj = require('./company.js')(sequelize,Sequelize);

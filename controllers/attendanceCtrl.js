@@ -200,10 +200,119 @@ async function getEmployeeAttendance(req, res){
 
 }
 
+var getDays = function(month,year) {
+    return new Date(year,month,0).getDate()
+}
+
+async function getAttendanceByMonth(req, res){
+
+    try {
+        //
+        let query = {};
+
+        if(req.query.empCode){
+            query.empCode = req.query.empCode;
+        }
+
+        if(req.query.month){
+            query.month = req.query.month;
+        }
+
+        if(req.query.year) {
+            query.year = req.query.year;
+        }
+
+        let result = {}
+        let startDate = query.year+'-'+query.month+'-01' , endDate = query.year+'-'+query.month+'-'+getDays(query.month,query.year)
+        
+
+        let values = await db.public.attendanceobj.findAll({
+            where: {
+                empCode : req.query.empCode ,
+                date : {
+                    [db.public.Op.between] : [startDate,endDate]
+                }
+            } 
+        })
+        // console.log(values[0].date)
+        // let arr = values[0]
+        for(let i=0;i<values.length;i++) {
+            let dates = ((values[i].date).substring(8)) //extracting dates
+            result[dates] = "present"
+        }
+
+        let values2 = await db.public.leavesobj.findAll({
+            where : {
+                empCode : req.query.empCode ,
+                status : true ,
+                fromDate :{
+                    [db.public.Op.between] : [startDate,endDate]
+                }
+            }
+        })
+        
+        for(let i=0;i<values2.length;i++) {
+            let dates = ((values2[i].fromDate).substring(8)) //extracting dates
+            let mon = ((values2[i].toDate).substring(5,7))
+            result[dates] = values2[i].leaveType;
+            
+            if(parseInt(mon) === parseInt(req.query.month)) {
+                for(let j=parseInt(dates)+1;j<=parseInt((values2[i].toDate).substring(8));j++) {
+                    result[j] = values2[i].leaveType;
+                }
+            }
+            else {
+                //toDate can be in next month from the given month
+                for(let j=parseInt(dates)+1;j<=parseInt(endDate.substring(8));j++) {
+                    result[j] = values2[i].leaveType;
+                }
+            }
+        }
+        // 02-25   03-15
+        let values3 = await db.public.leavesobj.findAll({
+            where : {
+                empCode : req.query.empCode ,
+                status : true ,
+                toDate :{
+                    [db.public.Op.between] : [startDate,endDate]
+                }
+            }
+        })
+
+        for(let i=0;i<values3.length;i++) {
+            let fromMonth = ((values3[i].fromDate).substring(5,7))
+            if(parseInt(fromMonth) < req.query.month) {
+                for(let j=1;j<=(values3[i].toDate).substring(8);j++) {
+                    result[j] = values3[i].leaveType;
+                }
+            }
+        }
+        //result -> unordered
+        res.status(200).json({
+            success: true,
+            attendanceobj: result
+        });
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            success: false,
+            error: {
+                message: "Internal Server Error",
+                description: err.description
+            }
+        });
+    }
+
+}
+
+
+
 module.exports = {
     createAttendance,
     updateCheckOut,
     addComment,
     deleteComment,
     getEmployeeAttendance,
+    getAttendanceByMonth
 }

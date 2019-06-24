@@ -59,6 +59,9 @@ router.post('/updateComment/attendance',attendanceCtrl.addComment);
 router.post('/deleteComment/attendance',attendanceCtrl.deleteComment);
 router.get('/get/attendance',attendanceCtrl.getEmployeeAttendance);
 
+//Attendance & Leaves
+router.get('/getByMonth',attendanceCtrl.getAttendanceByMonth);
+
 //Grievance EndPoints
 router.post('/create/addGrievance',grievance.createGrievances);
 router.get('/get/Grievance',grievance.getGrievances);
