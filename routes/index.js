@@ -98,6 +98,8 @@ router.get('/get/teamMember',teamCtrl.getTeamMember);
 
 // Events Endpoints
 router.post('/create/event',eventCtrl.createEvent);
+router.post('/update/event',eventCtrl.updateEvent);
+router.post('/delete/event',eventCtrl.deleteEvent);
 router.get('/get/event',eventCtrl.createEvent);
 
 module.exports = router;

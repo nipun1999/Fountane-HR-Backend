@@ -131,6 +131,10 @@ async function getEvent(req, res) {
 
             let query = {};
 
+            if (req.query.eventId){
+                query.eventId : req.query.eventId;
+            }
+
             if(req.query.empCode){
                 query.empCode = req.query.empCode;
             }
@@ -178,8 +182,237 @@ async function getEvent(req, res) {
     }
 }
 
+async function updateEvent(req, res) {
+    
+    try {
+        // Authoization check for JWT token
+        var authToken = req.header('X-AUTH-TOKEN')
+
+        if (authToken == null || authToken ==""){
+            res.status(500).json({
+                success: false,
+                error : {
+                    message : "Token not provided"
+                }
+            });
+            return;
+        }
+
+        try {
+            var user_credentials = utilities.decryptJWTWithToken(authToken);
+        }
+        catch(err){
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Invalid token provided"
+                }
+            });
+        }
+
+        if (user_credentials){
+
+            let query = {};
+
+            if (req.query.eventId){
+                query.eventId : req.query.eventId;
+            }
+
+            else {
+                res.status(500).json({
+                    success : false,
+                    error : {
+                        message : "Event Id not provided",
+                    }
+                });
+                return;
+            }
+
+            let updateEvent = await db.public.events.findOne({
+                where: query
+            })
+
+            if (updateEvent){
+
+                let update_obj = {
+                    empCode : req.body.empCode,
+                    name : req.body.name,
+                    eventDate : req.body.eventDate,
+                    eventVenue : req.body.eventVenue
+                };
+            
+                for (var i in update_obj) {
+                    if (!update_obj[i]) {
+                        console.log("No " + i);
+                        res.status(500).json({
+                            success: false,
+                            message: i + " is a required field"
+                        });
+                        return;
+                    }
+                }
+
+                if (req.body.imageFirebaseLink){
+                    update_obj.imageFirebaseLink = req.body.imageFirebaseLink;
+                }
+
+                try{
+                    let eventUpdate = await db.public.events.update(update_obj,{
+                        where : query
+                    });
+                    res.status(200).json({
+                        success: true,
+                        events : eventUpdate
+                    });
+                }
+                catch(err) {
+                    res.status(200).json({
+                        success : false,
+                        error : {
+                            message : "Error in updating the event"
+                        }
+                    });
+                }
+            }
+            else {
+                res.status(500).json({
+                    success : false,
+                    error : {
+                        message : "Event not found",
+                    }
+                });
+                return;
+            }
+        }
+
+        else {
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Token not found",
+                }
+            });
+            return;
+        }
+
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            error: {
+                message: "Internal Server Error",
+                description: err.description
+            }
+        });
+    }
+}
+
+
+async function deleteEvent(req, res) {
+    
+    try {
+        // Authoization check for JWT token
+        var authToken = req.header('X-AUTH-TOKEN')
+
+        if (authToken == null || authToken ==""){
+            res.status(500).json({
+                success: false,
+                error : {
+                    message : "Token not provided"
+                }
+            });
+            return;
+        }
+
+        try {
+            var user_credentials = utilities.decryptJWTWithToken(authToken);
+        }
+        catch(err){
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Invalid token provided"
+                }
+            });
+        }
+
+        if (user_credentials){
+
+            let query = {};
+
+            if (req.query.eventId){
+                query.eventId : req.query.eventId;
+            }
+
+            else {
+                res.status(500).json({
+                    success : false,
+                    error : {
+                        message : "Event Id not provided",
+                    }
+                });
+                return;
+            }
+
+            let deleteEvent = await db.public.events.findOne({
+                where: query
+            })
+
+            if (deleteEvent){
+
+                try{
+                    let eventDelete = await db.public.events.delete({
+                        where : query
+                    });
+                    res.status(200).json({
+                        success: true,
+                        events : eventDelete
+                    });
+                }
+                catch(err) {
+                    res.status(200).json({
+                        success : false,
+                        error : {
+                            message : "Error in deleting the event"
+                        }
+                    });
+                }
+            }
+            else {
+                res.status(500).json({
+                    success : false,
+                    error : {
+                        message : "Event not found",
+                    }
+                });
+                return;
+            }
+        }
+
+        else {
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Token not found",
+                }
+            });
+            return;
+        }
+
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            error: {
+                message: "Internal Server Error",
+                description: err.description
+            }
+        });
+    }
+}
+
 
 module.exports = {
     createEvent,
-    getEvent
+    getEvent,
+    updateEvent,
+    deleteEvent
 }
