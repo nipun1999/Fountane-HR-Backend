@@ -34,6 +34,8 @@ db.companyobj = require('./company.js')(sequelize,Sequelize);
 db.attendanceobj = require('./attendance.js')(sequelize,Sequelize);
 db.register = require('./register.js')(sequelize,Sequelize);
 
+db.news = require('./news.js')(sequelize,Sequelize);
+
 db.profiles = require('./profile.js')(sequelize,Sequelize);
 
 db.login = require('./login.js')(sequelize,Sequelize);
@@ -42,6 +44,12 @@ db.docs = require('./documents.js')(sequelize,Sequelize);
 
 db.signInObj = require('./signIn.js')(sequelize,Sequelize);
 db.team = require('./team.js')(sequelize,Sequelize);
+db.events = require('./events.js')(sequelize,Sequelize);
+
+db.roles = require('./roles.js')(sequelize,Sequelize)
+db.permissions = require('./permissions.js')(sequelize,Sequelize)
+db.rpObj = require('./roles_permissions.js')(sequelize,Sequelize)
+
 //Relations
 // db.profile.belongsTo(db.login, {onDelete: "CASCADE"});
 

@@ -23,8 +23,8 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false 
         },
 
-        role: { 
-            type:DataTypes.STRING ,
+        roleId: { 
+            type:DataTypes.BIGINT ,
             allowNull: false 
         },
         created_at: {

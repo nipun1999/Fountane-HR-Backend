@@ -3,16 +3,12 @@ var config = require("../config/config");
 var utilities = require("../utilities/utilities");
 
 
-
 async function create(req, res){
     
 
     try {
         //
-        
         var authTOKEN = req.header('X-AUTH-TOKEN');
-        console.log(authTOKEN);
-        console.log('==============================================================================================================================================================================================================================================================================================')
         if(authTOKEN == "" || authTOKEN == null) {
             res.status(500).json({
                 success: false,
@@ -21,34 +17,30 @@ async function create(req, res){
                 }
             });
         }
-        // try{
-            
-        //     var user = utilities.decryptJWTWithToken(authTOKEN)
-        // }    
-        // catch{
-        //     res.status(500).json({
-        //         success: false,
-        //         error: {
-        //             message: "invalid Token"
-        //         }
-        //     });    
-        // }
-        user = 1
+        try{
+            var user = utilities.decryptJWTWithToken(authTOKEN)
+        }    
+        catch{
+            res.status(500).json({
+                success: false,
+                error: {
+                    message: "invalid Token"
+                }
+            });    
+        }
         if(user) {
             let create_obj = {
                 empCode: req.body.empCode,
-                documentId: req.body.documentId,
-                name: req.body.name,
-                type: req.body.type,
-                firebaseLink: req.body.firebaseLink,
+                text: req.body.text,
+                title: req.body.title,
+                imageFirebaseLink : req.body.imageFirebaseLink
             };
-    
-            let documentsCreated = await db.public.docs.create(create_obj);
+            let newsobj_created = await db.public.news.create(create_obj);
     
             res.status(200).json({
                 success: true,
-                docs: documentsCreated
-            });    
+                newsobj: newsobj_created
+            });
         }
         else {
             res.status(500).json({
@@ -58,21 +50,23 @@ async function create(req, res){
                 }
             });
         }
+        
 
     } catch(err) {
         console.log(err);
         res.status(500).json({
             success: false,
             error: {
-                message: "Internal Server Error",
+                message: "Please enter all fields",
                 description: err.description
             }
         });
     }
 
-}
+} 
 
-async function get(req, res){
+async function get(req, res) {
+
 
     try {
         //
@@ -103,14 +97,22 @@ async function get(req, res){
                 query.empCode = req.query.empCode;
             }
 
-            let values = await db.public.docs.findAll({
+            if(req.query.title){
+                query.title = req.query.title;
+            }
+
+            if(req.query.text){
+                query.text = req.query.text;
+            }
+
+            let values = await db.public.news.findAll({
                 where: query
             })
 
 
             res.status(200).json({
                 success: true,
-                docs: values
+                newsobj: values
             });
         }
         else {
@@ -133,7 +135,96 @@ async function get(req, res){
             }
         });
     }
+}
 
+
+async function update(req,res) {
+    try {
+        var authTOKEN = req.header('X-AUTH-TOKEN');
+        if(authTOKEN == "" || authTOKEN == null) {
+            res.status(500).json({
+                success: false,
+                error: {
+                    message: "Token not passed"
+                }
+            });
+        }
+        try{
+            var user = utilities.decryptJWTWithToken(authTOKEN)
+        }    
+        catch{
+            res.status(500).json({
+                success: false,
+                error: {
+                    message: "invalid Token"
+                }
+            });    
+        }
+        if(user) {
+            let query = {};
+
+            if(req.body.newsId) {
+                query.newsId = req.body.newsId;
+            }
+            
+            else {
+                res.status(500).json({
+                    success: false,
+                    error: {
+                        message: "Please provide us newsId"
+                    }
+                });
+                return;
+            }
+            console.log(query)
+
+
+            let newsUpdate={}
+            if(query) {
+
+                let key = req.body;
+                console.log(key)
+                // for(let obj in key)
+                // {
+                    // console.log(obj);
+                    // let value = key[obj];
+                    newsUpdate = await db.public.news.update(key,
+                        { 
+                            where :query
+                        }
+                    );
+                    
+                // }
+
+            }
+            
+
+            res.status(200).json({
+                success : true,
+                newsupdateObj : newsUpdate
+            });
+        }
+        else {
+            res.status(500).json({
+                success: false,
+                error: {
+                    message: "Token not found"
+                }
+            });
+        }
+        
+        
+        
+    } catch(err) {
+        console.log(err);
+        res.status(500).json({
+            success: false,
+            error: {
+                message: "Please put all body parameters",
+                description: err.description
+            }
+        });
+    }
 }
 
 async function destroy(req, res){
@@ -163,21 +254,21 @@ async function destroy(req, res){
         if(user) {
             let query = {};
 
-            if(req.query.documentId){
-                query.documentId = req.query.documentId;
+            if(req.body.newsId){
+                query.newsId = req.body.newsId;
             }
             
-            let values = await db.public.docs.destroy({
+            let values = await db.public.news.destroy({
                 where: query
             })
             if(values==0){
                 res.status(200).json({
-                    error:"document not found"
+                    error:"news piece not found"
                 });
             }else{
                 res.status(200).json({
                     success: true,
-                    docs: values,
+                    news: values,
                     deleted: true
                 });
             }
@@ -207,80 +298,10 @@ async function destroy(req, res){
 
 }
 
-async function getType(req, res){
-
-    try {
-        
-        var authTOKEN = req.header('X-AUTH-TOKEN');
-        if(authTOKEN == "" || authTOKEN == null) {
-            res.status(500).json({
-                success: false,
-                error: {
-                    message: "Token not passed"
-                }
-            });
-        }
-        try{
-            var user = utilities.decryptJWTWithToken(authTOKEN)
-        }    
-        catch{
-            res.status(500).json({
-                success: false,
-                error: {
-                    message: "invalid Token"
-                }
-            });    
-        }
-            
-        if(user) {
-            let query = {};
-
-            if(req.query.empCode){
-                query.empCode = req.query.empCode;
-            }
-            //Values -> An array of objects(tupules of our result)
-            let values = await db.public.docs.findAll({
-                where: query
-            })
-
-            let type = {}; let j=1;
-            for(let i=0;i<values.length;i++) {
-                if(!Object.values(type).includes(values[i].type)) {
-                    type[j++] = values[i].type;
-                }
-            }
-            res.status(200).json({
-                success: true,
-                docs: type
-            });
-        }
-        else {
-            res.status(500).json({
-                success: false,
-                error: {
-                    message: "Token not found"
-                }
-            });
-        }
-        
-
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({
-            success: false,
-            error: {
-                message: "Internal Server Error",
-                description: err.description
-            }
-        });
-    }
-
-}
-
 
 module.exports = {
     create,
     get,
-    destroy,
-    getType
+    update,
+    destroy
 }

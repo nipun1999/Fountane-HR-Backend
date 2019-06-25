@@ -16,7 +16,10 @@ var loginCtrl = require("../controllers/loginCtrl");
 var profile = require("../controllers/profileCtrl");
 var teamCtrl = require("../controllers/teamCtrl");
 var docsCtrl = require("../controllers/docsCtrl");
+var newsCtrl = require("../controllers/newsCtrl");
+var eventCtrl = require("../controllers/eventCtrl");
 
+var rpCtrl = require("../controllers/rpCtrl")
 // // Login and onboarding
 // router.post("/register", login.register);
 // router.post("/login", login.login);
@@ -85,7 +88,8 @@ router.get('/get/employeeProfile',profile.getProfile);
 
 //Documents EndPoints
 router.post('/create/documents',docsCtrl.create);
-router.get('/get/documents',docsCtrl.get);
+router.get('/get/documents',docsCtrl.get); // Get all documents in a type or Get all documents of an user
+router.get('/get/type/documents',docsCtrl.getType) // Get all types of a document
 router.delete('/delete/documents',docsCtrl.destroy);
 
 
@@ -93,6 +97,27 @@ router.delete('/delete/documents',docsCtrl.destroy);
 router.post('/create/teamMember',teamCtrl.createTeamMember);
 //router.get('/get/teamLead',teamCtrl.getTeamLead);
 router.get('/get/teamMember',teamCtrl.getTeamMember);
+
+//News Endpoints
+
+router.post('/create/news',newsCtrl.create);
+router.get('/get/news',newsCtrl.get);
+router.post('/update/news',newsCtrl.update);
+router.post('/delete/news',newsCtrl.destroy);
+// Events Endpoints
+router.post('/create/event',eventCtrl.createEvent);
+router.post('/update/event',eventCtrl.updateEvent);
+router.post('/delete/event',eventCtrl.deleteEvent);
+router.get('/get/event',eventCtrl.getEvent);
+
+
+
+
+
+router.post('/create/role',rpCtrl.createRole)
+router.post('/create/perm',rpCtrl.createPermissions)
+router.post('/create/rp',rpCtrl.createRP)
+router.get('/get/rp',rpCtrl.getRP)
 
 module.exports = router;
 

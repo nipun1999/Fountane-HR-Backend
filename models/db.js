@@ -28,6 +28,9 @@ db.public = require("./public/db");
 
 // db.public.kv.belongsTo(db.public.permissions)
 
+db.public.roles.belongsToMany(db.public.permissions,{through:db.public.rpObj});
+db.public.signInObj.belongsTo(db.public.roles,{foreignKey:'roleId'});
+
 // Hooks come here
 // db.atc.strips.addHook('afterCreate', 'updateCache', async (strip, options) => {
 //     // Time to update redis
