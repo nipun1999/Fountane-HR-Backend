@@ -349,7 +349,7 @@ async function deleteEvent(req, res) {
             if (deleteEvent){
 
                 try{
-                    let eventDelete = await db.public.events.delete({
+                    let eventDelete = await db.public.events.destroy({
                         where : query
                     });
                     res.status(200).json({
