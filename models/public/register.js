@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
             type:DataTypes.STRING,
             allowNull:false
         },
+        newUser:{
+            type:DataTypes.BOOLEAN,
+            allowNull:false
+        },
         created_at: {
             type: DataTypes.DATE,
             allowNull: false,

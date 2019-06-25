@@ -88,7 +88,6 @@ async function checkUserGoogle(req, res){
         const idToken = req.body.idToken;
         if(idToken!=null){
 
-
             try{
 
                 const ticket = await client.verifyIdToken({
@@ -109,6 +108,15 @@ async function checkUserGoogle(req, res){
                     }
                 })
                 if(user) {
+
+                    var newUserStatus = user.newUser;
+                    if(newUserStatus==true){
+                        newUserUpdate = await db.public.register.update({newUser:false},{
+                            where:{
+                                fountaneEmail: email
+                            }
+                        })
+                    }
                     //User exists so generate a token
                     var auth_data = {
                         fountaneEmail: user.fountaneEmail,
@@ -120,7 +128,8 @@ async function checkUserGoogle(req, res){
             
                     res.status(200).json({
                         success: true,
-                        token: token
+                        token: token,
+                        newUserStatus
                     });
                 }
                 else {
