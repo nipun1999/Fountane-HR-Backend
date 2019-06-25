@@ -2,6 +2,11 @@
 module.exports = (sequelize, DataTypes) => {
     const events = sequelize.define('events', {
         
+        eventId : {
+            type : DataTypes.BIGINT,
+            primaryKey : true,
+            autoIncrement : true
+        },
 
         empCode: {
             type:DataTypes.STRING,
@@ -16,6 +21,10 @@ module.exports = (sequelize, DataTypes) => {
         },
 
         eventVenue : {
+            type : DataTypes.STRING,
+        },
+
+        imageFirebaseLink : {
             type : DataTypes.STRING,
         },
 
