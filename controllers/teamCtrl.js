@@ -2,7 +2,7 @@ var db = require("../models/db");
 var config = require("../config/config");
 var utilities = require("../utilities/utilities");
 
-async function createTeamLead(req,res) {
+async function createTeamMember(req,res) {
     try {
         
         // Authoization check for JWT token
@@ -47,10 +47,41 @@ async function createTeamLead(req,res) {
                     return;
                 }
             }
+
+            let obj1 = await db.public.profiles.findOne({
+                where : {empCode:req.body.empCode}
+            });
+
+
+            if (!obj1){
+                res.status(500).json({
+                    success : false,
+                    error : {
+                        message : "Employ code provided does not exist"
+                    }
+                });
+                return;
+            }
+
+            let obj2 = await db.public.profiles.findOne({
+                where : {empCode:req.body.TLempCode}
+            });
+
+
+            if (!obj2){
+                res.status(500).json({
+                    success : false,
+                    error : {
+                        message : "Team lead Employ code provided does not exist"
+                    }
+                });
+                return;
+            }
                     
             let obj = await db.public.team.findOne({
                 where : create_obj
             });
+
 
             if (!obj){
                 let teamLead = await db.public.team.create(create_obj);
@@ -98,73 +129,73 @@ async function createTeamLead(req,res) {
 }
 
 
-async function getTeamLead(req, res) {
+// async function getTeamLead(req, res) {
     
-    try {
-        // Authoization check for JWT token
-        var authToken = req.header('X-AUTH-TOKEN')
+//     try {
+//         // Authoization check for JWT token
+//         var authToken = req.header('X-AUTH-TOKEN')
 
-        if (authToken == null || authToken ==""){
-            res.status(500).json({
-                success: false,
-                error : {
-                    message : "Token not provided"
-                }
-            });
-            return;
-        }
+//         if (authToken == null || authToken ==""){
+//             res.status(500).json({
+//                 success: false,
+//                 error : {
+//                     message : "Token not provided"
+//                 }
+//             });
+//             return;
+//         }
 
-        try {
-            var user_credentials = utilities.decryptJWTWithToken(authToken);
-        }
-        catch(err){
-            res.status(500).json({
-                success : false,
-                error : {
-                    message : "Invalid token provided"
-                }
-            });
-        }
+//         try {
+//             var user_credentials = utilities.decryptJWTWithToken(authToken);
+//         }
+//         catch(err){
+//             res.status(500).json({
+//                 success : false,
+//                 error : {
+//                     message : "Invalid token provided"
+//                 }
+//             });
+//         }
 
-        if (user_credentials){
+//         if (user_credentials){
 
-            let query = {};
+//             let query = {};
 
-            if(req.query.empCode){
-                query.empCode = req.query.empCode;
-            }
+//             if(req.query.empCode){
+//                 query.empCode = req.query.empCode;
+//             }
             
 
-            let teamLead = await db.public.team.findAll({
-                where: query
-            })
+//             let teamLead = await db.public.team.findAll({
+//                 where: query
+//             })
     
-            res.status(200).json({
-                success: true,
-                TL : teamLead
-            });
-        }
+//             res.status(200).json({
+//                 success: true,
+//                 TL : teamLead
+//             });
+//         }
 
-        else {
-            res.status(500).json({
-                success : false,
-                error : {
-                    message : "Token not found",
-                }
-            });
-            return;
-        }
+//         else {
+//             res.status(500).json({
+//                 success : false,
+//                 error : {
+//                     message : "Token not found",
+//                 }
+//             });
+//             return;
+//         }
 
-    } catch (err) {
-        res.status(500).json({
-            success: false,
-            error: {
-                message: "Internal Server Error",
-                description: err.description
-            }
-        });
-    }
-}
+//     } catch (err) {
+//         res.status(500).json({
+//             success: false,
+//             error: {
+//                 message: "Internal Server Error",
+//                 description: err.description
+//             }
+//         });
+//     }
+// }
 
 async function getTeamMember(req, res) {
     
@@ -236,7 +267,7 @@ async function getTeamMember(req, res) {
 
 
 module.exports = {
-    createTeamLead,
-    getTeamLead,
+    createTeamMember,
+    //getTeamLead,
     getTeamMember
 }

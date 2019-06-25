@@ -90,8 +90,8 @@ router.delete('/delete/documents',docsCtrl.destroy);
 
 
 // Team Endpoints
-router.post('/create/teamLead',teamCtrl.createTeamLead);
-router.get('/get/teamLead',teamCtrl.getTeamLead);
+router.post('/create/teamMember',teamCtrl.createTeamMember);
+//router.get('/get/teamLead',teamCtrl.getTeamLead);
 router.get('/get/teamMember',teamCtrl.getTeamMember);
 
 module.exports = router;
