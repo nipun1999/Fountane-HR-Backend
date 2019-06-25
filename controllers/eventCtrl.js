@@ -215,7 +215,7 @@ async function updateEvent(req, res) {
             let query = {};
 
             if (req.body.eventId){
-                query.eventId = req.query.eventId;
+                query.eventId = req.body.eventId;
             }
 
             else {

@@ -107,7 +107,7 @@ router.post('/delete/news',newsCtrl.destroy);
 router.post('/create/event',eventCtrl.createEvent);
 router.post('/update/event',eventCtrl.updateEvent);
 router.post('/delete/event',eventCtrl.deleteEvent);
-router.get('/get/event',eventCtrl.createEvent);
+router.get('/get/event',eventCtrl.getEvent);
 
 module.exports = router;
 
