@@ -24,7 +24,7 @@ async function createAttendance(req, res){
            try{
             var user = utilities.decryptJWTWithToken(authTOKEN)
            }
-           catch{
+           catch(err){
                 res.status(500).json({
                     success: false,
                     error: {
