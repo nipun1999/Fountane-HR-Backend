@@ -1,7 +1,12 @@
 
 module.exports = (sequelize, DataTypes) => {
     const newsObj = sequelize.define('news', {
-        
+        newsId: {
+            type: DataTypes.BIGINT,
+            primaryKey: true,
+            autoIncrement: true
+        },
+
         empCode: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -10,6 +15,8 @@ module.exports = (sequelize, DataTypes) => {
         text: { type: DataTypes.STRING, allowNull: false },
 
         title: { type: DataTypes.STRING, allowNull: false },
+
+        imageFirebaseLink : { type: DataTypes.STRING , allowNull: false},
 
         created_at: {
             type: DataTypes.DATE,
