@@ -112,7 +112,7 @@ async function getProfile(req, res) {
     try {
 
 
-        // Authoization check for JWT token
+       // Authoization check for JWT token
         var authToken = req.header('X-AUTH-TOKEN')
 
         if (authToken == null || authToken ==""){
@@ -137,11 +137,14 @@ async function getProfile(req, res) {
             });
         }
 
-        if (user_credentials){
+       if (user_credentials){
             let query = {};
 
             if(req.query.empCode){
                 query.empCode = req.query.empCode;
+            }
+            if(req.query.designation){
+                query.designation = req.query.designation;
             }
 
 
@@ -153,8 +156,9 @@ async function getProfile(req, res) {
                     success: true,
                     profile: profiles
                 });
-        }
+       }
 
+    
         else {
             console.log(err);
             res.status(500).json({
