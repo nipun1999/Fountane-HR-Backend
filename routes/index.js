@@ -85,7 +85,8 @@ router.get('/get/employeeProfile',profile.getProfile);
 
 //Documents EndPoints
 router.post('/create/documents',docsCtrl.create);
-router.get('/get/documents',docsCtrl.get);
+router.get('/get/documents',docsCtrl.get); // Get all documents in a type or Get all documents of an user
+router.get('/get/type/documents',docsCtrl.getType) // Get all types of a document
 router.delete('/delete/documents',docsCtrl.destroy);
 
 
