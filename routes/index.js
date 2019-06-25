@@ -16,7 +16,7 @@ var loginCtrl = require("../controllers/loginCtrl");
 var profile = require("../controllers/profileCtrl");
 var teamCtrl = require("../controllers/teamCtrl");
 var docsCtrl = require("../controllers/docsCtrl");
-
+var newsCtrl = require("../controllers/newsCtrl");
 // // Login and onboarding
 // router.post("/register", login.register);
 // router.post("/login", login.login);
@@ -94,6 +94,13 @@ router.delete('/delete/documents',docsCtrl.destroy);
 router.post('/create/teamMember',teamCtrl.createTeamMember);
 //router.get('/get/teamLead',teamCtrl.getTeamLead);
 router.get('/get/teamMember',teamCtrl.getTeamMember);
+
+//News Endpoints
+
+router.post('/create/news',newsCtrl.create);
+router.get('/get/news',newsCtrl.get);
+router.post('/update/news',newsCtrl.update);
+router.post('/delete/news',newsCtrl.destroy);
 
 module.exports = router;
 
