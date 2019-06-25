@@ -19,6 +19,10 @@ module.exports = (sequelize, DataTypes) => {
             type : DataTypes.STRING,
         },
 
+        imageFirebaseLink : {
+            type : DataTypes.STRING,
+        },
+
         created_at: {
             type: DataTypes.DATE,
             allowNull: false,
