@@ -214,7 +214,7 @@ async function updateEvent(req, res) {
 
             let query = {};
 
-            if (req.query.eventId){
+            if (req.body.eventId){
                 query.eventId = req.query.eventId;
             }
 
@@ -241,17 +241,6 @@ async function updateEvent(req, res) {
                     eventVenue : req.body.eventVenue
                 };
             
-                for (var i in update_obj) {
-                    if (!update_obj[i]) {
-                        console.log("No " + i);
-                        res.status(500).json({
-                            success: false,
-                            message: i + " is a required field"
-                        });
-                        return;
-                    }
-                }
-
                 if (req.body.imageFirebaseLink){
                     update_obj.imageFirebaseLink = req.body.imageFirebaseLink;
                 }
@@ -339,8 +328,8 @@ async function deleteEvent(req, res) {
 
             let query = {};
 
-            if (req.query.eventId){
-                query.eventId = req.query.eventId;
+            if (req.body.eventId){
+                query.eventId = req.body.eventId;
             }
 
             else {
