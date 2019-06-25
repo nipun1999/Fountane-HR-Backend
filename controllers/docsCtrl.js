@@ -206,10 +206,80 @@ async function destroy(req, res){
 
 }
 
+async function getType(req, res){
+
+    try {
+        
+        var authTOKEN = req.header('X-AUTH-TOKEN');
+        if(authTOKEN == "" || authTOKEN == null) {
+            res.status(500).json({
+                success: false,
+                error: {
+                    message: "Token not passed"
+                }
+            });
+        }
+        try{
+            var user = utilities.decryptJWTWithToken(authTOKEN)
+        }    
+        catch{
+            res.status(500).json({
+                success: false,
+                error: {
+                    message: "invalid Token"
+                }
+            });    
+        }
+            
+        if(user) {
+            let query = {};
+
+            if(req.query.empCode){
+                query.empCode = req.query.empCode;
+            }
+            //Values -> An array of objects(tupules of our result)
+            let values = await db.public.docs.findAll({
+                where: query
+            })
+
+            let type = {}; let j=1;
+            for(let i=0;i<values.length;i++) {
+                if(!Object.values(type).includes(values[i].type)) {
+                    type[j++] = values[i].type;
+                }
+            }
+            res.status(200).json({
+                success: true,
+                docs: type
+            });
+        }
+        else {
+            res.status(500).json({
+                success: false,
+                error: {
+                    message: "Token not found"
+                }
+            });
+        }
+        
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            success: false,
+            error: {
+                message: "Internal Server Error",
+                description: err.description
+            }
+        });
+    }
+
+}
 
 
 module.exports = {
     create,
     get,
-    destroy
+    destroy,
+    getType
 }
