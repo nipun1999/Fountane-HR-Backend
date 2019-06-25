@@ -34,6 +34,8 @@ db.companyobj = require('./company.js')(sequelize,Sequelize);
 db.attendanceobj = require('./attendance.js')(sequelize,Sequelize);
 db.register = require('./register.js')(sequelize,Sequelize);
 
+db.news = require('./news.js')(sequelize,Sequelize);
+
 db.profiles = require('./profile.js')(sequelize,Sequelize);
 
 db.login = require('./login.js')(sequelize,Sequelize);
