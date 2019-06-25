@@ -132,7 +132,7 @@ async function getEvent(req, res) {
             let query = {};
 
             if (req.query.eventId){
-                query.eventId : req.query.eventId;
+                query.eventId = req.query.eventId;
             }
 
             if(req.query.empCode){
@@ -215,7 +215,7 @@ async function updateEvent(req, res) {
             let query = {};
 
             if (req.query.eventId){
-                query.eventId : req.query.eventId;
+                query.eventId = req.query.eventId;
             }
 
             else {
@@ -340,7 +340,7 @@ async function deleteEvent(req, res) {
             let query = {};
 
             if (req.query.eventId){
-                query.eventId : req.query.eventId;
+                query.eventId = req.query.eventId;
             }
 
             else {
