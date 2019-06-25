@@ -156,7 +156,6 @@ async function checkUserGoogle(req, res){
             message: "Please input valid token"
         });
     }
-       
 }
 
 

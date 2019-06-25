@@ -14,7 +14,7 @@ var signInCtrl = require("../controllers/signInCtrl");
 var registerCtrl = require("../controllers/registerCtrl")
 var loginCtrl = require("../controllers/loginCtrl");
 var profile = require("../controllers/profileCtrl");
-
+var teamCtrl = require("../controllers/teamCtrl");
 var docsCtrl = require("../controllers/docsCtrl");
 
 // // Login and onboarding
@@ -88,6 +88,11 @@ router.post('/create/documents',docsCtrl.create);
 router.get('/get/documents',docsCtrl.get);
 router.delete('/delete/documents',docsCtrl.destroy);
 
+
+// Team Endpoints
+router.post('/create/teamLead',teamCtrl.createTeamLead);
+router.get('/get/teamLead',teamCtrl.getTeamLead);
+router.get('/get/teamMember',teamCtrl.getTeamMember);
 
 module.exports = router;
 
