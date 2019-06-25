@@ -11,6 +11,7 @@ async function create(req, res){
            empCode: req.body.empCode,
            fountaneEmail: req.body.fountaneEmail,
            name: req.body.name,
+           newUser: true
         };
 
         let registration = await db.public.register.create(create_obj);
