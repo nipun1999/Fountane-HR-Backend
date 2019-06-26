@@ -183,6 +183,8 @@ async function getProfile(req, res) {
     }
 }
 
+
+// Will have to provide empCode inorder to request for profile update
 async function updateProfile(req,res) {
     try {
 
