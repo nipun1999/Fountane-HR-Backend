@@ -17,7 +17,6 @@ async function createProfile(req,res) {
             });
             return;
         }
-
         try {
             var user_credentials = utilities.decryptJWTWithToken(authToken);
         }
@@ -136,7 +135,6 @@ async function getProfile(req, res) {
                 }
             });
         }
-
        if (user_credentials){
             let query = {};
 
@@ -147,10 +145,22 @@ async function getProfile(req, res) {
                 query.designation = req.query.designation;
             }
 
+            if(req.query.name) {
+                query.name = req.query.name
+            }
+
 
             let profiles = await db.public.profiles.findAll({
                 where: query
             })
+            // console.log(profiles[0])
+            // console.log(profiles[0].profile)
+            if(profiles[0]) {
+                console.log('yes')
+            }
+            else {
+                console.log('no')
+            }
 
             res.status(200).json({
                 success: true,
@@ -212,7 +222,6 @@ async function updateProfile(req,res) {
                 }
             });
         }
-
         if (user_credentials){
             let query = {};
             if (req.body.empCode){
