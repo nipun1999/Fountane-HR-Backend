@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => {
         
         empCode: {
             type: DataTypes.STRING,
+            primaryKey : true,
             allowNull: false
         },
 
