@@ -15,23 +15,23 @@ module.exports = (sequelize, DataTypes) => {
         mobileNo: { type: DataTypes.STRING},
 
         
-        profilePic : {type:DataTypes.STRING},
+        // profilePic : {type:DataTypes.STRING},
         
-        status : {
-            type : DataTypes.BOOLEAN , 
-            defaultValue : false
-        },
+        // status : {
+        //     type : DataTypes.BOOLEAN , 
+        //     defaultValue : false
+        // },
 
         designation : {type:DataTypes.STRING},
 
     
 
-        DOB : {type:DataTypes.DATEONLY},
+        // DOB : {type:DataTypes.DATEONLY},
 
 
-        address : {type:DataTypes.STRING},
+        // address : {type:DataTypes.STRING},
 
-        other_data: { type: DataTypes.JSONB },
+        // other_data: { type: DataTypes.JSONB },
 
         created_at: {
             type: DataTypes.DATE,

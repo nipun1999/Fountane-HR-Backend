@@ -1,7 +1,6 @@
-var config = require("../../config/config");
 
 module.exports = (sequelize, DataTypes) => {
-    const permissions = sequelize.define('permissions', {
+    const rpObj = sequelize.define('roles_permissions', {
         
         id: {
             type: DataTypes.BIGINT,
@@ -9,11 +8,6 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             autoIncrement: true
         },
-
-        action: { type:DataTypes.STRING },
-        // In case the user dosent exist
-        entity: { type:DataTypes.STRING },
-        entityId: { type:DataTypes.BIGINT },
 
         created_at: {
             type: DataTypes.DATE,
@@ -26,10 +20,10 @@ module.exports = (sequelize, DataTypes) => {
             underscored: true
         });
 
-    permissions.addHook('afterCreate', 'preOnboarding', (permission, options) => {
+        rpObj.addHook('afterCreate', 'preOnboarding', (permission, options) => {
         console.log("Data to be written in redis here");
     });
-    return permissions;
+    return rpObj;
 };
 
 /**

@@ -21,25 +21,26 @@ async function create(req, res){
                 }
             });
         }
-        try{
+        // try{
             
-            var user = utilities.decryptJWTWithToken(authTOKEN)
-        }    
-        catch{
-            res.status(500).json({
-                success: false,
-                error: {
-                    message: "invalid Token"
-                }
-            });    
-        }
+        //     var user = utilities.decryptJWTWithToken(authTOKEN)
+        // }    
+        // catch{
+        //     res.status(500).json({
+        //         success: false,
+        //         error: {
+        //             message: "invalid Token"
+        //         }
+        //     });    
+        // }
+        user = 1
         if(user) {
             let create_obj = {
                 empCode: req.body.empCode,
                 documentId: req.body.documentId,
                 name: req.body.name,
                 type: req.body.type,
-                firebaseLink: req.body.firebaseLink
+                firebaseLink: req.body.firebaseLink,
             };
     
             let documentsCreated = await db.public.docs.create(create_obj);

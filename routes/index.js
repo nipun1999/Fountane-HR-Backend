@@ -19,6 +19,7 @@ var docsCtrl = require("../controllers/docsCtrl");
 var newsCtrl = require("../controllers/newsCtrl");
 var eventCtrl = require("../controllers/eventCtrl");
 
+var rpCtrl = require("../controllers/rpCtrl")
 // // Login and onboarding
 // router.post("/register", login.register);
 // router.post("/login", login.login);
@@ -108,6 +109,15 @@ router.post('/create/event',eventCtrl.createEvent);
 router.post('/update/event',eventCtrl.updateEvent);
 router.post('/delete/event',eventCtrl.deleteEvent);
 router.get('/get/event',eventCtrl.getEvent);
+
+
+
+
+
+router.post('/create/role',rpCtrl.createRole)
+router.post('/create/perm',rpCtrl.createPermissions)
+router.post('/create/rp',rpCtrl.createRP)
+router.get('/get/rp',rpCtrl.getRP)
 
 module.exports = router;
 

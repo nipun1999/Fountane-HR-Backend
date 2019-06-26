@@ -34,14 +34,14 @@ async function createProfile(req,res) {
         
         let create_obj = {
             empCode: req.body.empCode,
-            status: req.body.status,
+            // status: req.body.status,
             name:req.body.name,
             fountaneEmail:req.body.fountaneEmail,
             mobileNo:req.body.mobileNo,
-            profilePic:req.body.profilePic,
+            // profilePic:req.body.profilePic,
             designation:req.body.designation,
-            DOB:req.body.DOB,
-            address:req.body.address
+            // DOB:req.body.DOB,
+            // address:req.body.address
         };
 
         for (var i in create_obj) {
@@ -113,31 +113,31 @@ async function getProfile(req, res) {
 
 
        // Authoization check for JWT token
-        var authToken = req.header('X-AUTH-TOKEN')
+    //     var authToken = req.header('X-AUTH-TOKEN')
 
-        if (authToken == null || authToken ==""){
-            res.status(500).json({
-                success: false,
-                error : {
-                    message : "Token not provided"
-                }
-            });
-            return;
-        }
+    //     if (authToken == null || authToken ==""){
+    //         res.status(500).json({
+    //             success: false,
+    //             error : {
+    //                 message : "Token not provided"
+    //             }
+    //         });
+    //         return;
+    //     }
 
-        try {
-            var user_credentials = utilities.decryptJWTWithToken(authToken);
-        }
-        catch(err){
-            res.status(500).json({
-                success : false,
-                error : {
-                    message : "Invalid token provided"
-                }
-            });
-        }
+    //     try {
+    //         var user_credentials = utilities.decryptJWTWithToken(authToken);
+    //     }
+    //     catch(err){
+    //         res.status(500).json({
+    //             success : false,
+    //             error : {
+    //                 message : "Invalid token provided"
+    //             }
+    //         });
+    //     }
 
-       if (user_credentials){
+      //  if (user_credentials){
             let query = {};
 
             if(req.query.empCode){
@@ -156,20 +156,20 @@ async function getProfile(req, res) {
                     success: true,
                     profile: profiles
                 });
-       }
+     //  }
 
     
-        else {
-            console.log(err);
-            res.status(500).json({
-                success : false,
-                error : {
-                    message : "Token not found",
-                    description : err.description
-                }
-            });
-            return;
-        }
+    //    else {
+            // console.log(err);
+            // res.status(500).json({
+            //     success : false,
+            //     error : {
+            //         message : "Token not found",
+            //         description : err.description
+            //     }
+            // });
+            // return;
+    //    }
 
     } catch (err) {
         console.log(err);
