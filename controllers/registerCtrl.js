@@ -13,6 +13,28 @@ async function create(req, res){
            name: req.body.name
         };
 
+        for (var i in create_obj){
+            if (!create_obj[i]){
+                console.log("No " + i);
+                res.status(500).json({
+                    status : false,
+                    message : i + " is a required field"
+                })
+            }
+        }
+
+        let check = await db.public.register.checkOne({
+            where : {empCode : req.body.empCode}
+        });
+
+        if (check){
+            res.status(500).json({
+                status : false,
+                message : "Employ code already exists"
+            });
+            return;
+        }
+
         let registration = await db.public.register.create(create_obj);
 
         res.status(200).json({
