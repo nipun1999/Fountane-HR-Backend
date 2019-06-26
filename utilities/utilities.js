@@ -6,6 +6,10 @@ var admin = require("firebase-admin");
 var fs = require('fs');
 var path = require('path');
 
+// var sequelize = require('sequelize')
+var db = require("../models/db");
+
+
 module.exports.decryptJWTWithToken = function (token) {
     if (!token) {
         return false;
@@ -16,6 +20,49 @@ module.exports.decryptJWTWithToken = function (token) {
     var user_credentials = jwt.verify(token, config.app.jwtKey);
     return user_credentials;
 }
+
+module.exports.verifyRole = async function(roleId,entityName,action) {
+    if(!roleId || !entityName) {
+        return false;
+    }
+
+    // roles = db.public.roles
+    // permissions = db.public.permissions
+    // rp = db.public.rpObj
+
+    // let query = `select * from 
+    // (select * from permissions INNER JOIN roles_permissions ON permissions.id = roles_permissions.permission_id)
+    // where role_id=${roleId} AND entity=${entityName}`
+   
+
+    let query = `select * from 
+    (select * from permissions AS p INNER JOIN roles_permissions AS rp ON p.id = rp.permission_id) AS result
+    where result.entity ='${entityName}' AND result.role_id=${roleId}`
+   
+
+    // let result = await db.public.sequelize.query(query,)
+   
+    // sequelize.query('')
+    // select * from permissions where 
+
+    let result = await db.public.sequelize.query(query, {
+            plain: false,
+            type: db.public.sequelize.QueryTypes.SELECT
+    });
+    let finalRes = false;
+    for(let i=0;i<result.length;i++) {
+        if(result[i].action == '*') {
+            finalRes=true;
+            break;
+        }
+        if(result[i].action == action) {
+            finalRes=true;
+            break;
+        }
+    }
+    return finalRes
+}
+
 
 
 module.exports.sendEmail = function (to, subject, message, callback) {
