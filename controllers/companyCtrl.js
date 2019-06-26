@@ -187,19 +187,20 @@ async function update(req,res) {
             query.empCode = req.body.empCode;
             if(query)
             {
-                var key = req.body;
-                for(var obj in key)
-                {
-                    console.log(obj);
-                    var value = key[obj];
-                    if(true)
-                    {
-                    companyUpdate = await db.public.companyobj.update({ obj: value},
+                let key = req.body;
+                console.log(key);
+                // for(var obj in key)
+                // {
+                //     console.log(obj);
+                //     var value = key[obj];
+                //     if(true)
+                    // {
+                    companyUpdate = await db.public.companyobj.update(key,
                         { 
                             where :query
                         });
-                    }
-                }
+                    // }
+                // }
             }
 
             res.status(200).json({

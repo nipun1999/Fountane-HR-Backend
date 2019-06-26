@@ -112,32 +112,32 @@ async function getProfile(req, res) {
     try {
 
 
-       // Authoization check for JWT token
-    //     var authToken = req.header('X-AUTH-TOKEN')
+        // Authoization check for JWT token
+        var authToken = req.header('X-AUTH-TOKEN')
 
-    //     if (authToken == null || authToken ==""){
-    //         res.status(500).json({
-    //             success: false,
-    //             error : {
-    //                 message : "Token not provided"
-    //             }
-    //         });
-    //         return;
-    //     }
+        if (authToken == null || authToken ==""){
+            res.status(500).json({
+                success: false,
+                error : {
+                    message : "Token not provided"
+                }
+            });
+            return;
+        }
 
-    //     try {
-    //         var user_credentials = utilities.decryptJWTWithToken(authToken);
-    //     }
-    //     catch(err){
-    //         res.status(500).json({
-    //             success : false,
-    //             error : {
-    //                 message : "Invalid token provided"
-    //             }
-    //         });
-    //     }
+        try {
+            var user_credentials = utilities.decryptJWTWithToken(authToken);
+        }
+        catch(err){
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Invalid token provided"
+                }
+            });
+        }
 
-      //  if (user_credentials){
+       if (user_credentials){
             let query = {};
 
             if(req.query.empCode){
@@ -151,41 +151,28 @@ async function getProfile(req, res) {
             }
 
 
-                let profiles = await db.public.profiles.findAll({
-                    where: query
-                })
+            let profiles = await db.public.profiles.findAll({
+                where: query
+            })
 
-                profileobj = JSON.parse(JSON.stringify(profiles))
-
-                if(profileobj)
-                {
-                    res.status(200).json({
-                        success: true,
-                        profile: profiles,
-                        passed:true
-                    });
-                }
-                else{
-                    res.status(200).json({
-                        success: true,
-                        profile: profiles,
-                        passed:false
-                    });
-                }
-     //  }
+            res.status(200).json({
+                success: true,
+                profile: profiles
+            });
+      }
 
     
-    //    else {
-            // console.log(err);
-            // res.status(500).json({
-            //     success : false,
-            //     error : {
-            //         message : "Token not found",
-            //         description : err.description
-            //     }
-            // });
-            // return;
-    //    }
+       else {
+            console.log(err);
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Token not found",
+                    description : err.description
+                }
+            });
+            return;
+       }
 
     } catch (err) {
         console.log(err);
@@ -199,6 +186,8 @@ async function getProfile(req, res) {
     }
 }
 
+
+// Will have to provide empCode inorder to request for profile update
 async function updateProfile(req,res) {
     try {
 
@@ -231,6 +220,16 @@ async function updateProfile(req,res) {
             let query = {};
             if (req.body.empCode){
                 query.empCode = req.body.empCode;
+            }
+
+            else {
+                res.status(500).json({
+                    success : false,
+                    error : {
+                        message : "Employ code is a required field"
+                    }
+                });
+                return;
             }
 
             let create_obj = {}
@@ -291,7 +290,7 @@ async function updateProfile(req,res) {
         res.status(500).json({
             success: false,
             error: {
-                message: "Please enter valid employ code or valid body parameters",
+                message: "Server Error",
                 description: err.description
             }
         });
