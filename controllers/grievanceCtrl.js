@@ -4,6 +4,8 @@ var utilities = require("../utilities/utilities");
 
 async function createGrievances(req,res) {
     try {
+
+        utilities.verifyRole() //complete the function
         
         // Authoization check for JWT token
         var authToken = req.header('X-AUTH-TOKEN')
@@ -50,8 +52,6 @@ async function createGrievances(req,res) {
                     }
                 }
             }
-                    
-                    
         
             let grievanceCreated = await db.public.profiles.create(create_obj);
             res.status(200).json({
