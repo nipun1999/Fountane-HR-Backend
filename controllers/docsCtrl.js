@@ -35,6 +35,16 @@ async function create(req, res){
         // }
         user = 1
         if(user) {
+
+            // Check for access for endpoint
+            if(!utilities.verifyRole(user.roleId,'c','documents')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
+
             let create_obj = {
                 empCode: req.body.empCode,
                 documentId: req.body.documentId,
@@ -97,6 +107,16 @@ async function get(req, res){
             });    
         }
         if(user) {
+
+            // Check for access for endpoint
+            if(!utilities.verifyRole(user.roleId,'r','documents')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
+
             let query = {};
 
             if(req.query.empCode){
@@ -161,6 +181,16 @@ async function destroy(req, res){
             });    
         }
         if(user) {
+
+            // Check for access for endpoint
+            if(!utilities.verifyRole(user.roleId,'d','documents')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
+
             let query = {};
 
             if(req.query.documentId){
@@ -233,6 +263,16 @@ async function getType(req, res){
         }
             
         if(user) {
+
+            // Check for access for endpoint
+            if(!utilities.verifyRole(user.roleId,'r','documents')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
+
             let query = {};
 
             if(req.query.empCode){

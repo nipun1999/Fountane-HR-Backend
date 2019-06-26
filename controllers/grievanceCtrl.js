@@ -34,10 +34,20 @@ async function createGrievances(req,res) {
         }
 
 
-        userHasAccess = iams.verifyRole(user_credentials, entity, entity_id, 14);
+        //userHasAccess = iams.verifyRole(user_credentials, entity, entity_id, 14);
 
 
         if (user_credentials) {
+
+            // Check for access for endpoint
+            if(!utilities.verifyRole(user_credentials.roleId,'c','grievances')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
+
             let create_obj = {
                 description: req.body.description,
                 status: req.body.empCode,
@@ -57,7 +67,7 @@ async function createGrievances(req,res) {
                 }
             }
         
-            let grievanceCreated = await db.public.profiles.create(create_obj);
+            let grievanceCreated = await db.public.grievances.create(create_obj);
             res.status(200).json({
                 success: true,
                 grievance: grievanceCreated
@@ -119,6 +129,15 @@ async function getGrievances(req, res) {
         }
 
         if (user_credentials){
+
+            // Check for access for endpoint
+            if(!utilities.verifyRole(user_credentials.roleId,'r','grievances')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
 
             let query = {};
 
@@ -190,6 +209,15 @@ async function updateGrievancesTrue(req,res) {
         }
 
         if (user_credentials){
+
+            // Check for access for endpoint
+            if(!utilities.verifyRole(user_credentials.roleId,'u','grievances')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
         
             let query = {};
             query.grievanceId = req.body.grievanceId;
@@ -258,6 +286,16 @@ async function updateGrievancesFalse(req,res) {
         }
         
         if (user_credentials){
+
+            // Check for access for endpoint
+            if(!utilities.verifyRole(user_credentials.roleId,'u','grievances')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
+
             let query = {};
             query.grievanceId = req.body.grievanceId;
             if (query){

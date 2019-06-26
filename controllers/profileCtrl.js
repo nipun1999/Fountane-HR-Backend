@@ -30,54 +30,63 @@ async function createProfile(req,res) {
         }
 
         if (user_credentials){
-        
-        let create_obj = {
-            empCode: req.body.empCode,
-            // status: req.body.status,
-            name:req.body.name,
-            fountaneEmail:req.body.fountaneEmail,
-            mobileNo:req.body.mobileNo,
-            // profilePic:req.body.profilePic,
-            designation:req.body.designation,
-            // DOB:req.body.DOB,
-            // address:req.body.address
-        };
 
-        for (var i in create_obj) {
-            if (!create_obj[i]) {
-                if (i!="profilePic" && i!="status"){ 
-                    console.log("No " + i);
-                    res.status(500).json({
-                        success: false,
-                        message: i + " is a required field"
-                    });
-                    return;
+            // Check for access for endpoint
+            if(!utilities.verifyRole(user_credentials.roleId,'c','profiles')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
+        
+            let create_obj = {
+                empCode: req.body.empCode,
+                // status: req.body.status,
+                name:req.body.name,
+                fountaneEmail:req.body.fountaneEmail,
+                mobileNo:req.body.mobileNo,
+                // profilePic:req.body.profilePic,
+                designation:req.body.designation,
+                // DOB:req.body.DOB,
+                // address:req.body.address
+            };
+
+            for (var i in create_obj) {
+                if (!create_obj[i]) {
+                    if (i!="profilePic" && i!="status"){ 
+                        console.log("No " + i);
+                        res.status(500).json({
+                            success: false,
+                            message: i + " is a required field"
+                        });
+                        return;
+                    }
                 }
             }
-        }
-        
-        
+            
+            
 
-        let profileCreated = await db.public.profiles.create(create_obj);
-        res.status(200).json({
-            success: true,
-            profile: profileCreated
-        });
-        // if(req.body.empCode!=""&&req.body.name!=""&&req.body.fountaneEmail!=""&&req.body.mobileNo!=""&&req.body.designation!=""&&req.body.address!=""){
-        //     let profileCreated = await db.public.profiles.create(create_obj);
+            let profileCreated = await db.public.profiles.create(create_obj);
+            res.status(200).json({
+                success: true,
+                profile: profileCreated
+            });
+            // if(req.body.empCode!=""&&req.body.name!=""&&req.body.fountaneEmail!=""&&req.body.mobileNo!=""&&req.body.designation!=""&&req.body.address!=""){
+            //     let profileCreated = await db.public.profiles.create(create_obj);
 
-        //     res.status(200).json({
-        //         success: true,
-        //         profile: profile_created
-        //     });
-        // }else{
-        //     res.status(500).json({
-        //         success: false,
-        //         error: {
-        //             message: "Please input value of all parameters"
-        //         }
-        //     });
-        // }
+            //     res.status(200).json({
+            //         success: true,
+            //         profile: profile_created
+            //     });
+            // }else{
+            //     res.status(500).json({
+            //         success: false,
+            //         error: {
+            //             message: "Please input value of all parameters"
+            //         }
+            //     });
+            // }
 
         }
 
@@ -136,6 +145,16 @@ async function getProfile(req, res) {
             });
         }
        if (user_credentials){
+
+            // Check for access for endpoint
+            if(!utilities.verifyRole(user_credentials.roleId,'r','profiles')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
+
             let query = {};
 
             if(req.query.empCode){
@@ -226,6 +245,16 @@ async function updateProfile(req,res) {
             });
         }
         if (user_credentials){
+
+            // Check for access for endpoint
+            if(!utilities.verifyRole(user_credentials.roleId,'u','profiles')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
+
             let query = {};
             if (req.body.empCode){
                 query.empCode = req.body.empCode;
