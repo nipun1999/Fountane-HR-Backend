@@ -30,6 +30,7 @@ db.public = require("./public/db");
 
 db.public.roles.belongsToMany(db.public.permissions,{through:db.public.rpObj , onDelete:"CASCADE"});
 db.public.signInObj.belongsTo(db.public.roles,{foreignKey:'roleId', onDelete:"CASCADE"});
+db.public.docs.belongsTo(db.public.signInObj,{foreignKey:'empCode', onDelete:"CASCADE"});
 
 // Hooks come here
 // db.atc.strips.addHook('afterCreate', 'updateCache', async (strip, options) => {
