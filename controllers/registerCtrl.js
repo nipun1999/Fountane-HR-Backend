@@ -42,7 +42,7 @@ async function signup(req, res){
            fountaneEmail: req.body.fountaneEmail,
            password: password,
            salt:salt,
-           role: req.body.role
+           roleId: req.body.role
         };
         let query = {};
         query.fountaneEmail = req.body.fountaneEmail;
@@ -52,7 +52,7 @@ async function signup(req, res){
 
         if(check_email){
             create_obj.empCode = check_email.empCode;
-            let singup = await db.public.signInObj.create(create_obj);
+            let signup = await db.public.signInObj.create(create_obj);
             res.status(200).json({
                 success: true,
                 singup: signup,
