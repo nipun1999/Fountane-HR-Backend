@@ -1,11 +1,11 @@
 
 module.exports = (sequelize, DataTypes) => {
-    const companyobj = sequelize.define('companyDetails', {
+    const companyobj = sequelize.define('companydetails', {
         
         empCode: {
             type: DataTypes.STRING,
-            primaryKey: true,
-            allowNull: false
+            allowNull: false,
+            primaryKey : true
         },
         dateJoin:{
             type: DataTypes.DATEONLY,

@@ -4,17 +4,18 @@ module.exports = (sequelize, DataTypes) => {
         
         empCode: {
             type: DataTypes.STRING,
+            primaryKey : true,
             allowNull: false
         },
 
-        fountaneEmail: { type:DataTypes.STRING,allowNull: false },
+        fountaneEmail: { 
+            type:DataTypes.STRING,
+            allowNull: false,
+            unique: true,
+         },
 
         name:{
             type:DataTypes.STRING,
-            allowNull:false
-        },
-        newUser:{
-            type:DataTypes.BOOLEAN,
             allowNull:false
         },
         created_at: {

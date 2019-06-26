@@ -17,7 +17,7 @@ async function createRole(req, res){
 
         res.status(200).json({
             success: true,
-            kv: role_created
+            role: role_created
         });
 
     } catch(err) {
@@ -78,7 +78,7 @@ async function createRP(req, res){
 
         res.status(200).json({
             success: true,
-            kv: rp_craeted
+            role_prem: rp_craeted
         });
 
     } catch(err) {
@@ -114,7 +114,7 @@ async function getRP(req, res) {
 
         res.status(200).json({
             success: true,
-            kv: values
+            role_perm: values
         });
 
     } catch (err) {

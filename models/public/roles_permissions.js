@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             autoIncrement: true
         },
-
+        
         created_at: {
             type: DataTypes.DATE,
             allowNull: false,

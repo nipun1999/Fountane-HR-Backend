@@ -144,6 +144,9 @@ async function getProfile(req, res) {
             if(req.query.designation){
                 query.designation = req.query.designation;
             }
+            if(req.query.name){
+                query.designation = req.query.designation;
+            }
 
             if(req.query.name) {
                 query.name = req.query.name
