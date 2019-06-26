@@ -5,8 +5,6 @@ var iams = require("../functions/roleFunc");
 
 async function createGrievances(req,res) {
     try {
-
-        utilities.verifyRole() //complete the function
         
         // Authoization check for JWT token
         var authToken = req.header('X-AUTH-TOKEN')
@@ -38,6 +36,15 @@ async function createGrievances(req,res) {
 
 
         if (user_credentials) {
+
+            if(!utilities.verifyRole(user_credentials.roleId,'c','grievances')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
+
             let create_obj = {
                 description: req.body.description,
                 status: req.body.empCode,
@@ -120,6 +127,14 @@ async function getGrievances(req, res) {
 
         if (user_credentials){
 
+            if(!utilities.verifyRole(user_credentials.roleId,'r','grievances')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
+
             let query = {};
 
             if(req.query.empCode){
@@ -190,6 +205,14 @@ async function updateGrievancesTrue(req,res) {
         }
 
         if (user_credentials){
+
+            if(!utilities.verifyRole(user_credentials.roleId,'u','grievances')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
         
             let query = {};
             query.grievanceId = req.body.grievanceId;
@@ -258,6 +281,15 @@ async function updateGrievancesFalse(req,res) {
         }
         
         if (user_credentials){
+
+            if(!utilities.verifyRole(user_credentials.roleId,'u','grievances')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
+
             let query = {};
             query.grievanceId = req.body.grievanceId;
             if (query){
