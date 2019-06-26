@@ -10,8 +10,7 @@ async function create(req, res){
         let create_obj = {
            empCode: req.body.empCode,
            fountaneEmail: req.body.fountaneEmail,
-           name: req.body.name,
-           newUser: true
+           name: req.body.name
         };
 
         let registration = await db.public.register.create(create_obj);
@@ -42,7 +41,7 @@ async function signup(req, res){
            fountaneEmail: req.body.fountaneEmail,
            password: password,
            salt:salt,
-           role: req.body.role
+           roleId: req.body.roleId
         };
         let query = {};
         query.fountaneEmail = req.body.fountaneEmail;

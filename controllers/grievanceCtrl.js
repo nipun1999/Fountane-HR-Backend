@@ -1,6 +1,7 @@
 var db = require("../models/db");
 var config = require("../config/config");
 var utilities = require("../utilities/utilities");
+var iams = require("../functions/roleFunc");
 
 async function createGrievances(req,res) {
     try {
@@ -29,6 +30,9 @@ async function createGrievances(req,res) {
                 }
             });
         }
+
+
+        userHasAccess = iams.verifyRole(user_credentials, entity, entity_id, 14);
 
 
         if (user_credentials) {

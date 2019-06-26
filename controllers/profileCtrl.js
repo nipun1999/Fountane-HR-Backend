@@ -146,16 +146,32 @@ async function getProfile(req, res) {
             if(req.query.designation){
                 query.designation = req.query.designation;
             }
+            if(req.query.name){
+                query.designation = req.query.designation;
+            }
 
 
                 let profiles = await db.public.profiles.findAll({
                     where: query
                 })
 
-                res.status(200).json({
-                    success: true,
-                    profile: profiles
-                });
+                profileobj = JSON.parse(JSON.stringify(profiles))
+
+                if(profileobj)
+                {
+                    res.status(200).json({
+                        success: true,
+                        profile: profiles,
+                        passed:true
+                    });
+                }
+                else{
+                    res.status(200).json({
+                        success: true,
+                        profile: profiles,
+                        passed:false
+                    });
+                }
      //  }
 
     
