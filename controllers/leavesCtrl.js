@@ -5,6 +5,8 @@ var utilities = require("../utilities/utilities");
 
 async function create(req, res){
     try {
+
+
         // Authoization check for JWT token
         var authToken = req.header('X-AUTH-TOKEN')
 
@@ -32,6 +34,15 @@ async function create(req, res){
         }
 
         if (user_credentials){
+
+            if(!utilities.verifyRole(user_credentials.roleId,'c','leaves')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
+
             let create_obj = {
                empCode: req.body.empCode,
                leaveType: req.body.leaveType,
@@ -104,6 +115,14 @@ async function get(req, res) {
         }
 
         if (user_credentials){
+
+            if(!utilities.verifyRole(user_credentials.roleId,'r','leaves')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
         
             let query = {};
 
@@ -183,6 +202,14 @@ async function updateTrue(req,res) {
         }
 
         if (user_credentials){
+
+            if(!utilities.verifyRole(user_credentials.roleId,'u','leaves')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
             
             let query = {};
             query.empCode = req.body.empCode;
@@ -250,6 +277,15 @@ async function updateFalse(req,res) {
         }
         
         if (user_credentials){
+
+            if(!utilities.verifyRole(user_credentials.roleId,'u','leaves')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
+
             let query = {};
             query.empCode = req.body.empCode;
             if (query){
