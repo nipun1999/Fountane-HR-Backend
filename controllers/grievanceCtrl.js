@@ -5,8 +5,6 @@ var iams = require("../functions/roleFunc");
 
 async function createGrievances(req,res) {
     try {
-
-        utilities.verifyRole() //complete the function
         
         // Authoization check for JWT token
         var authToken = req.header('X-AUTH-TOKEN')
@@ -39,7 +37,6 @@ async function createGrievances(req,res) {
 
         if (user_credentials) {
 
-            // Check for access for endpoint
             if(!utilities.verifyRole(user_credentials.roleId,'c','grievances')) {
                 res.status(500).json({
                     success : false,
@@ -130,7 +127,6 @@ async function getGrievances(req, res) {
 
         if (user_credentials){
 
-            // Check for access for endpoint
             if(!utilities.verifyRole(user_credentials.roleId,'r','grievances')) {
                 res.status(500).json({
                     success : false,
@@ -210,7 +206,6 @@ async function updateGrievancesTrue(req,res) {
 
         if (user_credentials){
 
-            // Check for access for endpoint
             if(!utilities.verifyRole(user_credentials.roleId,'u','grievances')) {
                 res.status(500).json({
                     success : false,
@@ -218,7 +213,7 @@ async function updateGrievancesTrue(req,res) {
                 });
                 return;
             }
-        
+
             let query = {};
             query.grievanceId = req.body.grievanceId;
             if (query){
