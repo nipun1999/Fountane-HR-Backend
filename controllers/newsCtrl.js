@@ -195,10 +195,8 @@ async function update(req,res) {
                     );
                     
                 // }
-
             }
             
-
             res.status(200).json({
                 success : true,
                 newsupdateObj : newsUpdate
