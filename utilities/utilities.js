@@ -60,7 +60,7 @@ module.exports.verifyRole = async function(roleId,entityName,action) {
             break;
         }
     }
-    return finalRes
+    return finalRes;
 }
 
 
