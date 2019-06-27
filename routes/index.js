@@ -111,7 +111,7 @@ router.delete('/delete/event',eventCtrl.deleteEvent);
 router.get('/get/event',eventCtrl.getEvent);
 
 
-
+//adddd
 
 
 router.post('/create/role',rpCtrl.createRole)
