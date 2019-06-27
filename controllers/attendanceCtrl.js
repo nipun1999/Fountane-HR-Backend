@@ -34,6 +34,14 @@ async function createAttendance(req, res){
            }
 
            if(user) {
+
+                if(!utilities.verifyRole(user.roleId,'c','attendances')) {
+                    res.status(500).json({
+                        success : false,
+                        message : "Permissions not available"
+                    });
+                    return;
+                }
                         //
                 let create_obj = {
                     empCode: req.body.empCode,
@@ -121,6 +129,16 @@ async function updateCheckOut(req, res){
             });    
         }
         if(user) {
+
+
+            if(!utilities.verifyRole(user.roleId,'u','attendances')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
+
             if(create_obj.empCode && create_obj.checkOut) {
                 let attendance_checkout = await db.public.attendanceobj.update({checkOut : create_obj.checkOut},{
                     where: {empCode: create_obj.empCode}
@@ -188,6 +206,16 @@ async function addComment(req, res){
             });    
         }
         if(user) {
+
+
+            if(!utilities.verifyRole(user.roleId,'c','attendances')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
+
             if(create_obj.empCode && create_obj.comments!="") {
                 let attendance_comment = await db.public.attendanceobj.update({comments : create_obj.comments},{
                     where: {empCode: create_obj.empCode}
@@ -256,6 +284,16 @@ async function deleteComment(req, res){
             });    
         }
         if(user) {
+
+
+            if(!utilities.verifyRole(user.roleId,'d','attendances')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
+
             if(req.body.empCode) {
                 let attendance_delete = await db.public.attendanceobj.update({comments: ""},{
                     where: {empCode: req.body.empCode}
@@ -323,6 +361,16 @@ async function getEmployeeAttendance(req, res){
             });    
         }
         if(user) {
+
+
+            if(!utilities.verifyRole(user.roleId,'r','attendances')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
+
             let query = {};
 
             if(req.query.empCode){
@@ -395,6 +443,16 @@ async function getAttendanceByMonth(req, res){
             });    
         }
         if(user) {
+
+
+            if(!utilities.verifyRole(user.roleId,'r','attendances')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
+            
             let query = {};
 
             if(req.query.empCode){

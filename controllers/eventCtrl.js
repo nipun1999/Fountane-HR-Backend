@@ -32,6 +32,15 @@ async function createEvent(req,res) {
 
 
         if (user_credentials) {
+
+            if(!utilities.verifyRole(user_credentials.roleId,'c','events')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
+
             let create_obj = {
                 empCode : req.body.empCode,
                 name : req.body.name,
@@ -129,6 +138,14 @@ async function getEvent(req, res) {
 
         if (user_credentials){
 
+            if(!utilities.verifyRole(user_credentials.roleId,'r','events')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
+
             let query = {};
 
             if (req.query.eventId){
@@ -211,6 +228,14 @@ async function updateEvent(req, res) {
         }
 
         if (user_credentials){
+
+            if(!utilities.verifyRole(user_credentials.roleId,'u','events')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
 
             let query = {};
 
@@ -325,6 +350,14 @@ async function deleteEvent(req, res) {
         }
 
         if (user_credentials){
+
+            if(!utilities.verifyRole(user_credentials.roleId,'d','events')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
 
             let query = {};
 

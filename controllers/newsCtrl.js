@@ -29,6 +29,15 @@ async function create(req, res){
             });    
         }
         if(user) {
+
+            if(!utilities.verifyRole(user.roleId,'c','news')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
+
             let create_obj = {
                 empCode: req.body.empCode,
                 text: req.body.text,
@@ -91,6 +100,16 @@ async function get(req, res) {
             });    
         }
         if(user) {
+
+            // Check for access for endpoint
+            if(!utilities.verifyRole(user.roleId,'r','news')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
+
             let query = {};
 
             if(req.query.empCode){
@@ -161,6 +180,16 @@ async function update(req,res) {
             });    
         }
         if(user) {
+
+            // Check for access for endpoint
+            if(!utilities.verifyRole(user.roleId,'u','news')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
+
             let query = {};
 
             if(req.body.newsId) {
@@ -250,6 +279,16 @@ async function destroy(req, res){
             });    
         }
         if(user) {
+
+            // Check for access for endpoint
+            if(!utilities.verifyRole(user.roleId,'d','news')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
+
             let query = {};
 
             if(req.body.newsId){

@@ -14,6 +14,11 @@ module.exports = (sequelize, DataTypes) => {
             unique: true,
          },
 
+        newUser: {
+            type : DataTypes.BOOLEAN,
+            defaultValue : true
+        },
+
         name:{
             type:DataTypes.STRING,
             allowNull:false

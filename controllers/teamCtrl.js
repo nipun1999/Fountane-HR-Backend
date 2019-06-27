@@ -32,6 +32,16 @@ async function createTeamMember(req,res) {
 
 
         if (user_credentials) {
+
+            // Check for access for endpoint
+            if(!utilities.verifyRole(user_credentials.roleId,'c','teams')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
+
             let create_obj = {
                 TLempCode : req.body.TLempCode,
                 empCode : req.body.empCode
@@ -159,6 +169,15 @@ async function createTeamMember(req,res) {
 
 //         if (user_credentials){
 
+                // Check for access for endpoint
+            // if(!utilities.verifyRole(user_credentials.roleId,'r','teams')) {
+            //     res.status(500).json({
+            //         success : false,
+            //         message : "Permissions not available"
+            //     });
+            //     return;
+            // }
+
 //             let query = {};
 
 //             if(req.query.empCode){
@@ -226,6 +245,15 @@ async function getTeamMember(req, res) {
         }
 
         if (user_credentials){
+
+            // Check for access for endpoint
+            if(!utilities.verifyRole(user_credentials.roleId,'r','teams')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
 
             let query = {};
 
