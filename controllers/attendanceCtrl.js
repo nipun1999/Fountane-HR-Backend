@@ -142,7 +142,7 @@ async function updateCheckOut(req, res){
             if(create_obj.empCode && create_obj.checkOut) {
                 let attendance_checkout = await db.public.attendanceobj.update({checkOut : create_obj.checkOut},{
                     where: {empCode: create_obj.empCode}
-                });
+                }); //attendance_checkout contains number of updated rows
                 res.status(200).json({
                     success: true,
                     attendanceobj: attendance_checkout
@@ -182,6 +182,7 @@ async function addComment(req, res){
     
     let create_obj = {
         empCode : req.body.empCode ,
+        attendanceId : req.body.attendanceId,
         comments : req.body.comments
     }
     try {
@@ -216,9 +217,9 @@ async function addComment(req, res){
                 return;
             }
 
-            if(create_obj.empCode && create_obj.comments!="") {
+            if(create_obj.empCode && create_obj.comments!="" && create_obj.attendanceId) {
                 let attendance_comment = await db.public.attendanceobj.update({comments : create_obj.comments},{
-                    where: {empCode: create_obj.empCode}
+                    where: {empCode: create_obj.empCode , attendanceId: create_obj.attendanceId}
                 });
     
                 res.status(200).json({

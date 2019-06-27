@@ -36,15 +36,15 @@ var rpCtrl = require("../controllers/rpCtrl")
 // router.get("/get/user/team", login.getUserTeams);
 // router.get('/search/user', login.userFullTs);
 
-router.post('/create/kv', crud.create);
-router.get('/get/kv', crud.get);
+// router.post('/create/kv', crud.create);
+// router.get('/get/kv', crud.get);
 
-router.post('/login',loginCtrl.login);
+// router.post('/login',loginCtrl.login);
 //Leaves EndPoints
 router.post('/leaves/create', leavesCtrl.create);
-router.get('leaves/get', leavesCtrl.get);
-router.post('leaves/updateTrue',leavesCtrl.updateTrue);
-router.post('leaves/updateFalse',leavesCtrl.updateFalse);
+router.get('/leaves/get', leavesCtrl.get);
+router.post('/leaves/updateTrue',leavesCtrl.updateTrue);
+router.post('/leaves/updateFalse',leavesCtrl.updateFalse);
 
 
 
@@ -59,7 +59,7 @@ router.post('/create/attendance',attendanceCtrl.createAttendance);
 router.post('/updateCheckOut/attendance',attendanceCtrl.updateCheckOut);
 router.post('/addComment/attendance',attendanceCtrl.addComment);
 router.post('/updateComment/attendance',attendanceCtrl.addComment);
-router.post('/deleteComment/attendance',attendanceCtrl.deleteComment);
+router.post('/deleteComment/attendance',attendanceCtrl.deleteComment); //Not needed
 router.get('/get/attendance',attendanceCtrl.getEmployeeAttendance);
 
 //Attendance & Leaves
@@ -103,11 +103,11 @@ router.get('/get/teamMember',teamCtrl.getTeamMember);
 router.post('/create/news',newsCtrl.create);
 router.get('/get/news',newsCtrl.get);
 router.post('/update/news',newsCtrl.update);
-router.post('/delete/news',newsCtrl.destroy);
+router.delete('/delete/news',newsCtrl.destroy);
 // Events Endpoints
 router.post('/create/event',eventCtrl.createEvent);
 router.post('/update/event',eventCtrl.updateEvent);
-router.post('/delete/event',eventCtrl.deleteEvent);
+router.delete('/delete/event',eventCtrl.deleteEvent);
 router.get('/get/event',eventCtrl.getEvent);
 
 

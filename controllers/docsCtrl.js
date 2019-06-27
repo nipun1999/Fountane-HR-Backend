@@ -47,7 +47,6 @@ async function create(req, res){
 
             let create_obj = {
                 empCode: req.body.empCode,
-                documentId: req.body.documentId,
                 name: req.body.name,
                 type: req.body.type,
                 firebaseLink: req.body.firebaseLink,
@@ -194,7 +193,7 @@ async function destroy(req, res){
             let query = {};
 
             if(req.query.documentId){
-                query.documentId = req.query.documentId;
+                query.documentId = req.body.documentId;
             }
             
             let values = await db.public.docs.destroy({

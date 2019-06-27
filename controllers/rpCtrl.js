@@ -70,15 +70,15 @@ async function createRP(req, res){
     try {
         //
         let create_obj = {
-            role_id: req.body.roleId,
-            permission_id: req.body.permId
+            role_id: req.body.role_id,
+            permission_id: req.body.permission_id
         };
 
-        let rp_craeted = await db.public.rpObj.create(create_obj);
+        let rp_created = await db.public.rpObj.create(create_obj);
 
         res.status(200).json({
             success: true,
-            role_prem: rp_craeted
+            role_prem: rp_created
         });
 
     } catch(err) {
@@ -105,6 +105,14 @@ async function getRP(req, res) {
 
         if(req.query.id){
             query.id = req.query.id;
+        }
+
+        if(req.query.role_id) {
+            query.role_id = req.query.role_id;
+        }
+
+        if(req.query.permission_id) {
+            query.permission_id = req.query.permission_id;
         }
 
         let values = await db.public.rpObj.findAll({

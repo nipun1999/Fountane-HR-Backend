@@ -47,7 +47,7 @@ async function createGrievances(req,res) {
 
             let create_obj = {
                 description: req.body.description,
-                status: req.body.empCode,
+                status: req.body.status,
                 empCode: req.body.empCode
             };
         
