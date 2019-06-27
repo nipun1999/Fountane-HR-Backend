@@ -25,7 +25,7 @@ var db = {
         DATABASE_NAME: process.env.DATABASE_NAME || 'fountanehrdb',
         DATABASE_USERNAME: process.env.DATABASE_USERNAME || 'postgres',
         DATABASE_PASSWORD: process.env.DATABASE_PASSWORD || 'fountane',
-        DATABASE_PORT: process.env.DATABASE_PORT || 5433,
+        DATABASE_PORT: process.env.DATABASE_PORT || 5432,
         DATABASE_DIALECT: process.env.DATABASE_DIALECT || 'postgres',
         NODE_ENV: process.env.NODE_ENV || 'development',
         SCHEMA: "public",
