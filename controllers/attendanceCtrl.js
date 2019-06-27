@@ -9,7 +9,6 @@ async function createAttendance(req, res){
 
     try {
 
-
         var authTOKEN = req.header('X-AUTH-TOKEN');
             if(authTOKEN == "" || authTOKEN == null)
             {
@@ -42,29 +41,49 @@ async function createAttendance(req, res){
                     });
                     return;
                 }
-                        //
+                
+                let value = await db.public.register.findOne({
+                    where : {empCode : req.body.empCode}
+                })
+
+                if (!value){
+                    res.status(500).json({
+                        success : false,
+                        message : "Employ code provided does not exist"
+                    });
+                    return;
+                }
+                
                 let create_obj = {
                     empCode: req.body.empCode,
                     date: req.body.date,
                     checkIn: req.body.checkIn,
-                    checkOut: req.body.checkOut,
-                    comments: req.body.comments
                 };
-                //When employee checks in a new record will be created , checkOut will be empty but not null
-                if(create_obj.empCode!="" && create_obj.date!="" && create_obj.checkIn!="") {
-                    let attendance_created = await db.public.attendanceobj.create(create_obj);
 
-                    res.status(200).json({
-                        success: true,
-                        attendanceobj: attendance_created
-                    });
+                for (var i in create_obj){
+                    if (!create_obj[i]){
+                        console.log("No "+ i)
+                        res.status(500).json({
+                            success : false,
+                            message : i + " is a required field"
+                        });
+                        return;
+                    }   
                 }
-                else{
+
+                try {
+                    let attendance_created = await db.public.attendanceobj.create(create_obj);
+                    res.status(200).json({
+                        success : true,
+                        attendanceobj : attendance_created
+                    });
+
+                }
+                catch(err){
+                    console.log(err);
                     res.status(500).json({
-                        success: false,
-                        error: {
-                            message: "Please input value of all parameters"
-                        }
+                        success : false,
+                        description : err.description
                     });
                 }
            }
@@ -84,7 +103,7 @@ async function createAttendance(req, res){
         res.status(500).json({
             success: false,
             error: {
-                message: "Please put all body parameters",
+                message: "Internal Server Error",
                 description: err.description
             }
         });
