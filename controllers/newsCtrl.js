@@ -40,10 +40,24 @@ async function create(req, res){
 
             let create_obj = {
                 empCode: req.body.empCode,
+                venue : req.body.venue,
+                date : req.body.date,
                 text: req.body.text,
                 title: req.body.title,
                 imageFirebaseLink : req.body.imageFirebaseLink
             };
+
+            for (var i in create_obj){
+                if (!create_obj[i]){
+                    console.log("No "+i);
+                    res.status(500).json({
+                        status : false,
+                        message : i + " is a required field"
+                    });
+                    return;
+                }
+            }
+
             let newsobj_created = await db.public.news.create(create_obj);
     
             res.status(200).json({
@@ -112,17 +126,21 @@ async function get(req, res) {
 
             let query = {};
 
-            if(req.query.empCode){
-                query.empCode = req.query.empCode;
+            if (req.body.newsId){
+                query.newsId = req.body.newsId;
             }
 
-            if(req.query.title){
-                query.title = req.query.title;
-            }
+            // if(req.query.empCode){
+            //     query.empCode = req.query.empCode;
+            // }
 
-            if(req.query.text){
-                query.text = req.query.text;
-            }
+            // if(req.query.title){
+            //     query.title = req.query.title;
+            // }
+
+            // if(req.query.text){
+            //     query.text = req.query.text;
+            // }
 
             let values = await db.public.news.findAll({
                 where: query
@@ -293,6 +311,14 @@ async function destroy(req, res){
 
             if(req.body.newsId){
                 query.newsId = req.body.newsId;
+            }
+
+            else {
+                res.status(500).json({
+                    status : false,
+                    message : "newsId not provided"
+                });
+                return;
             }
             
             let values = await db.public.news.destroy({
