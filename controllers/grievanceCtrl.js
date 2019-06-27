@@ -51,17 +51,17 @@ async function createGrievances(req,res) {
                 empCode: req.body.empCode
             };
 
-            let value = await db.public.register.checkOne({
+            let value = await db.public.register.findOne({
                 where : {empcode : req.body.empCode}
             })
 
-            // if (!value){
-            //     res.status(500).json({
-            //         status : false,
-            //         message : "Employ code provided does not exist"
-            //     });
-            //     return;
-            // }
+            if (!value){
+                res.status(500).json({
+                    status : false,
+                    message : "Employ code provided does not exist"
+                });
+                return;
+            }
         
             for (var i in create_obj) {
                 if (i!="status"){ 
