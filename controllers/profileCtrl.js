@@ -54,14 +54,31 @@ async function createProfile(req,res) {
         
             let create_obj = {
                 empCode: req.body.empCode,
-                // status: req.body.status,
                 name:req.body.name,
                 fountaneEmail:req.body.fountaneEmail,
+                personalEmail: req.body.personalEmail,
                 mobileNo:req.body.mobileNo,
-                // profilePic:req.body.profilePic,
+                profilePic:req.body.profilePic,
+                panNo: req.body.panNo,
+                aadharNo: req.body.aadharNo,
+                bankAccountNo: req.body.bankAccountNo,
+                ifscCode: req.body.ifscCode,
+                role_responsibility: req.body.role_responsibility,
+                roleId: req.body.roleId,
+                eduQualification: req.body.eduQualification,
+                fountaneEXP: req.body.fountaneEXP,
+                otherEXP: req.body.otherEXP,
                 designation:req.body.designation,
-                // DOB:req.body.DOB,
-                // address:req.body.address
+                department: req.body.department,
+                branchLocation: req.body.branchLocation,
+                DOB:req.body.DOB,
+                dateOfJoining: req.body.dateOfJoining,
+                country: req.body.country,
+                state: req.body.state,
+                city: req.body.city,
+                province: req.body.province,
+                empType: req.body.empType
+                
             };
 
             for (var i in create_obj) {

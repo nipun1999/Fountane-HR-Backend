@@ -2,36 +2,119 @@
 module.exports = (sequelize, DataTypes) => {
     const profile = sequelize.define('profile', {
         
-
-        empCode: {type:DataTypes.STRING,
-            primaryKey : true,
+        empCode: {
+            type:DataTypes.STRING,
+            primaryKey : true
         },
 
-        name: { type:DataTypes.STRING},
+        name: {
+            type:DataTypes.STRING,
+        },
 
-        fountaneEmail: { type: DataTypes.STRING},
+        fountaneEmail: {
+            type: DataTypes.STRING,
+        },
+
+        personalEmail: {
+            type: DataTypes.STRING,
+        },
+
+        mobileNo: {
+            type: DataTypes.STRING,
+        },
+
+        profilePic : {
+            type:DataTypes.STRING},
+
+        panNo: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         
-
-        mobileNo: { type: DataTypes.STRING},
-
+        aadharNo: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         
-        // profilePic : {type:DataTypes.STRING},
-        
-        // status : {
-        //     type : DataTypes.BOOLEAN , 
-        //     defaultValue : false
-        // },
+        bankAccountNo: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
 
-        designation : {type:DataTypes.STRING},
+        ifscCode: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
 
-    
+        roleId:{
+            type: DataTypes.BIGINT,
+            allowNull: false
+        },
 
-        // DOB : {type:DataTypes.DATEONLY},
+        eduQualificaton: {
+            type: DataTypes.TEXT,
+            allowNull: false
+        },
 
+        fountaneEXP: {
+            type: DataTypes.BIGINT,
+            allowNull: false
+        },
 
-        // address : {type:DataTypes.STRING},
+        otherEXP: {
+            type: DataTypes.BIGINT,
+            allowNull: false
+        },
 
-        // other_data: { type: DataTypes.JSONB },
+        designation : {
+            type:DataTypes.STRING,
+            allowNull: false
+        },
+
+        department : {
+            type:DataTypes.STRING,
+            allowNull: false
+        },
+
+        branchLocation : {
+            type:DataTypes.STRING,
+            allowNull: false
+        },
+
+        DOB : {
+            type:DataTypes.DATEONLY,
+            allowNull: false
+        },
+
+        dateOfJoining: {
+            type: DataTypes.DATEONLY,
+            allowNull: false
+        },
+
+        country : {
+            type:DataTypes.STRING,
+            allowNull: false
+        },
+
+        state: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+
+        city: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+
+        province: {
+            type: DataTypes.TEXT,
+            allowNull: false
+        },
+
+        empType: {
+            type:DataTypes.STRING,
+            allowNull: false
+        },
 
         created_at: {
             type: DataTypes.DATE,
