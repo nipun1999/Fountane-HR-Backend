@@ -229,7 +229,7 @@ async function updateGrievancesTrue(req,res) {
             let query = {};
             if (!req.body.grievanceId){
                 res.status(500).json({
-                    status : false,
+                    success : false,
                     message : "Grievance Id is a required parameter"
                 });
                 return ;
@@ -241,7 +241,7 @@ async function updateGrievancesTrue(req,res) {
             })
             if (!value){
                 res.status(500).json({
-                    status : false,
+                    success : false,
                     message : "Grievance Id provided does not exist"
                 });
                 return;
@@ -326,7 +326,7 @@ async function updateGrievancesFalse(req,res) {
 
             if (!req.body.grievanceId){
                 res.status(500).json({
-                    status : false,
+                    success : false,
                     message : "Grievance Id is a required body parameter"
                 });
                 return ;
@@ -338,7 +338,7 @@ async function updateGrievancesFalse(req,res) {
 
             if (!value){
                 res.status(500).json({
-                    status : false,
+                    success : false,
                     message : "Grievance Id provided does not exist"
                 });
                 return;
