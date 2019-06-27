@@ -42,18 +42,6 @@ async function createAttendance(req, res){
                     return;
                 }
                 
-                let value = await db.public.register.findOne({
-                    where : {empCode : req.body.empCode}
-                })
-
-                if (!value){
-                    res.status(500).json({
-                        success : false,
-                        message : "Employ code provided does not exist"
-                    });
-                    return;
-                }
-                
                 let create_obj = {
                     empCode: req.body.empCode,
                     date: req.body.date,
@@ -69,6 +57,18 @@ async function createAttendance(req, res){
                         });
                         return;
                     }   
+                }
+
+                let value = await db.public.register.findOne({
+                    where : {empCode : req.body.empCode}
+                })
+
+                if (!value){
+                    res.status(500).json({
+                        success : false,
+                        message : "Employee code provided does not exist"
+                    });
+                    return;
                 }
 
                 try {
@@ -94,6 +94,7 @@ async function createAttendance(req, res){
                         message: "Token not found"
                     }
                 });
+                return ;
            }
 
         
@@ -147,18 +148,6 @@ async function updateCheckOut(req, res){
                 return;
             }
 
-            let value = await db.public.attendanceobj.findOne({
-                where : {attendanceId : req.body.attendanceId}
-            })
-
-            if (!value){
-                res.status(500).json({
-                    success : false,
-                    message : "Attendance Id does not exist"
-                });
-                return;
-            }
-
             let create_obj = {
                 attendanceId : req.body.attendanceId,
                 checkOut : req.body.checkOut
@@ -173,6 +162,18 @@ async function updateCheckOut(req, res){
                     });
                     return;
                 }
+            }
+
+            let value = await db.public.attendanceobj.findOne({
+                where : {attendanceId : req.body.attendanceId}
+            })
+
+            if (!value){
+                res.status(500).json({
+                    success : false,
+                    message : "Attendance Id does not exist"
+                });
+                return;
             }
 
             try {
@@ -201,6 +202,7 @@ async function updateCheckOut(req, res){
                     message: "Token not found"
                 }
             });
+            return ;
         }      
     } catch(err) {
         console.log(err);
@@ -216,12 +218,7 @@ async function updateCheckOut(req, res){
 }
 
 async function addComment(req, res){
-    
-    let create_obj = {
-        empCode : req.body.empCode ,
-        attendanceId : req.body.attendanceId,
-        comments : req.body.comments
-    }
+
     try {
         var authTOKEN = req.header('X-AUTH-TOKEN');
         if(authTOKEN == "" || authTOKEN == null) {
@@ -254,23 +251,51 @@ async function addComment(req, res){
                 return;
             }
 
-            if(create_obj.empCode && create_obj.comments!="" && create_obj.attendanceId) {
-                let attendance_comment = await db.public.attendanceobj.update({comments : create_obj.comments},{
-                    where: {empCode: create_obj.empCode , attendanceId: create_obj.attendanceId}
-                });
-    
-                res.status(200).json({
-                    success: true,
-                    attendanceobj: create_obj
-                });
+            let create_obj = {
+                attendanceId : req.body.attendanceId,
+                comments : req.body.comments
             }
-            else{
+
+            for (var i in create_obj){
+                if (!create_obj[i]){
+                    console.log("No "+i);
+                    res.status(500).json({
+                        success : false,
+                        message : i + " is a required field"
+                    });
+                    return ;
+                }
+            }
+
+            let value = await db.public.attendanceobj.findOne({
+                where : {attendanceId : req.body.attendanceId}
+            })
+
+            if (!value){
                 res.status(500).json({
-                    success: false,
-                    error: {
-                        message: "Please input value of all parameters"
-                    }
+                    success : false,
+                    message : "Attendance Id does not exist"
                 });
+                return 
+            }
+
+            try {
+                let comment = await db.public.attendanceobj.update({comments : create_obj.comments},{
+                    where : {attendanceId : create_obj.attendanceId}
+                });
+
+                res.status(200).json({
+                    success : true,
+                    attendanceobj : comment
+                })
+            }
+            catch(err){
+                console.log(err);
+                res.status(500).json({
+                    success : false,
+                    message : "Error in Entering to the database",
+                    description : err.description
+                })
             }
         }
         else {
@@ -280,6 +305,7 @@ async function addComment(req, res){
                     message: "Token not found"
                 }
             });
+            return;
         }
         //
         
