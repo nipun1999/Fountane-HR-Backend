@@ -130,6 +130,7 @@ async function checkUserGoogle(req, res){
                     res.status(200).json({
                         success: true,
                         empCode : user.empCode,
+                        name: user.name,
                         token: token,
                         status : newUserStatus
                     });

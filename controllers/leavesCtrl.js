@@ -47,8 +47,7 @@ async function create(req, res){
                empCode: req.body.empCode,
                leaveType: req.body.leaveType,
                fromDate: req.body.fromDate,
-               toDate: req.body.toDate,
-               status: req.body.status
+               toDate: req.body.toDate  
             };
 
             let leaves_created = await db.public.leavesobj.create(create_obj);
