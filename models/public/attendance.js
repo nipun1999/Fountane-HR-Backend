@@ -24,8 +24,7 @@ module.exports = (sequelize, DataTypes) => {
         },
 
         checkOut: { 
-            type:DataTypes.DATE ,
-            allowNull: false 
+            type:DataTypes.DATE
         },
 
         comments: { 
