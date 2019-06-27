@@ -121,11 +121,18 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
 
+        status : {
+            type : DataTypes.BOOLEAN,
+            allowNull : false,
+            defaultValue : false,
+        },
+
         created_at: {
             type: DataTypes.DATE,
             allowNull: false,
             defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
         },
+        
         updated_at: DataTypes.DATE,
         deleted_at: DataTypes.DATE
     }, {
