@@ -385,6 +385,7 @@ async function getEmployeeAttendance(req, res){
                     message: "Token not found"
                 }
             });
+            return ;
         }
         
 
