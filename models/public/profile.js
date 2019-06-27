@@ -51,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
 
-        eduQualificaton: {
+        eduQualification: {
             type: DataTypes.TEXT,
             allowNull: false
         },
