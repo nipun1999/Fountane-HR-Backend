@@ -129,7 +129,7 @@ async function checkUserGoogle(req, res){
                     res.status(200).json({
                         success: true,
                         token: token,
-                        newUserStatus
+                        status : newUserStatus
                     });
                 }
                 else {
