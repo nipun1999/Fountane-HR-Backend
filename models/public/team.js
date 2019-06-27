@@ -5,10 +5,12 @@ module.exports = (sequelize, DataTypes) => {
 
         empCode: {
             type:DataTypes.STRING,
+            allowNull : false
         },
 
         TLempCode: {
             type:DataTypes.STRING,
+            allowNull : false
         },
 
         created_at: {
