@@ -23,7 +23,7 @@ async function create(req, res){
             }
         }
 
-        let check = await db.public.register.checkOne({
+        let check = await db.public.register.findOne({
             where : {empCode : req.body.empCode}
         });
 
