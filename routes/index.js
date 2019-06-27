@@ -58,8 +58,6 @@ router.post('/update/company',companyCtrl.update);
 router.post('/create/attendance',attendanceCtrl.createAttendance);
 router.post('/updateCheckOut/attendance',attendanceCtrl.updateCheckOut);
 router.post('/addComment/attendance',attendanceCtrl.addComment);
-router.post('/updateComment/attendance',attendanceCtrl.addComment);
-router.post('/deleteComment/attendance',attendanceCtrl.deleteComment); //Not needed
 router.get('/get/attendance',attendanceCtrl.getEmployeeAttendance);
 
 //Attendance & Leaves
