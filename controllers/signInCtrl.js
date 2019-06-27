@@ -53,7 +53,8 @@ async function checkUser(req, res){
             var auth_data = {
                 fountaneEmail: user.fountaneEmail,
                 empCode: user.empCode,
-                created_at: new Date()
+                created_at: new Date(),
+                roleId : user.roleId
             };
             
             var token = jwt.sign(auth_data, config.app.jwtKey);
