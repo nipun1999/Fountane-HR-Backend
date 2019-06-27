@@ -323,83 +323,6 @@ async function addComment(req, res){
 
 }
 
-async function deleteComment(req, res){
-
-    try {
-        //
-        var authTOKEN = req.header('X-AUTH-TOKEN');
-        if(authTOKEN == "" || authTOKEN == null) {
-            res.status(500).json({
-                success: false,
-                error: {
-                    message: "Token not passed"
-                }
-            });
-        }
-        try{
-            var user = utilities.decryptJWTWithToken(authTOKEN)
-        }    
-        catch{
-            res.status(500).json({
-                success: false,
-                error: {
-                    message: "invalid Token"
-                }
-            });    
-        }
-        if(user) {
-
-
-            if(!utilities.verifyRole(user.roleId,'d','attendances')) {
-                res.status(500).json({
-                    success : false,
-                    message : "Permissions not available"
-                });
-                return;
-            }
-
-            if(req.body.empCode) {
-                let attendance_delete = await db.public.attendanceobj.update({comments: ""},{
-                    where: {empCode: req.body.empCode}
-                });
-    
-                res.status(200).json({
-                    success: true,
-                    attendanceobj: attendance_delete
-                });
-            }
-            else{
-                res.status(500).json({
-                    success: false,
-                    error: {
-                        message: "Please input value of all parameters"
-                    }
-                });
-            }    
-        }
-        else {
-            res.status(500).json({
-                success: false,
-                error: {
-                    message: "Token not found"
-                }
-            });
-        }
-        
-    } catch(err) {
-        console.log(err);
-        res.status(500).json({
-            success: false,
-            error: {
-                message: "Please put all body parameters",
-                description: err.description
-            }
-        });
-    }
-
-}
-
-
 async function getEmployeeAttendance(req, res){
 
     try {
@@ -631,7 +554,6 @@ module.exports = {
     createAttendance,
     updateCheckOut,
     addComment,
-    deleteComment,
     getEmployeeAttendance,
     getAttendanceByMonth
 }
