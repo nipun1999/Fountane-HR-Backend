@@ -39,6 +39,18 @@ async function createProfile(req,res) {
                 });
                 return;
             }
+
+            let valid = await db.public.profiles.findOne({
+                where : {empCode:req.body.empCode}
+            })
+
+            if (valid){
+                res.status(500).json({
+                    status : false,
+                    message : "Employ profile already exists so can't be created"
+                });
+                return;
+            }
         
             let create_obj = {
                 empCode: req.body.empCode,
