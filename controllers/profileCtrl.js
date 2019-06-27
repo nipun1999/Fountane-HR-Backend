@@ -200,10 +200,7 @@ async function getProfile(req, res) {
                 success: true,
                 profile: profiles
             });
-      }
-
-    
-       else {
+      }else {
             console.log(err);
             res.status(500).json({
                 success : false,
