@@ -52,6 +52,17 @@ async function create(req, res){
                 type: req.body.type,
                 firebaseLink: req.body.firebaseLink,
             };
+
+            for (var i in create_obj){
+                if (!create_obj[i]){
+                    console.log("No "+i);
+                    res.status(500).json({
+                        status : false,
+                        message : i + " is a required field"
+                    });
+                    return;
+                }
+            }
     
             let documentsCreated = await db.public.docs.create(create_obj);
     
