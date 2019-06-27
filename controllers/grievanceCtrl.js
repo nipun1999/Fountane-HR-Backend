@@ -55,13 +55,13 @@ async function createGrievances(req,res) {
                 where : {empcode : req.body.empCode}
             })
 
-            if (!value){
-                res.status(500).json({
-                    status : false,
-                    message : "Employ code provided does not exist"
-                });
-                return;
-            }
+            // if (!value){
+            //     res.status(500).json({
+            //         status : false,
+            //         message : "Employ code provided does not exist"
+            //     });
+            //     return;
+            // }
         
             for (var i in create_obj) {
                 if (i!="status"){ 
