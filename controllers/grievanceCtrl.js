@@ -52,7 +52,7 @@ async function createGrievances(req,res) {
             };
 
             let value = await db.public.register.findOne({
-                where : {empcode : req.body.empCode}
+                where : {empCode : req.body.empCode}
             })
 
             if (!value){
