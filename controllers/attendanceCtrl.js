@@ -111,20 +111,9 @@ async function createAttendance(req, res){
 
 }
 
-           
-
-           
-
-
-
-
 
 async function updateCheckOut(req, res){
     
-    let create_obj = {
-        empCode : req.body.empCode ,
-        checkOut : req.body.checkOut
-    }
     try {
         //
         var authTOKEN = req.header('X-AUTH-TOKEN');
@@ -158,23 +147,52 @@ async function updateCheckOut(req, res){
                 return;
             }
 
-            if(create_obj.empCode && create_obj.checkOut) {
-                let attendance_checkout = await db.public.attendanceobj.update({checkOut : create_obj.checkOut},{
-                    where: {empCode: create_obj.empCode}
-                }); //attendance_checkout contains number of updated rows
-                res.status(200).json({
-                    success: true,
-                    attendanceobj: attendance_checkout
-                }); //getting returned even if there is no emp code in the table
-            }
-            else{
+            let value = await db.public.attendanceobj.findOne({
+                where : {attendanceId : req.body.attendanceId}
+            })
+
+            if (!value){
                 res.status(500).json({
-                    success: false,
-                    error: {
-                        message: "Please input value of all parameters"
-                    }
+                    success : false,
+                    message : "Attendance Id does not exist"
                 });
-            }    
+                return;
+            }
+
+            let create_obj = {
+                attendanceId : req.body.attendanceId,
+                checkOut : req.body.checkOut
+            }
+
+            for (var i in create_obj){
+                if (!create_obj[i]){
+                    console.log("No "+i);
+                    res.status(500).json({
+                        success : false,
+                        message : i + " is a required field"
+                    });
+                    return;
+                }
+            }
+
+            try {
+                let attendance_checkout = await db.public.attendanceobj.update({checkOut : create_obj.checkOut},{
+                    where : {attendanceId : create_obj.attendanceId}
+                })
+
+                res.status(200).json({
+                    success : true,
+                    attendanceobj : attendance_checkout
+                })
+            }
+            catch (err){
+                console.log(err);
+                res.status(500).json({
+                    success : false,
+                    description : err.description
+                })
+            }
+   
         }
         else {
             res.status(500).json({
@@ -189,7 +207,7 @@ async function updateCheckOut(req, res){
         res.status(500).json({
             success: false,
             error: {
-                message: "Please put all body parameters",
+                message: "Server Error",
                 description: err.description
             }
         });
