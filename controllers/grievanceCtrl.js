@@ -227,6 +227,13 @@ async function updateGrievancesTrue(req,res) {
             }
 
             let query = {};
+            if (!req.body.grievanceId){
+                res.status(500).json({
+                    status : false,
+                    message : "Grievance Id is a required parameter"
+                });
+                return ;
+            }
             query.grievanceId = req.body.grievanceId;
 
             let value = await db.public.grievances.findOne({
@@ -316,22 +323,32 @@ async function updateGrievancesFalse(req,res) {
             }
 
             let query = {};
-            query.grievanceId = req.body.grievanceId;
-            if (query){
-                grievanceUpdate = await db.public.grievances.update({status:false},
-                    { where :query 
-                    });
+
+            if (!req.body.grievanceId){
+                res.status(500).json({
+                    status : false,
+                    message : "Grievance Id is a required body parameter"
+                });
+                return ;
             }
 
             let value = await db.public.grievances.findOne({
                 where : {grievanceId : req.body.grievanceId}
             })
+
             if (!value){
                 res.status(500).json({
                     status : false,
                     message : "Grievance Id provided does not exist"
                 });
                 return;
+            }
+
+            query.grievanceId = req.body.grievanceId;
+            if (query){
+                grievanceUpdate = await db.public.grievances.update({status:false},
+                    { where :query 
+                    });
             }
 
             res.status(200).json({
