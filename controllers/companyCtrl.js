@@ -38,6 +38,18 @@ async function create(req, res){
                 return;
             }
 
+            let valid = await db.public.companyobj.findOne({
+                where : {empCode : req.body.empCode}
+            })
+
+            if (valid){
+                res.status(500).json({
+                    status : false,
+                    message : "Company details for requested employ code already exists so cannot be created"
+                });
+                return ;
+            }
+
             let create_obj = {
                 empCode: req.body.empCode,
                 dateJoin: req.body.dateJoin,
