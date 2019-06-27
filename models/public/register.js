@@ -4,13 +4,8 @@ module.exports = (sequelize, DataTypes) => {
         
         empCode: {
             type: DataTypes.STRING,
-<<<<<<< HEAD
-            allowNull: false,
-            unique: true,
-=======
             primaryKey : true,
             allowNull: false
->>>>>>> c794f94ccc546f73aac951b80d73ae94830f3710
         },
 
         fountaneEmail: { 

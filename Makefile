@@ -1,4 +1,4 @@
-APP_NAME=generic-services-api
+APP_NAME=hrapp
 # Figure out a way to put all of this in package.json
 
 run:

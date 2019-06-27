@@ -96,7 +96,7 @@ async function get(req, res) {
         try{
             var user = utilities.decryptJWTWithToken(authTOKEN)
         }    
-        catch{
+        catch(err){
             res.status(500).json({
                 success: false,
                 error: {
@@ -173,7 +173,7 @@ async function update(req,res) {
         try{
             var user = utilities.decryptJWTWithToken(authTOKEN)
         }    
-        catch{
+        catch(err){
             res.status(500).json({
                 success: false,
                 error: {
