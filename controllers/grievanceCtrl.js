@@ -228,6 +228,18 @@ async function updateGrievancesTrue(req,res) {
 
             let query = {};
             query.grievanceId = req.body.grievanceId;
+
+            let value = await db.public.grievances.findOne({
+                where : {grievanceId : req.body.grievanceId}
+            })
+            if (!value){
+                res.status(500).json({
+                    status : false,
+                    message : "Grievance Id provided does not exist"
+                });
+                return;
+            }
+
             if (query){
                 grievanceUpdate = await db.public.grievances.update({status:true},
                     { where :query 
@@ -309,6 +321,17 @@ async function updateGrievancesFalse(req,res) {
                 grievanceUpdate = await db.public.grievances.update({status:false},
                     { where :query 
                     });
+            }
+
+            let value = await db.public.grievances.findOne({
+                where : {grievanceId : req.body.grievanceId}
+            })
+            if (!value){
+                res.status(500).json({
+                    status : false,
+                    message : "Grievance Id provided does not exist"
+                });
+                return;
             }
 
             res.status(200).json({
