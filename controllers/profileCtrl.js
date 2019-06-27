@@ -119,7 +119,7 @@ async function createProfile(req,res) {
         res.status(500).json({
             success: false,
             error: {
-                message: "Employ code already exists",
+                message: "Internal server Error",
                 description: err.description
             }
         });
