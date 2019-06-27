@@ -30,17 +30,17 @@ db.public = require("./public/db");
 
 db.public.roles.belongsToMany(db.public.permissions,{through:db.public.rpObj , onDelete:"CASCADE"});
 db.public.signInObj.belongsTo(db.public.roles,{foreignKey:'roleId', onDelete:"CASCADE"});
-db.public.attendanceobj.belongsTo(db.public.signInObj,{foreignKey:'empCode', onDelete:"CASCADE"});
-db.public.companyobj.belongsTo(db.public.signInObj,{foreignKey:'empCode', onDelete:"CASCADE"});
-db.public.docs.belongsTo(db.public.signInObj,{foreignKey:'empCode', onDelete:"CASCADE"});
-db.public.events.belongsTo(db.public.signInObj,{foreignKey:'empCode', onDelete:"CASCADE"});
-db.public.grievances.belongsTo(db.public.signInObj,{foreignKey:'empCode', onDelete:"CASCADE"});
-db.public.leavesobj.belongsTo(db.public.signInObj,{foreignKey:'empCode', onDelete:"CASCADE"});
-db.public.news.belongsTo(db.public.signInObj,{foreignKey:'empCode', onDelete:"CASCADE"});
-db.public.profiles.belongsTo(db.public.signInObj,{foreignKey:'empCode', onDelete:"CASCADE"});
-db.public.team.belongsTo(db.public.signInObj,{foreignKey:'empCode', onDelete:"CASCADE"});
-db.public.team.belongsTo(db.public.signInObj,{foreignKey:'empCode', onDelete:"CASCADE"});
-db.public.team.belongsTo(db.public.signInObj,{foreignKey:'TLempCode', onDelete:"CASCADE"});
+db.public.attendanceobj.belongsTo(db.public.register,{foreignKey:'empCode', onDelete:"CASCADE"});
+db.public.companyobj.belongsTo(db.public.register,{foreignKey:'empCode', onDelete:"CASCADE"});
+db.public.docs.belongsTo(db.public.register,{foreignKey:'empCode', onDelete:"CASCADE"});
+db.public.events.belongsTo(db.public.register,{foreignKey:'empCode', onDelete:"CASCADE"});
+db.public.grievances.belongsTo(db.public.register,{foreignKey:'empCode', onDelete:"CASCADE"});
+db.public.leavesobj.belongsTo(db.public.register,{foreignKey:'empCode', onDelete:"CASCADE"});
+db.public.news.belongsTo(db.public.register,{foreignKey:'empCode', onDelete:"CASCADE"});
+db.public.profiles.belongsTo(db.public.register,{foreignKey:'empCode', onDelete:"CASCADE"});
+db.public.team.belongsTo(db.public.register,{foreignKey:'empCode', onDelete:"CASCADE"});
+db.public.team.belongsTo(db.public.register,{foreignKey:'empCode', onDelete:"CASCADE"});
+db.public.team.belongsTo(db.public.register,{foreignKey:'TLempCode', onDelete:"CASCADE"});
 db.public.signInObj.belongsTo(db.public.register,{foreignKey:'empCode', onDelete:"CASCADE"});
 
 
