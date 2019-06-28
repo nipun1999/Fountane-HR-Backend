@@ -153,6 +153,7 @@ async function updateCheckOut(req, res){
                 attendanceId : req.body.attendanceId,
                 checkOut : req.body.checkOut
             }
+            create_obj.attendanceId = parseInt(create_obj.attendanceId)
  
             for (var i in create_obj){
                 if (!create_obj[i]){
