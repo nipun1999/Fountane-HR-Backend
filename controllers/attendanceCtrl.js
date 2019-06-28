@@ -72,11 +72,12 @@ async function createAttendance(req, res){
  
                 try {
                     let attendance_created = await db.public.attendanceobj.create(create_obj);
-                    let status_true = await db.public.profiles.update({status:true},{where : {empCode:create_obj.empCode} });
+                    let status_true = await db.public.profiles.update(
+                        {status:true , attendanceId:attendance_created.attendanceId},{where : {empCode:create_obj.empCode} }
+                    );
                     res.status(200).json({
                         success : true,
-                        attendanceobj : attendance_created,
-                        profile_status : true
+                        attendanceobj : attendance_created
                     });
  
                 }
@@ -185,8 +186,7 @@ async function updateCheckOut(req, res){
  
                 res.status(200).json({
                     success : true,
-                    attendanceobj : attendance_checkout,
-                    profile_status : false
+                    attendanceobj : attendance_checkout
                 })
             }
             catch (err){

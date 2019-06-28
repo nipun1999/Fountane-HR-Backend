@@ -145,6 +145,11 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue : 15
         },
 
+        attendanceId : {
+            type : DataTypes.INTEGER,
+            defaultValue: 0
+        },
+
         created_at: {
             type: DataTypes.DATE,
             allowNull: false,
