@@ -96,10 +96,6 @@ async function createAttendance(req, res){
 
            
 
-
-
-
-
 async function updateCheckOut(req, res){
     
     let create_obj = {
