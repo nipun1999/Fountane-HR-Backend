@@ -143,4 +143,6 @@ module.exports = (sequelize, DataTypes) => {
         console.log("Data to be written in redis here");
     });
     return profile;
+
+    //
 };
