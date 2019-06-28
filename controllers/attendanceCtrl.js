@@ -1,14 +1,14 @@
 var db = require("../models/db");
 var config = require("../config/config");
 var utilities = require("../utilities/utilities");
-
-
-
+ 
+ 
+ 
 async function createAttendance(req, res){
-    
-
+   
+ 
     try {
-
+ 
         var authTOKEN = req.header('X-AUTH-TOKEN');
             if(authTOKEN == "" || authTOKEN == null)
             {
@@ -19,7 +19,7 @@ async function createAttendance(req, res){
                     }
                 });
             }
-        
+       
            try{
             var user = utilities.decryptJWTWithToken(authTOKEN)
            }
@@ -31,9 +31,8 @@ async function createAttendance(req, res){
                     }
                 });
            }
-
            if(user) {
-
+ 
                 if(!utilities.verifyRole(user.roleId,'c','attendances')) {
                     res.status(500).json({
                         success : false,
@@ -41,13 +40,13 @@ async function createAttendance(req, res){
                     });
                     return;
                 }
-                
+               
                 let create_obj = {
                     empCode: req.body.empCode,
                     date: req.body.date,
                     checkIn: req.body.checkIn,
                 };
-
+ 
                 for (var i in create_obj){
                     if (!create_obj[i]){
                         console.log("No "+ i)
@@ -56,13 +55,13 @@ async function createAttendance(req, res){
                             message : i + " is a required field"
                         });
                         return;
-                    }   
+                    }  
                 }
-
+ 
                 let value = await db.public.register.findOne({
                     where : {empCode : req.body.empCode}
                 })
-
+ 
                 if (!value){
                     res.status(500).json({
                         success : false,
@@ -70,14 +69,16 @@ async function createAttendance(req, res){
                     });
                     return;
                 }
-
+ 
                 try {
                     let attendance_created = await db.public.attendanceobj.create(create_obj);
+                    let status_true = await db.public.profiles.update({status:true},{where : {empCode:create_obj.empCode} });
                     res.status(200).json({
                         success : true,
-                        attendanceobj : attendance_created
+                        attendanceobj : attendance_created,
+                        profile_status : true
                     });
-
+ 
                 }
                 catch(err){
                     console.log(err);
@@ -96,9 +97,9 @@ async function createAttendance(req, res){
                 });
                 return ;
            }
-
-        
-
+ 
+       
+ 
     } catch(err) {
         console.log(err);
         res.status(500).json({
@@ -109,12 +110,12 @@ async function createAttendance(req, res){
             }
         });
     }
-
+ 
 }
-
-
+ 
+ 
 async function updateCheckOut(req, res){
-    
+   
     try {
         //
         var authTOKEN = req.header('X-AUTH-TOKEN');
@@ -137,9 +138,10 @@ async function updateCheckOut(req, res){
                 }
             });    
         }
+       
         if(user) {
-
-
+ 
+ 
             if(!utilities.verifyRole(user.roleId,'u','attendances')) {
                 res.status(500).json({
                     success : false,
@@ -147,12 +149,12 @@ async function updateCheckOut(req, res){
                 });
                 return;
             }
-
+ 
             let create_obj = {
                 attendanceId : req.body.attendanceId,
                 checkOut : req.body.checkOut
             }
-
+ 
             for (var i in create_obj){
                 if (!create_obj[i]){
                     console.log("No "+i);
@@ -163,11 +165,11 @@ async function updateCheckOut(req, res){
                     return;
                 }
             }
-
+ 
             let value = await db.public.attendanceobj.findOne({
                 where : {attendanceId : req.body.attendanceId}
             })
-
+ 
             if (!value){
                 res.status(500).json({
                     success : false,
@@ -175,15 +177,18 @@ async function updateCheckOut(req, res){
                 });
                 return;
             }
-
+ 
             try {
                 let attendance_checkout = await db.public.attendanceobj.update({checkOut : create_obj.checkOut},{
                     where : {attendanceId : create_obj.attendanceId}
                 })
-
+                let status_false = await db.public.profiles.update({status:false},{where : {empCode:user.empCode} });
+ 
+ 
                 res.status(200).json({
                     success : true,
-                    attendanceobj : attendance_checkout
+                    attendanceobj : attendance_checkout,
+                    profile_status : false
                 })
             }
             catch (err){
@@ -214,11 +219,11 @@ async function updateCheckOut(req, res){
             }
         });
     }
-
+ 
 }
-
+ 
 async function addComment(req, res){
-
+ 
     try {
         var authTOKEN = req.header('X-AUTH-TOKEN');
         if(authTOKEN == "" || authTOKEN == null) {
@@ -241,8 +246,8 @@ async function addComment(req, res){
             });    
         }
         if(user) {
-
-
+ 
+ 
             if(!utilities.verifyRole(user.roleId,'c','attendances')) {
                 res.status(500).json({
                     success : false,
@@ -250,12 +255,12 @@ async function addComment(req, res){
                 });
                 return;
             }
-
+ 
             let create_obj = {
                 attendanceId : req.body.attendanceId,
                 comments : req.body.comments
             }
-
+ 
             for (var i in create_obj){
                 if (!create_obj[i]){
                     console.log("No "+i);
@@ -266,24 +271,24 @@ async function addComment(req, res){
                     return ;
                 }
             }
-
+ 
             let value = await db.public.attendanceobj.findOne({
                 where : {attendanceId : req.body.attendanceId}
             })
-
+ 
             if (!value){
                 res.status(500).json({
                     success : false,
                     message : "Attendance Id does not exist"
                 });
-                return 
+                return
             }
-
+ 
             try {
                 let comment = await db.public.attendanceobj.update({comments : create_obj.comments},{
                     where : {attendanceId : create_obj.attendanceId}
                 });
-
+ 
                 res.status(200).json({
                     success : true,
                     attendanceobj : comment
@@ -308,8 +313,8 @@ async function addComment(req, res){
             return;
         }
         //
-        
-
+       
+ 
     } catch(err) {
         console.log(err);
         res.status(500).json({
@@ -320,11 +325,11 @@ async function addComment(req, res){
             }
         });
     }
-
+ 
 }
-
+ 
 async function getEmployeeAttendance(req, res){
-
+ 
     try {
         //
         var authTOKEN = req.header('X-AUTH-TOKEN');
@@ -348,8 +353,8 @@ async function getEmployeeAttendance(req, res){
             });    
         }
         if(user) {
-
-
+ 
+ 
             if(!utilities.verifyRole(user.roleId,'r','attendances')) {
                 res.status(500).json({
                     success : false,
@@ -357,18 +362,18 @@ async function getEmployeeAttendance(req, res){
                 });
                 return;
             }
-
+ 
             let query = {};
-
+ 
             if(req.query.empCode){
                 query.empCode = req.query.empCode;
             }
-
-            
+ 
+           
             if(req.query.date){
                 query.date = req.query.date;
             }
-
+ 
             let values = await db.public.attendanceobj.findAll({
                 where: query
             })
@@ -387,8 +392,8 @@ async function getEmployeeAttendance(req, res){
             });
             return ;
         }
-        
-
+       
+ 
     } catch (err) {
         console.log(err);
         res.status(500).json({
@@ -399,15 +404,15 @@ async function getEmployeeAttendance(req, res){
             }
         });
     }
-
+ 
 }
-
+ 
 var getDays = function(month,year) {
     return new Date(year,month,0).getDate()
 }
-
+ 
 async function getAttendanceByMonth(req, res){
-
+ 
     try {
         //
         var authTOKEN = req.header('X-AUTH-TOKEN');
@@ -431,8 +436,8 @@ async function getAttendanceByMonth(req, res){
             });    
         }
         if(user) {
-
-
+ 
+ 
             if(!utilities.verifyRole(user.roleId,'r','attendances')) {
                 res.status(500).json({
                     success : false,
@@ -440,32 +445,32 @@ async function getAttendanceByMonth(req, res){
                 });
                 return;
             }
-            
+           
             let query = {};
-
+ 
             if(req.query.empCode){
                 query.empCode = req.query.empCode;
             }
-
+ 
             if(req.query.month){
                 query.month = req.query.month;
             }
-
+ 
             if(req.query.year) {
                 query.year = req.query.year;
             }
-
+ 
             let result = {}
             let startDate = query.year+'-'+query.month+'-01' , endDate = query.year+'-'+query.month+'-'+getDays(query.month,query.year)
-            
-
+           
+ 
             let values = await db.public.attendanceobj.findAll({
                 where: {
                     empCode : req.query.empCode ,
                     date : {
                         [db.public.Op.between] : [startDate,endDate]
                     }
-                } 
+                }
             })
             // console.log(values[0].date)
             // let arr = values[0]
@@ -473,7 +478,7 @@ async function getAttendanceByMonth(req, res){
                 let dates = ((values[i].date).substring(8)) //extracting dates
                 result[dates] = "present"
             }
-
+ 
             let values2 = await db.public.leavesobj.findAll({
                 where : {
                     empCode : req.query.empCode ,
@@ -483,12 +488,12 @@ async function getAttendanceByMonth(req, res){
                     }
                 }
             })
-            
+           
             for(let i=0;i<values2.length;i++) {
                 let dates = ((values2[i].fromDate).substring(8)) //extracting dates
                 let mon = ((values2[i].toDate).substring(5,7))
                 result[dates] = values2[i].leaveType;
-                
+               
                 if(parseInt(mon) === parseInt(req.query.month)) {
                     for(let j=parseInt(dates)+1;j<=parseInt((values2[i].toDate).substring(8));j++) {
                         result[j] = values2[i].leaveType;
@@ -511,7 +516,7 @@ async function getAttendanceByMonth(req, res){
                     }
                 }
             })
-
+ 
             for(let i=0;i<values3.length;i++) {
                 let fromMonth = ((values3[i].fromDate).substring(5,7))
                 if(parseInt(fromMonth) < req.query.month) {
@@ -534,8 +539,8 @@ async function getAttendanceByMonth(req, res){
                 }
             });
         }
-        
-
+       
+ 
     } catch (err) {
         console.log(err);
         res.status(500).json({
@@ -546,11 +551,11 @@ async function getAttendanceByMonth(req, res){
             }
         });
     }
-
+ 
 }
-
-
-
+ 
+ 
+ 
 module.exports = {
     createAttendance,
     updateCheckOut,
