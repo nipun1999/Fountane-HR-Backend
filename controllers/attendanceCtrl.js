@@ -167,7 +167,7 @@ async function updateCheckOut(req, res){
             }
  
             let value = await db.public.attendanceobj.findOne({
-                where : {attendanceId : req.body.attendanceId}
+                where : {attendanceId : create_obj.attendanceId}
             })
  
             if (!value){
