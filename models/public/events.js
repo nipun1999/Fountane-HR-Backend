@@ -10,18 +10,22 @@ module.exports = (sequelize, DataTypes) => {
 
         empCode: {
             type:DataTypes.STRING,
+            allowNull : false
         },
 
         name: {
             type:DataTypes.STRING,
+            allowNull : false
         },
 
         eventDate: {
             type : DataTypes.DATEONLY,
+            allowNull : false
         },
 
         eventVenue : {
             type : DataTypes.STRING,
+            allowNull : false
         },
 
         imageFirebaseLink : {
@@ -31,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
         created_at: {
             type: DataTypes.DATE,
             allowNull: false,
-            defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
+            defaultValue: new Date()
         },
         updated_at: DataTypes.DATE,
         deleted_at: DataTypes.DATE

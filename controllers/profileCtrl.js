@@ -77,7 +77,7 @@ async function createProfile(req,res) {
                 state: req.body.state,
                 city: req.body.city,
                 province: req.body.province,
-                empType: req.body.empType
+                empType: req.body.empType   
                 
             };
 

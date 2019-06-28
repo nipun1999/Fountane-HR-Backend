@@ -121,11 +121,36 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
 
+        status : {
+            type : DataTypes.BOOLEAN,
+            allowNull : false,
+            defaultValue : false,
+        },
+
+        casualLeave : {
+            type : DataTypes.INTEGER,
+            allowNull : false,
+            defaultValue : 15
+        },
+
+        sickLeave : {
+            type : DataTypes.INTEGER,
+            allowNull : false,
+            defaultValue : 15
+        },
+
+        otherLeave : {
+            type : DataTypes.INTEGER,
+            allowNull : false,
+            defaultValue : 15
+        },
+
         created_at: {
             type: DataTypes.DATE,
             allowNull: false,
             defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
         },
+        
         updated_at: DataTypes.DATE,
         deleted_at: DataTypes.DATE
     }, {

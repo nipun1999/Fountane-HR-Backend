@@ -21,18 +21,18 @@ async function create(req, res){
                 }
             });
         }
-        // try{
+        try{
             
-        //     var user = utilities.decryptJWTWithToken(authTOKEN)
-        // }    
-        // catch{
-        //     res.status(500).json({
-        //         success: false,
-        //         error: {
-        //             message: "invalid Token"
-        //         }
-        //     });    
-        // }
+            var user = utilities.decryptJWTWithToken(authTOKEN)
+        }    
+        catch{
+            res.status(500).json({
+                success: false,
+                error: {
+                    message: "invalid Token"
+                }
+            });    
+        }
         user = 1
         if(user) {
 
@@ -47,11 +47,33 @@ async function create(req, res){
 
             let create_obj = {
                 empCode: req.body.empCode,
-                documentId: req.body.documentId,
                 name: req.body.name,
                 type: req.body.type,
                 firebaseLink: req.body.firebaseLink,
             };
+
+            for (var i in create_obj){
+                if (!create_obj[i]){
+                    console.log("No "+i);
+                    res.status(500).json({
+                        status : false,
+                        message : i + " is a required field"
+                    });
+                    return;
+                }
+            }
+
+            let value = await db.public.register.findOne({
+                where : {empCode : req.body.empCode}
+            })
+
+            if (!value){
+                res.status(500).json({
+                    success : false,
+                    message : "Employ code requested does not exist"
+                });
+                return;
+            }
     
             let documentsCreated = await db.public.docs.create(create_obj);
     
@@ -194,8 +216,9 @@ async function destroy(req, res){
             let query = {};
 
             if(req.query.documentId){
-                query.documentId = req.query.documentId;
+                query.documentId = req.body.documentId;
             }
+
             
             let values = await db.public.docs.destroy({
                 where: query

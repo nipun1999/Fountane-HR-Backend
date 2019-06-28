@@ -47,9 +47,19 @@ async function create(req, res){
                empCode: req.body.empCode,
                leaveType: req.body.leaveType,
                fromDate: req.body.fromDate,
-               toDate: req.body.toDate,
-               status: req.body.status
+               toDate: req.body.toDate  
             };
+            
+            leaveCountValue = await db.public.profiles.findOne(
+                {where : {empCode : create_obj.empCode}}
+            )
+            if(!leaveCountValue[create_obj.leaveType]) {
+                res.status(500).json({
+                    success: false,
+                    message: "No sufficient leaves"
+                });
+                return;
+            }
 
             let leaves_created = await db.public.leavesobj.create(create_obj);
 
@@ -212,11 +222,32 @@ async function updateTrue(req,res) {
             }
             
             let query = {};
-            query.empCode = req.body.empCode;
-            if (query){
-                leaveUpdated = await db.public.leavesobj.update({status:true},
-                    { where :query 
-                    });
+            query.leaveId = req.body.leaveId;
+
+            leaveValues = await db.public.leavesobj.findOne({where:query})
+            if(!leaveValues) {
+                //error
+                res.status(500).json({
+                    success: false,
+                    message: "No leaveId as such exists"
+                });
+                return;
+            }
+            type = leaveValues.leaveType
+
+            leaveCountValue = await db.public.profiles.findOne(
+                {where : {empCode : leaveValues.empCode}}
+            )
+            
+            leaveCount = leaveCountValue[type] - 1
+            if (query) {
+
+                leaveUpdated = await db.public.leavesobj.update(
+                    {status : 'accepted'} , { where : query }
+                );
+                leveaeCountDecrement = await db.public.profiles.update(
+                    { [type] : leaveCount } , { where : { empCode : leaveValues.empCode}}
+                )
             }
 
             res.status(200).json({
@@ -287,9 +318,9 @@ async function updateFalse(req,res) {
             }
 
             let query = {};
-            query.empCode = req.body.empCode;
+            query.leaveId = req.body.leaveId;
             if (query){
-                leaveUpdated = await db.public.leavesobj.update({status:false},
+                leaveUpdated = await db.public.leavesobj.update({status:'rejected'},
                     { where :query 
                     });
             }
