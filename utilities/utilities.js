@@ -22,7 +22,7 @@ module.exports.decryptJWTWithToken = function (token) {
 }
 
 module.exports.verifyRole = async function(roleId,entityName,action) {
-    return true;
+    // return true;
     if(!roleId || !entityName) {
         return false;
     }
@@ -38,7 +38,7 @@ module.exports.verifyRole = async function(roleId,entityName,action) {
 
     let query = `select * from 
     (select * from permissions AS p INNER JOIN roles_permissions AS rp ON p.id = rp.permission_id) AS result
-    where result.entity ='${entityName}' AND result.role_id=${roleId}`
+    where result.entity = :entityName AND result.role_id=:roleId  `
    
 
     // let result = await db.public.sequelize.query(query,)
@@ -48,6 +48,10 @@ module.exports.verifyRole = async function(roleId,entityName,action) {
 
     let result = await db.public.sequelize.query(query, {
             plain: false,
+            replacements:{
+                entityName,
+                roleId
+            },
             type: db.public.sequelize.QueryTypes.SELECT
     });
     let finalRes = false;

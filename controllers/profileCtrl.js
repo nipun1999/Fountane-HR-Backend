@@ -150,29 +150,30 @@ async function getProfile(req, res) {
 
 
         // Authoization check for JWT token
-        var authToken = req.header('X-AUTH-TOKEN')
+        // var authToken = req.header('X-AUTH-TOKEN')
 
-        if (authToken == null || authToken ==""){
-            res.status(500).json({
-                success: false,
-                error : {
-                    message : "Token not provided"
-                }
-            });
-            return;
-        }
+        // if (authToken == null || authToken ==""){
+        //     res.status(500).json({
+        //         success: false,
+        //         error : {
+        //             message : "Token not provided"
+        //         }
+        //     });
+        //     return;
+        // }
 
-        try {
-            var user_credentials = utilities.decryptJWTWithToken(authToken);
-        }
-        catch(err){
-            res.status(500).json({
-                success : false,
-                error : {
-                    message : "Invalid token provided"
-                }
-            });
-        }
+        // try {
+        //     var user_credentials = utilities.decryptJWTWithToken(authToken);
+        // }
+        // catch(err){
+        //     res.status(500).json({
+        //         success : false,
+        //         error : {
+        //             message : "Invalid token provided"
+        //         }
+        //     });
+        // }
+        user_credentials=1
        if (user_credentials){
 
             // Check for access for endpoint
@@ -215,7 +216,7 @@ async function getProfile(req, res) {
 
             res.status(200).json({
                 success: true,
-                profile: profiles
+                profile: profiles[0]
             });
       }else {
             console.log(err);
