@@ -491,11 +491,11 @@ async function getAttendanceByMonth(req, res){
                     message : "Empcode does not exist"
                 })
             }
- 
-            let result = {}
+
             let startDate = query.year+'-'+query.month+'-01' , endDate = query.year+'-'+query.month+'-'+getDays(query.month,query.year)
            
- 
+            let resultArr = []
+            let k=0
             let values = await db.public.attendanceobj.findAll({
                 where: {
                     empCode : req.query.empCode ,
@@ -508,7 +508,8 @@ async function getAttendanceByMonth(req, res){
             // let arr = values[0]
             for(let i=0;i<values.length;i++) {
                 let dates = ((values[i].date).substring(8)) //extracting dates
-                result[dates] = "present"
+                // result[dates] = "present"
+                resultArr[k++] = {date:dates,type:"present"}
             }
  
             let values2 = await db.public.leavesobj.findAll({
@@ -524,17 +525,17 @@ async function getAttendanceByMonth(req, res){
             for(let i=0;i<values2.length;i++) {
                 let dates = ((values2[i].fromDate).substring(8)) //extracting dates
                 let mon = ((values2[i].toDate).substring(5,7))
-                result[dates] = values2[i].leaveType;
+                resultArr[k++] = {date:dates,type:values2[i].leaveType};
                
                 if(parseInt(mon) === parseInt(req.query.month)) {
                     for(let j=parseInt(dates)+1;j<=parseInt((values2[i].toDate).substring(8));j++) {
-                        result[j] = values2[i].leaveType;
+                        resultArr[k++] = {date:j,type:values2[i].leaveType};
                     }
                 }
                 else {
                     //toDate can be in next month from the given month
                     for(let j=parseInt(dates)+1;j<=parseInt(endDate.substring(8));j++) {
-                        result[j] = values2[i].leaveType;
+                        resultArr[k++] = {date:j,type:values2[i].leaveType};
                     }
                 }
             }
@@ -553,14 +554,14 @@ async function getAttendanceByMonth(req, res){
                 let fromMonth = ((values3[i].fromDate).substring(5,7))
                 if(parseInt(fromMonth) < req.query.month) {
                     for(let j=1;j<=(values3[i].toDate).substring(8);j++) {
-                        result[j] = values3[i].leaveType;
+                        resultArr[k++] = {date:j,type:values3[i].leaveType};
                     }
                 }
             }
             //result -> unordered
             res.status(200).json({
                 success: true,
-                attendanceobj: result
+                attendanceobj: resultArr
             });
         }
         else {
