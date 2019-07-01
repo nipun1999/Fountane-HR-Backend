@@ -125,7 +125,7 @@ async function checkUserGoogle(req, res){
                         created_at: new Date()
                     };
             
-                    var token = jwt.sign(auth_data, config.app.jwtKey);
+                    var token = jwt.sign(auth_data, config.app.jwtKey); 
             
                     res.status(200).json({
                         success: true,
