@@ -50,6 +50,16 @@ async function create(req, res){
                toDate: req.body.toDate, 
                description : req.body.description
             };
+
+            for (var i in create_obj){
+                if (!create_obj[i]){
+                    res.status(500).json({
+                        success : false,
+                        message : i + " is a required field"
+                    });
+                    return;
+                }
+            }
             
             let valid = await db.public.register.findOne({
                 where : {empCode : create_obj.empCode}
