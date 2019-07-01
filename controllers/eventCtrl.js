@@ -59,6 +59,19 @@ async function createEvent(req,res) {
                 }
             }
 
+
+            valid = await db.public.register.findOne({
+                where : {empCode : req.body.empCode}
+            })
+
+            if (!valid){
+                res.status(500).json({
+                    success : false,
+                    message : "Empcode does not exist"
+                });
+                return ;
+            }
+
             if (req.body.imageFirebaseLink){
                 create_obj.imageFirebaseLink = req.body.imageFirebaseLink;
             }
