@@ -77,14 +77,14 @@ async function createEvent(req,res) {
             }
 
             try{
-                let eventCreate = await db.public.team.create(create_obj);
+                let eventCreate = await db.public.events.create(create_obj);
                 res.status(200).json({
                     success: true,
                     events : eventCreate
                 });
             }
             catch(err) {
-                res.status(200).json({
+                res.status(500).json({
                     success : false,
                     error : {
                         message : "Error in Making the event"
