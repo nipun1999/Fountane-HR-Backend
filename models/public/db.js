@@ -24,7 +24,7 @@ const db = {};
 
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
-db.Op = Sequelize.Op;
+db.Op = Sequelize.Op;config
 
 //Models/tables
 db.permissions = require('./permissions.js')(sequelize, Sequelize);
