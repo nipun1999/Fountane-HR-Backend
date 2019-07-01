@@ -481,7 +481,7 @@ async function getAttendanceByMonth(req, res){
                 return;
             }
 
-            let valid = await db.public.profiles.findOne({
+            let valid = await db.public.register.findOne({
                 where : {empCode : query.empCode}
             })
 
