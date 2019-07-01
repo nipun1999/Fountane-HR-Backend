@@ -451,13 +451,46 @@ async function getAttendanceByMonth(req, res){
             if(req.query.empCode){
                 query.empCode = req.query.empCode;
             }
+            else {
+                res.status(500).json({
+                    success : false,
+                    message : "empCode is a required parameter"
+                });
+                return;
+            }
  
             if(req.query.month){
                 query.month = req.query.month;
             }
+            else {
+                res.status(500).json({
+                    success : false,
+                    message : "Month is a required parameter"
+                });
+                return ;
+            }
  
             if(req.query.year) {
                 query.year = req.query.year;
+            }
+            else {
+                res.status(500).json({
+                    success : false,
+                    message : "Year is required field"
+                });
+                return;
+            }
+
+            let valid = await db.public.profiles.findOne({
+                where : {empCode : query.empCode}
+            })
+
+            if (!valid){
+                res.status(500).json({
+                    success : false,
+                    message : "Empcode passed does not exist"
+                });
+                return ;
             }
  
             let result = {}
