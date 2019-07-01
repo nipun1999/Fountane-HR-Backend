@@ -37,8 +37,9 @@ module.exports.verifyRole = async function(roleId,entityName,action) {
    
 
     let query = `select * from 
+    (select * from 
     (select * from permissions AS p INNER JOIN roles_permissions AS rp ON p.id = rp.permission_id) AS result
-    where result.entity ='${entityName}' AND result.role_id=${roleId}`
+    where result.entity ='${entityName}' AND result.role_id=${roleId}) AND ((result.action = '${action}') OR (result.action = '*'))`
    
 
     // let result = await db.public.sequelize.query(query,)
@@ -50,18 +51,24 @@ module.exports.verifyRole = async function(roleId,entityName,action) {
             plain: false,
             type: db.public.sequelize.QueryTypes.SELECT
     });
-    let finalRes = false;
-    for(let i=0;i<result.length;i++) {
-        if(result[i].action == '*') {
-            finalRes=true;
-            break;
-        }
-        if(result[i].action == action) {
-            finalRes=true;
-            break;
-        }
+
+    if (result.length){
+        return true;
     }
-    return finalRes;
+    return false;
+    
+    // let finalRes = false;
+    // for(let i=0;i<result.length;i++) {
+    //     if(result[i].action == '*') {
+    //         finalRes=true;
+    //         break;
+    //     }
+    //     if(result[i].action == action) {
+    //         finalRes=true;
+    //         break;
+    //     }
+    // }
+    // return finalRes;
 }
 
 
