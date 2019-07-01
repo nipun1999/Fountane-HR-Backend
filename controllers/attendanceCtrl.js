@@ -488,9 +488,8 @@ async function getAttendanceByMonth(req, res){
             if (!valid){
                 res.status(500).json({
                     success : false,
-                    message : "Empcode passed does not exist"
-                });
-                return ;
+                    message : "Empcode does not exist"
+                })
             }
 
             let startDate = query.year+'-'+query.month+'-01' , endDate = query.year+'-'+query.month+'-'+getDays(query.month,query.year)
@@ -516,7 +515,7 @@ async function getAttendanceByMonth(req, res){
             let values2 = await db.public.leavesobj.findAll({
                 where : {
                     empCode : req.query.empCode ,
-                    status : "accepted" ,
+                    status : true ,
                     fromDate :{
                         [db.public.Op.between] : [startDate,endDate]
                     }
@@ -544,7 +543,7 @@ async function getAttendanceByMonth(req, res){
             let values3 = await db.public.leavesobj.findAll({
                 where : {
                     empCode : req.query.empCode ,
-                    status : "accepted" ,
+                    status : true ,
                     toDate :{
                         [db.public.Op.between] : [startDate,endDate]
                     }

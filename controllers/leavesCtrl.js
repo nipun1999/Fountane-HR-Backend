@@ -47,9 +47,21 @@ async function create(req, res){
                empCode: req.body.empCode,
                leaveType: req.body.leaveType,
                fromDate: req.body.fromDate,
-               toDate: req.body.toDate  
+               toDate: req.body.toDate, 
+               description : req.body.description
             };
             
+            let valid = await db.public.register.findOne({
+                where : {empCode : create_obj.empCode}
+            })
+
+            if (!valid){
+                res.status(500).json({
+                    success : false,
+                    message : "empCode does not exist"
+                });
+                return ;
+            }
             leaveCountValue = await db.public.profiles.findOne(
                 {where : {empCode : create_obj.empCode}}
             )
@@ -155,7 +167,7 @@ async function get(req, res) {
 
             res.status(200).json({
                 success: true,
-                kv: values
+                leaves : values
             });
         }
 

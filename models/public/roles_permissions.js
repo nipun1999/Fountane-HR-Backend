@@ -8,6 +8,14 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             autoIncrement: true
         },
+
+        role_id : {
+            type : DataTypes.BIGINT,
+        },
+
+        permission_id : {
+            type : DataTypes.BIGINT,
+        },
         
         created_at: {
             type: DataTypes.DATE,

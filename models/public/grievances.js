@@ -8,7 +8,10 @@ module.exports = (sequelize, DataTypes) => {
             autoIncrement: true
         },
 
-        empCode: { type:DataTypes.STRING},
+        empCode: { 
+            type:DataTypes.STRING,
+            allowNull : false    
+        },
 
         description: { type: DataTypes.TEXT},
         
