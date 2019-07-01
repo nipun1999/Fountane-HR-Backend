@@ -47,7 +47,7 @@ async function createProfile(req,res) {
             if (valid){
                 res.status(500).json({
                     status : false,
-                    message : "Employ profile already exists so can't be created"
+                    message : "Employee profile already exists so can't be created"
                 });
                 return;
             }

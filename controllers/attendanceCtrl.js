@@ -72,11 +72,12 @@ async function createAttendance(req, res){
  
                 try {
                     let attendance_created = await db.public.attendanceobj.create(create_obj);
-                    let status_true = await db.public.profiles.update({status:true},{where : {empCode:create_obj.empCode} });
+                    let status_true = await db.public.profiles.update(
+                        {status:true , attendanceId:attendance_created.attendanceId},{where : {empCode:create_obj.empCode} }
+                    );
                     res.status(200).json({
                         success : true,
-                        attendanceobj : attendance_created,
-                        profile_status : true
+                        attendanceobj : attendance_created
                     });
  
                 }
@@ -112,8 +113,6 @@ async function createAttendance(req, res){
     }
  
 }
- 
- 
 async function updateCheckOut(req, res){
    
     try {
@@ -154,6 +153,8 @@ async function updateCheckOut(req, res){
                 attendanceId : req.body.attendanceId,
                 checkOut : req.body.checkOut
             }
+            create_obj.attendanceId = parseInt(create_obj.attendanceId)
+            create_obj.checkOut = new Date(create_obj.checkOut)
  
             for (var i in create_obj){
                 if (!create_obj[i]){
@@ -167,7 +168,7 @@ async function updateCheckOut(req, res){
             }
  
             let value = await db.public.attendanceobj.findOne({
-                where : {attendanceId : req.body.attendanceId}
+                where : {attendanceId : create_obj.attendanceId}
             })
  
             if (!value){
@@ -187,8 +188,7 @@ async function updateCheckOut(req, res){
  
                 res.status(200).json({
                     success : true,
-                    attendanceobj : attendance_checkout,
-                    profile_status : false
+                    attendanceobj : attendance_checkout
                 })
             }
             catch (err){
