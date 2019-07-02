@@ -73,6 +73,9 @@ async function checkUser(req, res){
                 success: true,
                 auth: auth_data,
                 token: token,
+                name : user.name,
+                empCode : user.empCode,
+                status : newUserStatus
             });
         } else {
             res.status(500).json({

@@ -65,6 +65,27 @@ async function signup(req, res){
            salt:salt,
            roleId: req.body.roleId
         };
+
+        for (var i in create_obj){
+            if (!create_obj[i]){
+                res.status(500).json({
+                    success : false,
+                    message : i + "  is a required field"
+                });
+                return;
+            }
+        }
+        
+        let valid = await db.public.roles.findOne({
+            where : {id : create_obj.roleId}
+        })
+        if (!valid){
+            res.status(500).json({
+                success : false,
+                message : "roleId does not exist"
+            });
+            return;
+        }
         let query = {};
         query.fountaneEmail = req.body.fountaneEmail;
         let check_email = await db.public.register.findOne({
