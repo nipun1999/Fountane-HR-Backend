@@ -76,7 +76,6 @@ async function signup(req, res){
             let signup = await db.public.signInObj.create(create_obj);
             res.status(200).json({
                 success: true,
-                signup: signup,
                 checkEmail:check_email
             });
         }else{

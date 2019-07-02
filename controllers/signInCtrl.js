@@ -41,8 +41,18 @@ async function checkUser(req, res){
         }
     })
     
+    
     console.log(user);
     if (user) {
+
+        var newUserStatus = user.newUser;
+        if(newUserStatus==true){
+            newUserUpdate = await db.public.register.update({newUser:false},{
+                where:{
+                    fountaneEmail: email
+                }
+            })
+        }
         let password = crypto.pbkdf2Sync(req.body.password, user.salt, 1000, 512, "sha512").toString('hex');
 
 
