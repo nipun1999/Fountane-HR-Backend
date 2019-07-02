@@ -94,6 +94,16 @@ async function signup(req, res){
 
         if(check_email){
             create_obj.empCode = check_email.empCode;
+            let valid = await db.public.signInObj.findOne({
+                where : {fountaneEmail : create_obj.fountaneEmail}
+            })
+            if (valid){
+                res.status(500).json({
+                    success : false,
+                    message : "fountaneEmail already exists"
+                });
+                return;
+            }
             let signup = await db.public.signInObj.create(create_obj);
             res.status(200).json({
                 success: true,
