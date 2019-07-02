@@ -41,8 +41,21 @@ async function checkUser(req, res){
         }
     })
     
+    
     console.log(user);
     if (user) {
+        let user2 = await db.public.register.findOne({
+            where : {fountaneEmail : user.fountaneEmail}
+        })
+
+        var newUserStatus = user2.newUser;
+        if(newUserStatus==true){
+            newUserUpdate = await db.public.register.update({newUser:false},{
+                where:{
+                    fountaneEmail: user.fountaneEmail
+                }
+            })
+        }
         let password = crypto.pbkdf2Sync(req.body.password, user.salt, 1000, 512, "sha512").toString('hex');
 
 
@@ -63,6 +76,9 @@ async function checkUser(req, res){
                 success: true,
                 auth: auth_data,
                 token: token,
+                name : user2.name,
+                empCode : user.empCode,
+                status : newUserStatus
             });
         } else {
             res.status(500).json({

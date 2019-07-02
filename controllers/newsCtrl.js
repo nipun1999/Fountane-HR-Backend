@@ -126,8 +126,8 @@ async function get(req, res) {
 
             let query = {};
 
-            if (req.body.newsId){
-                query.newsId = req.body.newsId;
+            if (req.query.newsId){
+                query.newsId = req.query.newsId;
             }
 
             // if(req.query.empCode){
