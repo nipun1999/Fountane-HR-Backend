@@ -44,12 +44,15 @@ async function checkUser(req, res){
     
     console.log(user);
     if (user) {
+        let user2 = await db.public.register.findOne({
+            where : {fountaneEmail : user.fountaneEmail}
+        })
 
-        var newUserStatus = user.newUser;
+        var newUserStatus = user2.newUser;
         if(newUserStatus==true){
             newUserUpdate = await db.public.register.update({newUser:false},{
                 where:{
-                    fountaneEmail: email
+                    fountaneEmail: user.fountaneEmail
                 }
             })
         }
@@ -73,7 +76,7 @@ async function checkUser(req, res){
                 success: true,
                 auth: auth_data,
                 token: token,
-                name : user.name,
+                name : user2.name,
                 empCode : user.empCode,
                 status : newUserStatus
             });
