@@ -21,18 +21,18 @@ async function create(req, res){
                 }
             });
         }
-        // try{
+        try{
             
-        //     var user = utilities.decryptJWTWithToken(authTOKEN)
-        // }    
-        // catch{
-        //     res.status(500).json({
-        //         success: false,
-        //         error: {
-        //             message: "invalid Token"
-        //         }
-        //     });    
-        // }
+            var user = utilities.decryptJWTWithToken(authTOKEN)
+        }    
+        catch{
+            res.status(500).json({
+                success: false,
+                error: {
+                    message: "invalid Token"
+                }
+            });    
+        }
         user = 1
         if(user) {
 
@@ -61,6 +61,18 @@ async function create(req, res){
                     });
                     return;
                 }
+            }
+
+            let value = await db.public.register.findOne({
+                where : {empCode : req.body.empCode}
+            })
+
+            if (!value){
+                res.status(500).json({
+                    success : false,
+                    message : "Employ code requested does not exist"
+                });
+                return;
             }
     
             let documentsCreated = await db.public.docs.create(create_obj);
@@ -210,6 +222,7 @@ async function destroy(req, res){
             if(req.query.documentId){
                 query.documentId = req.body.documentId;
             }
+
             
             let values = await db.public.docs.destroy({
                 where: query

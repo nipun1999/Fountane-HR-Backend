@@ -1,7 +1,12 @@
 
 module.exports = (sequelize, DataTypes) => {
     const leavesobj = sequelize.define('leaves', {
-        
+        leaveId : {
+            type: DataTypes.INTEGER,
+            primaryKey : true,
+            allowNull:false,
+            autoIncrement:true
+        },
         empCode: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -14,15 +19,20 @@ module.exports = (sequelize, DataTypes) => {
         toDate: { type: DataTypes.DATEONLY, allowNull: false },
 
         status: { 
-            type: DataTypes.BOOLEAN,
-            defaultValue: false,
+            type: DataTypes.STRING,
+            defaultValue: "pending",
             allowNull: false
+        },
+
+        description : {
+            type : DataTypes.TEXT,
+            allowNull : false
         },
 
         created_at: {
             type: DataTypes.DATE,
             allowNull: false,
-            defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
+            defaultValue: new Date()
         },
         updated_at: DataTypes.DATE,
         deleted_at: DataTypes.DATE

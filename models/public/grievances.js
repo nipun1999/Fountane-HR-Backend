@@ -8,7 +8,10 @@ module.exports = (sequelize, DataTypes) => {
             autoIncrement: true
         },
 
-        empCode: { type:DataTypes.STRING},
+        empCode: { 
+            type:DataTypes.STRING,
+            allowNull : false    
+        },
 
         description: { type: DataTypes.TEXT},
         
@@ -21,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
         created_at: {
             type: DataTypes.DATE,
             allowNull: false,
-            defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
+            defaultValue: new Date()
         },
         updated_at: DataTypes.DATE,
         deleted_at: DataTypes.DATE

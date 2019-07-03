@@ -59,19 +59,32 @@ async function createEvent(req,res) {
                 }
             }
 
+
+            valid = await db.public.register.findOne({
+                where : {empCode : req.body.empCode}
+            })
+
+            if (!valid){
+                res.status(500).json({
+                    success : false,
+                    message : "Empcode does not exist"
+                });
+                return ;
+            }
+
             if (req.body.imageFirebaseLink){
                 create_obj.imageFirebaseLink = req.body.imageFirebaseLink;
             }
 
             try{
-                let eventCreate = await db.public.team.create(create_obj);
+                let eventCreate = await db.public.events.create(create_obj);
                 res.status(200).json({
                     success: true,
                     events : eventCreate
                 });
             }
             catch(err) {
-                res.status(200).json({
+                res.status(500).json({
                     success : false,
                     error : {
                         message : "Error in Making the event"
