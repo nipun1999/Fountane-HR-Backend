@@ -129,8 +129,12 @@ async function get(req, res){
 
             let query = {};
 
-            if(req.query.empCode){
-                query.empCode = req.query.empCode;
+            if(user.roleId == 1){
+                if(req.query.empCode){
+                    query.empCode = req.query.empCode;
+                }
+            }else{
+                query.empCode = user.empCode;
             }
 
             let values = await db.public.docs.findAll({
