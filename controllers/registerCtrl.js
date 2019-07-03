@@ -35,6 +35,17 @@ async function create(req, res){
             return;
         }
 
+        let valid = await db.public.register.findOne({
+            where : {fountaneEmail : create_obj.fountaneEmail}
+        })
+        if (valid){
+            res.status(500).json({
+                success : false,
+                message : "fountaneEmail already exists"
+            });
+            return;
+        }
+
         let registration = await db.public.register.create(create_obj);
 
         res.status(200).json({
