@@ -3,6 +3,12 @@ var config = require("../config/config");
 var utilities = require("../utilities/utilities");
 
 
+var date_diff_indays = function(date1, date2) {
+    dt1 = new Date(date1);
+    dt2 = new Date(date2);
+    return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate()) ) /(1000 * 60 * 60 * 24));
+}
+
 async function create(req, res){
     try {
 
@@ -42,7 +48,7 @@ async function create(req, res){
                 });
                 return;
             }
-
+            ///////// empCode + fromDate + toDate should be unique
             let create_obj = {
                empCode: req.body.empCode,
                leaveType: req.body.leaveType,
@@ -50,6 +56,7 @@ async function create(req, res){
                toDate: req.body.toDate, 
                description : req.body.description
             };
+            let noOfDays = 1+date_diff_indays(create_obj.fromDate,create_obj.toDate)
 
             for (var i in create_obj){
                 if (!create_obj[i]){
@@ -75,7 +82,7 @@ async function create(req, res){
             leaveCountValue = await db.public.profiles.findOne(
                 {where : {empCode : create_obj.empCode}}
             )
-            if(!leaveCountValue[create_obj.leaveType]) {
+            if(leaveCountValue[create_obj.leaveType] < noOfDays) {
                 res.status(500).json({
                     success: false,
                     message: "No sufficient leaves"
@@ -256,12 +263,12 @@ async function updateTrue(req,res) {
                 return;
             }
             type = leaveValues.leaveType
-
+            let noOfDays = date_diff_indays(leaveValues.fromDate,leaveValues.toDate)+1
             leaveCountValue = await db.public.profiles.findOne(
                 {where : {empCode : leaveValues.empCode}}
             )
             
-            leaveCount = leaveCountValue[type] - 1
+            leaveCount = leaveCountValue[type] - noOfDays
             if (query) {
 
                 leaveUpdated = await db.public.leavesobj.update(
