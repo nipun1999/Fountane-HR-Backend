@@ -6,6 +6,25 @@ var serverKey = 'AAAAdAEE1Ic:APA91bFadkxXpAnpmvpg4iAPbmJD0DR0hzjKotxvxh1RvLwjACG
 var fcm = new FCM(serverKey);
 
 
+
+function sendMessage(title){
+    var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
+        to: '/topics/News',         
+        notification: {
+            title: 'New news at Fountane', 
+            body: title 
+        },
+    };
+
+    fcm.send(message, function(err, response){
+        if (err) {
+            console.log("Something has gone wrong!");
+        } else {
+            console.log("Successfully sent with response: ", response);
+        }
+    });
+}
+
 async function create(req, res){
     
 
@@ -63,22 +82,8 @@ async function create(req, res){
 
             let newsobj_created = await db.public.news.create(create_obj);
 
-            var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
-                to: '/topics/News',         
-                notification: {
-                    title: 'New news at Fountane', 
-                    body: req.body.title 
-                },
-            };
+            await sendMessage(req.body.title)
 
-            fcm.send(message, function(err, response){
-                if (err) {
-                    console.log("Something has gone wrong!");
-                } else {
-                    console.log("Successfully sent with response: ", response);
-                }
-            });
-            
             res.status(200).json({
                 success: true,
                 newsobj: newsobj_created
