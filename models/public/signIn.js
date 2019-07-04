@@ -22,11 +22,6 @@ module.exports = (sequelize, DataTypes) => {
             type:DataTypes.TEXT ,
             allowNull: false 
         },
-
-        roleId: { 
-            type:DataTypes.BIGINT ,
-            allowNull: false 
-        },
         created_at: {
             type: DataTypes.DATE,
             allowNull: false,
