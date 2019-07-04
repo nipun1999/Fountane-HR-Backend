@@ -22,7 +22,7 @@ module.exports.decryptJWTWithToken = function (token) {
 }
 
 module.exports.verifyRole = async function(roleId,action,entityName) {
-    return true;
+    return false;
     if(!roleId || !entityName) {
         return false;
     }
