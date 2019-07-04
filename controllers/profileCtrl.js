@@ -171,7 +171,7 @@ async function getProfile(req, res) {
        if (user_credentials){
 
             // Check for access for endpoint
-            let re = utilities.verifyRole(user_credentials.roleId,'r','profiles');
+            let re = await utilities.verifyRole(user_credentials.roleId,'r','profiles');
             if(re) {
                 res.status(500).json({
                     success : false,
