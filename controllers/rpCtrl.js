@@ -94,6 +94,80 @@ async function createRP(req, res){
 
 }
 
+async function getRoles(req, res) {
+
+
+    try {
+        //
+        let query = {};
+
+        if(req.query.id){
+            query.id = req.query.id;
+        }
+
+        if(req.query.role_id) {
+            query.role_id = req.query.role_id;
+        }
+
+        let values = await db.public.roles.findAll({
+            where: query
+        })
+
+
+        res.status(200).json({
+            success: true,
+            roles: values
+        });
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            success: false,
+            error: {
+                message: "Internal Server Error",
+                description: err.description
+            }
+        });
+    }
+}
+
+async function getPermissions(req, res) {
+
+
+    try {
+        //
+        let query = {};
+
+        if(req.query.id){
+            query.id = req.query.id;
+        }
+
+        if(req.query.role_id) {
+            query.role_id = req.query.role_id;
+        }
+
+        let values = await db.public.permissions.findAll({
+            where: query
+        })
+
+
+        res.status(200).json({
+            success: true,
+            permissions: values
+        });
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            success: false,
+            error: {
+                message: "Internal Server Error",
+                description: err.description
+            }
+        });
+    }
+}
+
 
 
 async function getRP(req, res) {
@@ -142,5 +216,7 @@ module.exports = {
     createRole,
     createPermissions,
     createRP,
-    getRP
+    getRP,
+    getRoles,
+    getPermissions
 }
