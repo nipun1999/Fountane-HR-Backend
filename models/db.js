@@ -30,7 +30,7 @@ db.public = require("./public/db");
 
 db.public.rpObj.belongsTo(db.public.permissions,{foreignKey:'permission_id' , onDelete:"CASCADE"});
 db.public.rpObj.belongsTo(db.public.roles,{foreignKey:'role_id' , onDelete:"CASCADE"});
-db.public.signInObj.belongsTo(db.public.roles,{foreignKey:'roleId', onDelete:"CASCADE"});
+db.public.profiles.belongsTo(db.public.roles,{foreignKey:'roleId', onDelete:"CASCADE"});
 db.public.attendanceobj.belongsTo(db.public.register,{foreignKey:'empCode', onDelete:"CASCADE"});
 db.public.companyobj.belongsTo(db.public.register,{foreignKey:'empCode', onDelete:"CASCADE"});
 db.public.docs.belongsTo(db.public.register,{foreignKey:'empCode', onDelete:"CASCADE"});
