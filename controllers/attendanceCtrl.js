@@ -34,7 +34,7 @@ async function createAttendance(req, res){
            if(user) {
                 let re = await utilities.verifyRole(user.roleId,'c','attendances')
                 // console.log('fucking',re)
-                if(!re) {
+                if(re) {
                     res.status(500).json({
                         success : false,
                         message : "Permissions not available"
