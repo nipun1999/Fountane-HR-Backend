@@ -50,6 +50,11 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false 
         },
 
+        workingTime : {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        
         bankCardNo: { 
             type: DataTypes.STRING,
             allowNull: false 

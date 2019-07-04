@@ -32,13 +32,17 @@ async function createAttendance(req, res){
                 });
            }
            if(user) {
- 
-                if(!utilities.verifyRole(user.roleId,'c','attendances')) {
+                let re = await utilities.verifyRole(user.roleId,'c','attendances')
+                // console.log('fucking',re)
+                if(!re) {
                     res.status(500).json({
                         success : false,
                         message : "Permissions not available"
                     });
                     return;
+                }
+                else {
+                    console.log('\n\n\nefjanfkljaddflkjadmlkf\n\n\n\n\n')
                 }
                
                 let create_obj = {
@@ -139,7 +143,6 @@ async function updateCheckOut(req, res){
         }
        
         if(user) {
- 
  
             if(!utilities.verifyRole(user.roleId,'u','attendances')) {
                 res.status(500).json({
@@ -364,7 +367,6 @@ async function getEmployeeAttendance(req, res){
             }
  
             let query = {};
- 
             if(req.query.empCode){
                 query.empCode = req.query.empCode;
             }

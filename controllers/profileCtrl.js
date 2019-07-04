@@ -94,6 +94,16 @@ async function createProfile(req,res) {
                 }
             }
             
+            let validRoleID = await db.public.roles.findOne({
+                where : {id : create_obj.roleId}
+            })
+            if (!validRoleID){
+                res.status(500).json({
+                    success : false,
+                    message : "roleId does not exist"
+                });
+                return;
+            }
             
 
             let profileCreated = await db.public.profiles.create(create_obj);
@@ -145,35 +155,34 @@ async function createProfile(req,res) {
 
 
 async function getProfile(req, res) {
-    
+    console.log('entered')
     try {
 
 
         // Authoization check for JWT token
-        // var authToken = req.header('X-AUTH-TOKEN')
+        var authToken = req.header('X-AUTH-TOKEN')
 
-        // if (authToken == null || authToken ==""){
-        //     res.status(500).json({
-        //         success: false,
-        //         error : {
-        //             message : "Token not provided"
-        //         }
-        //     });
-        //     return;
-        // }
+        if (authToken == null || authToken ==""){
+            res.status(500).json({
+                success: false,
+                error : {
+                    message : "Token not provided"
+                }
+            });
+            return;
+        }
 
-        // try {
-        //     var user_credentials = utilities.decryptJWTWithToken(authToken);
-        // }
-        // catch(err){
-        //     res.status(500).json({
-        //         success : false,
-        //         error : {
-        //             message : "Invalid token provided"
-        //         }
-        //     });
-        // }
-        user_credentials=1
+        try {
+            var user_credentials = utilities.decryptJWTWithToken(authToken);
+        }
+        catch(err){
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Invalid token provided"
+                }
+            });
+        }
        if (user_credentials){
 
             // Check for access for endpoint
@@ -201,6 +210,10 @@ async function getProfile(req, res) {
                 query.name = req.query.name
             }
 
+            if(req.query.fountaneEmail) {
+                query.fountaneEmail = req.query.fountaneEmail
+            }
+
 
             let profiles = await db.public.profiles.findAll({
                 where: query
@@ -216,7 +229,7 @@ async function getProfile(req, res) {
 
             res.status(200).json({
                 success: true,
-                profile: profiles[0]
+                profile: profiles
             });
       }else {
             console.log(err);
@@ -314,9 +327,9 @@ async function updateProfile(req,res) {
                 create_obj.fountaneEmail = req.body.fountaneEmail;
             }
 
-            if (req.body.address && req.body.address!=""){
-                create_obj.address = req.body.address;
-            }
+            // if (req.body.address && req.body.address!=""){
+            //     create_obj.address = req.body.address;
+            // }
 
             if (req.body.designation && req.body.designation!=""){
                 create_obj.designation = req.body.designation;

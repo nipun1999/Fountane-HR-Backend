@@ -116,6 +116,8 @@ router.post('/create/role',rpCtrl.createRole)
 router.post('/create/perm',rpCtrl.createPermissions)
 router.post('/create/rp',rpCtrl.createRP)
 router.get('/get/rp',rpCtrl.getRP)
+router.get('/get/roles',rpCtrl.getRoles)
+router.get('/get/perm',rpCtrl.getPermissions)
 
 module.exports = router;
 
