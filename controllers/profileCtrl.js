@@ -295,36 +295,20 @@ async function updateProfile(req,res) {
                 });
                 return;
             }
+            
+            let valid = await db.public.register.findOne({
+                where : {empCode : query.empCode}
+            })
 
-            let create_obj = {}
-            if (req.body.name && req.body.name!=""){
-                create_obj.name = req.body.name;
+            if (!valid){
+                res.status(500).json({
+                    success : false,
+                    message : "empCode already exists"
+                });
+                return;
             }
-
-            if (req.body.mobileNo && req.body.mobileNo!=""){
-                create_obj.mobileNo = req.body.mobileNo;
-            }
-
-            if (req.body.status){
-                create_obj.status = req.body.status;
-            }
-
-            if (req.body.fountaneEmail && req.body.fountaneEmail!=""){
-                create_obj.fountaneEmail = req.body.fountaneEmail;
-            }
-
-            if (req.body.address && req.body.address!=""){
-                create_obj.address = req.body.address;
-            }
-
-            if (req.body.designation && req.body.designation!=""){
-                create_obj.designation = req.body.designation;
-            }
-
-            if (req.body.profilePic && req.body.profilePic!=""){
-                create_obj.profilePic = req.body.profilePic;
-            }
-
+            let create_obj = req.body;
+            
             if (query){
                 profileUpdate = await db.public.profiles.update(create_obj,
                     { where :query 
