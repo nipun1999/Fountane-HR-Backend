@@ -29,8 +29,8 @@ async function create(req, res){
             });    
         }
         if(user) {
-
-            if(!utilities.verifyRole(user.roleId,'c','news')) {
+            let re = await utilities.verifyRole(user.roleId,'c','news');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -116,7 +116,8 @@ async function get(req, res) {
         if(user) {
 
             // Check for access for endpoint
-            if(!utilities.verifyRole(user.roleId,'r','news')) {
+            let re = await utilities.verifyRole(user.roleId,'r','news');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -200,7 +201,8 @@ async function update(req,res) {
         if(user) {
 
             // Check for access for endpoint
-            if(!utilities.verifyRole(user.roleId,'u','news')) {
+            let re = await utilities.verifyRole(user.roleId,'u','news');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -299,7 +301,8 @@ async function destroy(req, res){
         if(user) {
 
             // Check for access for endpoint
-            if(!utilities.verifyRole(user.roleId,'d','news')) {
+            let re = await utilities.verifyRole(user.roleId,'d','news');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"

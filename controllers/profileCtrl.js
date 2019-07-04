@@ -32,7 +32,8 @@ async function createProfile(req,res) {
         if (user_credentials){
 
             // Check for access for endpoint
-            if(!utilities.verifyRole(user_credentials.roleId,'c','profiles')) {
+            let re = await utilities.verifyRole(user_credentials.roleId,'c','profiles');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -111,22 +112,6 @@ async function createProfile(req,res) {
                 success: true,
                 profile: profileCreated
             });
-            // if(req.body.empCode!=""&&req.body.name!=""&&req.body.fountaneEmail!=""&&req.body.mobileNo!=""&&req.body.designation!=""&&req.body.address!=""){
-            //     let profileCreated = await db.public.profiles.create(create_obj);
-
-            //     res.status(200).json({
-            //         success: true,
-            //         profile: profile_created
-            //     });
-            // }else{
-            //     res.status(500).json({
-            //         success: false,
-            //         error: {
-            //             message: "Please input value of all parameters"
-            //         }
-            //     });
-            // }
-
         }
 
         else {
@@ -186,7 +171,8 @@ async function getProfile(req, res) {
        if (user_credentials){
 
             // Check for access for endpoint
-            if(!utilities.verifyRole(user_credentials.roleId,'r','profiles')) {
+            let re = utilities.verifyRole(user_credentials.roleId,'r','profiles');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -287,7 +273,8 @@ async function updateProfile(req,res) {
         if (user_credentials){
 
             // Check for access for endpoint
-            if(!utilities.verifyRole(user_credentials.roleId,'u','profiles')) {
+            let re = await utilities.verifyRole(user_credentials.roleId,'u','profiles');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"

@@ -518,7 +518,7 @@ async function getAttendanceByMonth(req, res){
             let values2 = await db.public.leavesobj.findAll({
                 where : {
                     empCode : req.query.empCode ,
-                    status : true ,
+                    status : "accepted" ,
                     fromDate :{
                         [db.public.Op.between] : [startDate,endDate]
                     }
@@ -546,7 +546,7 @@ async function getAttendanceByMonth(req, res){
             let values3 = await db.public.leavesobj.findAll({
                 where : {
                     empCode : req.query.empCode ,
-                    status : true ,
+                    status : "accepted" ,
                     toDate :{
                         [db.public.Op.between] : [startDate,endDate]
                     }
