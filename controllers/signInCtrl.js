@@ -40,9 +40,17 @@ async function checkUser(req, res){
             fountaneEmail: req.body.fountaneEmail
         }
     })
+
+    let userProfile = await db.public.profiles.findOne({
+        where: {
+            fountaneEmail: req.body.fountaneEmail
+        }
+    })
+
+
+    console.log(userProfile)
     
-    
-    console.log(user);
+    // console.log(user);
     if (user) {
         let user2 = await db.public.register.findOne({
             where : {fountaneEmail : user.fountaneEmail}
@@ -67,7 +75,7 @@ async function checkUser(req, res){
                 fountaneEmail: user.fountaneEmail,
                 empCode: user.empCode,
                 created_at: new Date(),
-                roleId : user.roleId
+                roleId : userProfile.roleId
             };
             
             var token = jwt.sign(auth_data, config.app.jwtKey);
@@ -124,6 +132,13 @@ async function checkUserGoogle(req, res){
                         fountaneEmail: email
                     }
                 })
+
+                let userProfile = await db.public.profiles.findOne({
+                    where : {
+                        fountaneEmail : req.body.fountaneEmail
+                    }
+                })
+
                 if(user) {
 
                     var newUserStatus = user.newUser;
@@ -138,6 +153,7 @@ async function checkUserGoogle(req, res){
                     var auth_data = {
                         fountaneEmail: user.fountaneEmail,
                         empCode: user.empCode,
+                        roleId : userProfile.roleId,
                         created_at: new Date()
                     };
             
