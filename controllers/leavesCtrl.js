@@ -40,8 +40,8 @@ async function create(req, res){
         }
 
         if (user_credentials){
-
-            if(!utilities.verifyRole(user_credentials.roleId,'c','leaves')) {
+            let re = await utilities.verifyRole(user_credentials.roleId,'c','leaves');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -154,8 +154,8 @@ async function get(req, res) {
         }
 
         if (user_credentials){
-
-            if(!utilities.verifyRole(user_credentials.roleId,'r','leaves')) {
+            let re = await utilities.verifyRole(user_credentials.roleId,'r','leaves');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -241,8 +241,8 @@ async function updateTrue(req,res) {
         }
 
         if (user_credentials){
-
-            if(!utilities.verifyRole(user_credentials.roleId,'u','leaves')) {
+            let re = await utilities.verifyRole(user_credentials.roleId,'u','leaves');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -337,8 +337,8 @@ async function updateFalse(req,res) {
         }
         
         if (user_credentials){
-
-            if(!utilities.verifyRole(user_credentials.roleId,'u','leaves')) {
+            let re = await utilities.verifyRole(user_credentials.roleId,'u','leaves');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"

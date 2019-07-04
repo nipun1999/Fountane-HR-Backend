@@ -32,8 +32,8 @@ async function createEvent(req,res) {
 
 
         if (user_credentials) {
-
-            if(!utilities.verifyRole(user_credentials.roleId,'c','events')) {
+            let re = await utilities.verifyRole(user_credentials.roleId,'c','events');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -150,8 +150,8 @@ async function getEvent(req, res) {
         }
 
         if (user_credentials){
-
-            if(!utilities.verifyRole(user_credentials.roleId,'r','events')) {
+            let re = await utilities.verifyRole(user_credentials.roleId,'r','events');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -241,8 +241,8 @@ async function updateEvent(req, res) {
         }
 
         if (user_credentials){
-
-            if(!utilities.verifyRole(user_credentials.roleId,'u','events')) {
+            let re = await utilities.verifyRole(user_credentials.roleId,'u','events');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -363,8 +363,8 @@ async function deleteEvent(req, res) {
         }
 
         if (user_credentials){
-
-            if(!utilities.verifyRole(user_credentials.roleId,'d','events')) {
+            let re = await utilities.verifyRole(user_credentials.roleId,'d','events');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"

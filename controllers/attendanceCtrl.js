@@ -143,8 +143,9 @@ async function updateCheckOut(req, res){
         }
        
         if(user) {
- 
-            if(!utilities.verifyRole(user.roleId,'u','attendances')) {
+            
+            let re = await utilities.verifyRole(user.roleId,'u','attendances');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -250,8 +251,8 @@ async function addComment(req, res){
         }
         if(user) {
  
- 
-            if(!utilities.verifyRole(user.roleId,'c','attendances')) {
+            let re = await utilities.verifyRole(user.roleId,'u','attendances');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -357,8 +358,8 @@ async function getEmployeeAttendance(req, res){
         }
         if(user) {
  
- 
-            if(!utilities.verifyRole(user.roleId,'r','attendances')) {
+            let re = await utilities.verifyRole(user.roleId,'r','attendances');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -439,8 +440,8 @@ async function getAttendanceByMonth(req, res){
         }
         if(user) {
  
- 
-            if(!utilities.verifyRole(user.roleId,'r','attendances')) {
+            let re = await utilities.verifyRole(user.roleId,'r','attendances');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"

@@ -36,8 +36,8 @@ async function createGrievances(req,res) {
 
 
         if (user_credentials) {
-
-            if(!utilities.verifyRole(user_credentials.roleId,'c','grievances')) {
+            let re = await utilities.verifyRole(user_credentials.roleId,'c','grievances');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -138,8 +138,8 @@ async function getGrievances(req, res) {
         }
 
         if (user_credentials){
-
-            if(!utilities.verifyRole(user_credentials.roleId,'r','grievances')) {
+            let re = await utilities.verifyRole(user_credentials.roleId,'r','grievances');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -217,8 +217,8 @@ async function updateGrievancesTrue(req,res) {
         }
 
         if (user_credentials){
-
-            if(!utilities.verifyRole(user_credentials.roleId,'u','grievances')) {
+            let re = await utilities.verifyRole(user_credentials.roleId,'u','grievances');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -314,7 +314,8 @@ async function updateGrievancesFalse(req,res) {
         if (user_credentials){
 
             // Check for access for endpoint
-            if(!utilities.verifyRole(user_credentials.roleId,'u','grievances')) {
+            let re = await utilities.verifyRole(user_credentials.roleId,'u','grievances');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"

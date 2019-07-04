@@ -37,7 +37,8 @@ async function create(req, res){
         if(user) {
 
             // Check for access for endpoint
-            if(!utilities.verifyRole(user.roleId,'c','documents')) {
+            let re = await utilities.verifyRole(user.roleId,'c','documents');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -131,7 +132,8 @@ async function get(req, res){
         if(user) {
 
             // Check for access for endpoint
-            if(!utilities.verifyRole(user.roleId,'r','documents')) {
+            let re = await utilities.verifyRole(user.roleId,'r','documents');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -209,7 +211,8 @@ async function destroy(req, res){
         if(user) {
 
             // Check for access for endpoint
-            if(!utilities.verifyRole(user.roleId,'d','documents')) {
+            let re = await utilities.verifyRole(user.roleId,'d','documents');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -292,7 +295,8 @@ async function getType(req, res){
         if(user) {
 
             // Check for access for endpoint
-            if(!utilities.verifyRole(user.roleId,'r','documents')) {
+            let re = await utilities.verifyRole(user.roleId,'r','documents');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
