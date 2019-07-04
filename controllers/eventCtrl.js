@@ -8,7 +8,7 @@ var fcm = new FCM(serverKey);
 
 function sendMessage(title){
     var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
-        to: '/topics/News',         
+        to: '/topics/Events',         
         notification: {
             title: 'New Event at Fountane', 
             body: title 
