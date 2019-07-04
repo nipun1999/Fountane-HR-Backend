@@ -317,7 +317,7 @@ async function updateProfile(req,res) {
             if (!valid){
                 res.status(500).json({
                     success : false,
-                    message : "empCode already exists"
+                    message : "empCode does not exist"
                 });
                 return;
             }
