@@ -308,6 +308,106 @@ async function updateTrue(req,res) {
     }
 }
 
+async function updateCount(req,res) {
+    try {
+
+        // Authoization check for JWT token
+        var authToken = req.header('X-AUTH-TOKEN')
+
+        if (authToken == null || authToken ==""){
+            res.status(500).json({
+                success: false,
+                error : {
+                    message : "Token not provided"
+                }
+            });
+            return;
+        }
+
+        try {
+            var user_credentials = utilities.decryptJWTWithToken(authToken);
+        }
+        catch(err){
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Invalid token provided"
+                }
+            });
+        }
+        
+        if (user_credentials){
+            let re = await utilities.verifyRole(user_credentials.roleId,'u','leaves');
+            if(re) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
+
+            let check = req.body.empCode;
+            if (!check){
+                res.status(500).json({
+                    success : false,
+                    message : "empCode is a required field"
+                });
+                return;
+            }
+
+            let valid = await db.public.register.findOne({
+                where : {empCode : req.body.empCode}
+            });
+            if (!valid){
+                res.status(500).json({
+                    success : false,
+                    message : "empCode does not exist"
+                });
+                return;
+            }
+
+            let update_obj  = {
+                casualLeave : 15,
+                sickLeave : 15,
+                otherLeave : 15,
+                paidLeave : 15,
+                optionalLeave : 15
+            }
+
+            let leaveUpdated = await db.public.profiles.update(update_obj,{
+                where : {empCode : req.body.empCode}
+            });
+
+            res.status(200).json({
+                success : true,
+                leavesobj : leaveUpdated
+            });
+        }
+
+        else {
+            console.log(err);
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Token not found",
+                    description : err.description
+                }
+            });
+            return;
+        }
+        
+    } catch(err) {
+        console.log(err);
+        res.status(500).json({
+            success: false,
+            error: {
+                message: "Please put all body parameters",
+                description: err.description
+            }
+        });
+    }
+}
+
 async function updateFalse(req,res) {
     try {
 
@@ -384,10 +484,10 @@ async function updateFalse(req,res) {
     }
 }
 
-
 module.exports = {
     create,
     get,
     updateTrue,
-    updateFalse
+    updateFalse,
+    updateCount
 }

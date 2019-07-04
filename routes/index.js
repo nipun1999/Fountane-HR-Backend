@@ -45,7 +45,7 @@ router.post('/leaves/create', leavesCtrl.create);
 router.get('/leaves/get', leavesCtrl.get);
 router.post('/leaves/updateTrue',leavesCtrl.updateTrue);
 router.post('/leaves/updateFalse',leavesCtrl.updateFalse);
-
+router.post('/leaves/updateCount',leavesCtrl.updateCount); // requires empCode to be passed
 
 
 // Company EndPoints
