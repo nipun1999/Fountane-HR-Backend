@@ -23,6 +23,7 @@
     "express": "^4.16.4",
     "express-fileupload": "^0.4.0",
     "express-session": "^1.15.6",
+    "fcm-node": "^1.5.1",
     "firebase-admin": "^5.12.1",
     "google-auth-library": "^4.2.2",
     "googleapis": "^40.0.0",
