@@ -145,6 +145,18 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue : 15
         },
 
+        paidLeave : {
+            type : DataTypes.INTEGER,
+            allowNull : false,
+            defaultValue : 15
+        },
+
+        optionalLeave : {
+            type : DataTypes.INTEGER,
+            allowNull : false,
+            defaultValue : 15
+        },
+
         attendanceId : {
             type : DataTypes.INTEGER,
             defaultValue: 0
