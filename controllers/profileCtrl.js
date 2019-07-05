@@ -313,12 +313,7 @@ async function getDepartmentWise(req, res) {
 
             if(req.query.role_responsibility && req.query.department) {
                 query.role_responsibility = req.query.role_responsibility
-                if(query.role_responsibility == 'Clubs') {
-                    query.college = req.query.department
-                }
-                else {
-                    query.department = req.query.department
-                }
+                query.department = req.query.department
             }
             else {
                 res.status(500).json({
