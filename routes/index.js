@@ -45,7 +45,7 @@ router.post('/leaves/create', leavesCtrl.create);
 router.get('/leaves/get', leavesCtrl.get);
 router.post('/leaves/updateTrue',leavesCtrl.updateTrue);
 router.post('/leaves/updateFalse',leavesCtrl.updateFalse);
-router.post('/leaves/updateCount',leavesCtrl.updateCount); // requires empCode to be passed
+//router.post('/leaves/updateCount',leavesCtrl.updateCount); // requires empCode to be passed
 
 
 // Company EndPoints
@@ -81,6 +81,7 @@ router.post('/signup',registerCtrl.signup);
 router.post('/create/employeeProfile',profile.createProfile);
 router.post('/update/employeeProfile',profile.updateProfile);
 router.get('/get/employeeProfile',profile.getProfile);
+router.get('/get/departmentWise',profile.getDepartmentWise)
 
 router.get('/get/roles',rpCtrl.getRoles)
 router.get('/get/perm',rpCtrl.getPermissions)

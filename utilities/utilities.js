@@ -32,7 +32,7 @@ module.exports.verifyRole = async function(roleId,action,entityName) {
 
 
     let result = await db.public.sequelize.query(query, {
-            plain: false,
+                        
             replacements:{
                 entityName:entityName,
                 roleId:roleId,
