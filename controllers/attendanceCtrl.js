@@ -369,17 +369,19 @@ async function getEmployeeAttendance(req, res){
  
             let query = {};
 
-            //Do ACL instead of this
-            if(user.roleId==0) {
-                if(req.query.empCode){
-                    query.empCode = req.query.empCode;
-                }
+            // //Do ACL instead of this
+            // if(user.roleId==0) {
+            //     if(req.query.empCode){
+            //         query.empCode = req.query.empCode;
+            //     }
+            // }
+            // else {
+            //     query.empCode = user.empCode
+            // }
+            // //
+            if(req.query.empCode) {
+                query.empCode = req.query.empCode
             }
-            else {
-                query.empCode = user.empCode
-            }
-            //
- 
            
             if(req.query.date){
                 query.date = req.query.date;

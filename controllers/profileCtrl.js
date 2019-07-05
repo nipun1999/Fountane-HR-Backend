@@ -83,6 +83,7 @@ async function createProfile(req,res) {
                 empType: req.body.empType   
                 
             };
+            
 
             for (var i in create_obj) {
                 if (!create_obj[i]) {
@@ -95,6 +96,14 @@ async function createProfile(req,res) {
                         return;
                     }
                 }
+            }
+
+            if(create_obj.role_responsibility === 'Clubs') {
+                create_obj.college = req.body.college
+            }
+            else {
+                //write error
+                console.log('\n\n\n\\n\n\\neroroeoroe\n\n\n')
             }
             
             let validRoleID = await db.public.roles.findOne({
@@ -202,6 +211,13 @@ async function getProfile(req, res) {
                 query.fountaneEmail = req.query.fountaneEmail
             }
 
+            if(req.query.role_responsibility) {
+                query.role_responsibility = req.query.role_responsibility
+            }
+
+            if(req.query.college) {
+                query.college = req.query.college
+            }
 
             let profiles = await db.public.profiles.findAll({
                 where: query
@@ -276,7 +292,8 @@ async function getDepartmentWise(req, res) {
        if (user_credentials){
 
             // Check for access for endpoint
-            if(!utilities.verifyRole(user_credentials.roleId,'r','profiles')) {
+            let re = await utilities.verifyRole(user_credentials.roleId,'r','profiles');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -289,15 +306,18 @@ async function getDepartmentWise(req, res) {
             if(req.query.role_responsibility && req.query.department) {
                 query.role_responsibility = req.query.role_responsibility
                 if(query.role_responsibility == 'Clubs') {
-                    query.college = query.department
+                    query.college = req.query.department
                 }
                 else {
-                    query.department = query.department
+                    query.department = req.query.department
                 }
+            }
+            else {
+                //enter them
             }
             
 
-
+            console.log(query)
             let profiles = await db.public.profiles.findAll({
                 where: query
             })
@@ -310,9 +330,17 @@ async function getDepartmentWise(req, res) {
                 console.log('no')
             }
 
+            let newProfile = []
+            let k=0
+            for(let i=0;i<profiles.length;i++) {
+                newProfile[k++] = {
+                    name : profiles[i].name,
+                    empCode : profiles[i].empCode
+                }
+            }
             res.status(200).json({
                 success: true,
-                profile: profiles
+                profile: newProfile
             });
       }else {
             console.log(err);
@@ -447,5 +475,6 @@ async function updateProfile(req,res) {
 module.exports = {
     createProfile,
     getProfile,
-    updateProfile
+    updateProfile,
+    getDepartmentWise
 }

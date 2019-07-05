@@ -164,7 +164,8 @@ async function checkUserGoogle(req, res){
                         empCode : user.empCode,
                         name: user.name,
                         token: token,
-                        status : newUserStatus
+                        status : newUserStatus,
+                        email : email
                     });
                 }
                 else {
