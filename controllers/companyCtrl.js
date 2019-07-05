@@ -29,8 +29,8 @@ async function create(req, res){
             });    
         }
         if(user) {
-
-            if(!utilities.verifyRole(user.roleId,'c','companyDetails')) {
+            let re = await utilities.verifyRole(user.roleId,'c','companyDetails');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -127,8 +127,8 @@ async function get(req, res) {
         }
         if(user) {
 
-
-            if(!utilities.verifyRole(user.roleId,'r','companyDetails')) {
+            let re = await utilities.verifyRole(user.roleId,'r','companyDetails');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -213,8 +213,8 @@ async function update(req,res) {
             });    
         }
         if(user) {
-
-            if(!utilities.verifyRole(user.roleId,'u','companyDetails')) {
+            let re = await utilities.verifyRole(user.roleId,'u','companyDetails');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"

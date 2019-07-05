@@ -1,7 +1,29 @@
 var db = require("../models/db");
 var config = require("../config/config");
 var utilities = require("../utilities/utilities");
+var FCM = require('fcm-node');
+var serverKey = 'AAAAdAEE1Ic:APA91bFadkxXpAnpmvpg4iAPbmJD0DR0hzjKotxvxh1RvLwjACGG41-hT5383A-QPpP_F93Qntu8-rRk_nNMf7Rp9YPKLamnrNuKmN_2ReziWxmpXLkPMZA4BQq91vpAkxoT-x48jamX'; //put your server key here
+var fcm = new FCM(serverKey);
 
+
+
+function sendMessage(title){
+    var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
+        to: '/topics/News',         
+        notification: {
+            title: 'New news at Fountane', 
+            body: title 
+        },
+    };
+
+    fcm.send(message, function(err, response){
+        if (err) {
+            console.log("Something has gone wrong!");
+        } else {
+            console.log("Successfully sent with response: ", response);
+        }
+    });
+}
 
 async function create(req, res){
     
@@ -29,8 +51,8 @@ async function create(req, res){
             });    
         }
         if(user) {
-
-            if(!utilities.verifyRole(user.roleId,'c','news')) {
+            let re = await utilities.verifyRole(user.roleId,'c','news');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -59,7 +81,9 @@ async function create(req, res){
             }
 
             let newsobj_created = await db.public.news.create(create_obj);
-    
+
+            await sendMessage(req.body.title)
+
             res.status(200).json({
                 success: true,
                 newsobj: newsobj_created
@@ -116,7 +140,8 @@ async function get(req, res) {
         if(user) {
 
             // Check for access for endpoint
-            if(!utilities.verifyRole(user.roleId,'r','news')) {
+            let re = await utilities.verifyRole(user.roleId,'r','news');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -200,7 +225,8 @@ async function update(req,res) {
         if(user) {
 
             // Check for access for endpoint
-            if(!utilities.verifyRole(user.roleId,'u','news')) {
+            let re = await utilities.verifyRole(user.roleId,'u','news');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -299,7 +325,8 @@ async function destroy(req, res){
         if(user) {
 
             // Check for access for endpoint
-            if(!utilities.verifyRole(user.roleId,'d','news')) {
+            let re = await utilities.verifyRole(user.roleId,'d','news');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"

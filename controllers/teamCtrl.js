@@ -34,7 +34,8 @@ async function createTeamMember(req,res) {
         if (user_credentials) {
 
             // Check for access for endpoint
-            if(!utilities.verifyRole(user_credentials.roleId,'c','teams')) {
+            let re = await utilities.verifyRole(user_credentials.roleId,'c','teams');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -247,7 +248,8 @@ async function getTeamMember(req, res) {
         if (user_credentials){
 
             // Check for access for endpoint
-            if(!utilities.verifyRole(user_credentials.roleId,'r','teams')) {
+            let re = await utilities.verifyRole(user_credentials.roleId,'r','teams');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"

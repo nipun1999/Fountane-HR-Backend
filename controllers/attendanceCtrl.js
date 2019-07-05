@@ -34,7 +34,7 @@ async function createAttendance(req, res){
            if(user) {
                 let re = await utilities.verifyRole(user.roleId,'c','attendances')
                 // console.log('fucking',re)
-                if(!re) {
+                if(re) {
                     res.status(500).json({
                         success : false,
                         message : "Permissions not available"
@@ -143,8 +143,9 @@ async function updateCheckOut(req, res){
         }
        
         if(user) {
- 
-            if(!utilities.verifyRole(user.roleId,'u','attendances')) {
+            
+            let re = await utilities.verifyRole(user.roleId,'u','attendances');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -250,8 +251,8 @@ async function addComment(req, res){
         }
         if(user) {
  
- 
-            if(!utilities.verifyRole(user.roleId,'c','attendances')) {
+            let re = await utilities.verifyRole(user.roleId,'u','attendances');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -357,8 +358,8 @@ async function getEmployeeAttendance(req, res){
         }
         if(user) {
  
- 
-            if(!utilities.verifyRole(user.roleId,'r','attendances')) {
+            let re = await utilities.verifyRole(user.roleId,'r','attendances');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -447,8 +448,8 @@ async function getAttendanceByMonth(req, res){
         }
         if(user) {
  
- 
-            if(!utilities.verifyRole(user.roleId,'r','attendances')) {
+            let re = await utilities.verifyRole(user.roleId,'r','attendances');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -529,7 +530,7 @@ async function getAttendanceByMonth(req, res){
             let values2 = await db.public.leavesobj.findAll({
                 where : {
                     empCode : req.query.empCode ,
-                    status : true ,
+                    status : "accepted" ,
                     fromDate :{
                         [db.public.Op.between] : [startDate,endDate]
                     }
@@ -557,7 +558,7 @@ async function getAttendanceByMonth(req, res){
             let values3 = await db.public.leavesobj.findAll({
                 where : {
                     empCode : req.query.empCode ,
-                    status : true ,
+                    status : "accepted" ,
                     toDate :{
                         [db.public.Op.between] : [startDate,endDate]
                     }

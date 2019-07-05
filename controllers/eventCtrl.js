@@ -1,6 +1,28 @@
 var db = require("../models/db");
 var config = require("../config/config");
 var utilities = require("../utilities/utilities");
+var FCM = require('fcm-node');
+var serverKey = 'AAAAdAEE1Ic:APA91bFadkxXpAnpmvpg4iAPbmJD0DR0hzjKotxvxh1RvLwjACGG41-hT5383A-QPpP_F93Qntu8-rRk_nNMf7Rp9YPKLamnrNuKmN_2ReziWxmpXLkPMZA4BQq91vpAkxoT-x48jamX'; //put your server key here
+var fcm = new FCM(serverKey);
+
+
+function sendMessage(title){
+    var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
+        to: '/topics/Events',         
+        notification: {
+            title: 'New Event at Fountane', 
+            body: title 
+        },
+    };
+
+    fcm.send(message, function(err, response){
+        if (err) {
+            console.log("Something has gone wrong!");
+        } else {
+            console.log("Successfully sent with response: ", response);
+        }
+    });
+}
 
 async function createEvent(req,res) {
     try {
@@ -32,8 +54,8 @@ async function createEvent(req,res) {
 
 
         if (user_credentials) {
-
-            if(!utilities.verifyRole(user_credentials.roleId,'c','events')) {
+            let re = await utilities.verifyRole(user_credentials.roleId,'c','events');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -76,7 +98,11 @@ async function createEvent(req,res) {
                 create_obj.imageFirebaseLink = req.body.imageFirebaseLink;
             }
 
+
+
+
             try{
+                await sendMessage(req.body.name)
                 let eventCreate = await db.public.events.create(create_obj);
                 res.status(200).json({
                     success: true,
@@ -150,8 +176,8 @@ async function getEvent(req, res) {
         }
 
         if (user_credentials){
-
-            if(!utilities.verifyRole(user_credentials.roleId,'r','events')) {
+            let re = await utilities.verifyRole(user_credentials.roleId,'r','events');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -241,8 +267,8 @@ async function updateEvent(req, res) {
         }
 
         if (user_credentials){
-
-            if(!utilities.verifyRole(user_credentials.roleId,'u','events')) {
+            let re = await utilities.verifyRole(user_credentials.roleId,'u','events');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
@@ -363,8 +389,8 @@ async function deleteEvent(req, res) {
         }
 
         if (user_credentials){
-
-            if(!utilities.verifyRole(user_credentials.roleId,'d','events')) {
+            let re = await utilities.verifyRole(user_credentials.roleId,'d','events');
+            if(re) {
                 res.status(500).json({
                     success : false,
                     message : "Permissions not available"
