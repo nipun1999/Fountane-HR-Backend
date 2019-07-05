@@ -121,6 +121,10 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
 
+        college: {
+            type:DataTypes.STRING
+        },
+
         status : {
             type : DataTypes.BOOLEAN,
             allowNull : false,

@@ -2,6 +2,8 @@ var db = require("../models/db");
 var config = require("../config/config");
 var utilities = require("../utilities/utilities");
 
+//return details using roles_responsibility+department
+
 async function createProfile(req,res) {
     try {
 
@@ -213,6 +215,101 @@ async function getProfile(req, res) {
             if(req.query.fountaneEmail) {
                 query.fountaneEmail = req.query.fountaneEmail
             }
+
+
+            let profiles = await db.public.profiles.findAll({
+                where: query
+            })
+            // console.log(profiles[0])
+            // console.log(profiles[0].profile)
+            if(profiles[0]) {
+                console.log('yes')
+            }
+            else {
+                console.log('no')
+            }
+
+            res.status(200).json({
+                success: true,
+                profile: profiles
+            });
+      }else {
+            console.log(err);
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Token not found",
+                    description : err.description
+                }
+            });
+            return;
+       }
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            success: false,
+            error: {
+                message: "Request for invalid employ code",
+                description: err.description
+            }
+        });
+    }
+}
+
+
+async function getPr(req, res) {
+    console.log('entered')
+    try {
+
+
+        // Authoization check for JWT token
+        var authToken = req.header('X-AUTH-TOKEN')
+
+        if (authToken == null || authToken ==""){
+            res.status(500).json({
+                success: false,
+                error : {
+                    message : "Token not provided"
+                }
+            });
+            return;
+        }
+
+        try {
+            var user_credentials = utilities.decryptJWTWithToken(authToken);
+        }
+        catch(err){
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Invalid token provided"
+                }
+            });
+        }
+       if (user_credentials){
+
+            // Check for access for endpoint
+            if(!utilities.verifyRole(user_credentials.roleId,'r','profiles')) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
+
+            let query = {};
+
+            if(req.query.role_responsibility && req.query.department) {
+                query.role_responsibility = req.query.role_responsibility
+                if(query.role_responsibility == 'Clubs') {
+                    query.college = query.department
+                }
+                else {
+                    query.department = query.department
+                }
+            }
+            
 
 
             let profiles = await db.public.profiles.findAll({
