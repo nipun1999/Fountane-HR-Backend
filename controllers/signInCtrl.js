@@ -135,7 +135,7 @@ async function checkUserGoogle(req, res){
 
                 let userProfile = await db.public.profiles.findOne({
                     where : {
-                        fountaneEmail : req.body.fountaneEmail
+                        fountaneEmail : email
                     }
                 })
 
@@ -164,7 +164,8 @@ async function checkUserGoogle(req, res){
                         empCode : user.empCode,
                         name: user.name,
                         token: token,
-                        status : newUserStatus
+                        status : newUserStatus,
+                        email : email
                     });
                 }
                 else {

@@ -368,10 +368,20 @@ async function getEmployeeAttendance(req, res){
             }
  
             let query = {};
-            if(req.query.empCode){
-                query.empCode = req.query.empCode;
+
+            // //Do ACL instead of this
+            // if(user.roleId==0) {
+            //     if(req.query.empCode){
+            //         query.empCode = req.query.empCode;
+            //     }
+            // }
+            // else {
+            //     query.empCode = user.empCode
+            // }
+            // //
+            if(req.query.empCode) {
+                query.empCode = req.query.empCode
             }
- 
            
             if(req.query.date){
                 query.date = req.query.date;
@@ -450,17 +460,21 @@ async function getAttendanceByMonth(req, res){
             }
            
             let query = {};
- 
-            if(req.query.empCode){
-                query.empCode = req.query.empCode;
-            }
-            else {
-                res.status(500).json({
-                    success : false,
-                    message : "empCode is a required parameter"
-                });
-                return;
-            }
+            
+                if(req.query.empCode){
+                    query.empCode = req.query.empCode;
+                }
+                else {
+                    res.status(500).json({
+                        success : false,
+                        message : "empCode is a required parameter"
+                    });
+                    return;
+                }
+            
+            //
+           
+            
  
             if(req.query.month){
                 query.month = req.query.month;

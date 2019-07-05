@@ -81,6 +81,7 @@ router.post('/signup',registerCtrl.signup);
 router.post('/create/employeeProfile',profile.createProfile);
 router.post('/update/employeeProfile',profile.updateProfile);
 router.get('/get/employeeProfile',profile.getProfile);
+router.get('/get/departmentWise',profile.getDepartmentWise)
 
 router.get('/get/roles',rpCtrl.getRoles)
 router.get('/get/perm',rpCtrl.getPermissions)

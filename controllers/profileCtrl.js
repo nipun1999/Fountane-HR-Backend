@@ -2,6 +2,8 @@ var db = require("../models/db");
 var config = require("../config/config");
 var utilities = require("../utilities/utilities");
 
+//return details using roles_responsibility+department
+
 async function createProfile(req,res) {
     try {
 
@@ -81,6 +83,7 @@ async function createProfile(req,res) {
                 empType: req.body.empType   
                 
             };
+            
 
             for (var i in create_obj) {
                 if (!create_obj[i]) {
@@ -93,6 +96,14 @@ async function createProfile(req,res) {
                         return;
                     }
                 }
+            }
+
+            if(create_obj.role_responsibility === 'Clubs') {
+                create_obj.college = req.body.college
+            }
+            else {
+                //write error
+                console.log('\n\n\n\\n\n\\neroroeoroe\n\n\n')
             }
             
             let validRoleID = await db.public.roles.findOne({
@@ -200,6 +211,13 @@ async function getProfile(req, res) {
                 query.fountaneEmail = req.query.fountaneEmail
             }
 
+            if(req.query.role_responsibility) {
+                query.role_responsibility = req.query.role_responsibility
+            }
+
+            if(req.query.college) {
+                query.college = req.query.college
+            }
 
             let profiles = await db.public.profiles.findAll({
                 where: query
@@ -216,6 +234,113 @@ async function getProfile(req, res) {
             res.status(200).json({
                 success: true,
                 profile: profiles
+            });
+      }else {
+            console.log(err);
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Token not found",
+                    description : err.description
+                }
+            });
+            return;
+       }
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            success: false,
+            error: {
+                message: "Request for invalid employ code",
+                description: err.description
+            }
+        });
+    }
+}
+
+
+async function getDepartmentWise(req, res) {
+    console.log('entered')
+    try {
+
+
+        // Authoization check for JWT token
+        var authToken = req.header('X-AUTH-TOKEN')
+
+        if (authToken == null || authToken ==""){
+            res.status(500).json({
+                success: false,
+                error : {
+                    message : "Token not provided"
+                }
+            });
+            return;
+        }
+
+        try {
+            var user_credentials = utilities.decryptJWTWithToken(authToken);
+        }
+        catch(err){
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Invalid token provided"
+                }
+            });
+        }
+       if (user_credentials){
+
+            // Check for access for endpoint
+            let re = await utilities.verifyRole(user_credentials.roleId,'r','profiles');
+            if(re) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
+
+            let query = {};
+
+            if(req.query.role_responsibility && req.query.department) {
+                query.role_responsibility = req.query.role_responsibility
+                if(query.role_responsibility == 'Clubs') {
+                    query.college = req.query.department
+                }
+                else {
+                    query.department = req.query.department
+                }
+            }
+            else {
+                //enter them
+            }
+            
+
+            console.log(query)
+            let profiles = await db.public.profiles.findAll({
+                where: query
+            })
+            // console.log(profiles[0])
+            // console.log(profiles[0].profile)
+            if(profiles[0]) {
+                console.log('yes')
+            }
+            else {
+                console.log('no')
+            }
+
+            let newProfile = []
+            let k=0
+            for(let i=0;i<profiles.length;i++) {
+                newProfile[k++] = {
+                    name : profiles[i].name,
+                    empCode : profiles[i].empCode
+                }
+            }
+            res.status(200).json({
+                success: true,
+                profile: newProfile
             });
       }else {
             console.log(err);
@@ -350,5 +475,6 @@ async function updateProfile(req,res) {
 module.exports = {
     createProfile,
     getProfile,
-    updateProfile
+    updateProfile,
+    getDepartmentWise
 }
