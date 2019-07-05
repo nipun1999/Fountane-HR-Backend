@@ -46,9 +46,9 @@ var config = {
     app: {
         jwtKey: 'nfsdikgnsdkf6agfa5wrg4awr',
         sessionKey: "SecretSessionKey",
-        port: process.env.PORT || '4192',
+        port: process.env.PORT || '4900',
         name: "generic Services API Platform",
-        local_domain: "http://localhost:" + (process.env.PORT || '4192') + "/api/v1",
+        local_domain: "http://localhost:" + (process.env.PORT || '4900') + "/api/v1",
     },
 
     db: {
