@@ -99,12 +99,20 @@ async function createProfile(req,res) {
             }
 
             if(create_obj.role_responsibility === 'Clubs') {
-                create_obj.college = req.body.college
+                if(req.body.college) {
+                    create_obj.college = req.body.college
+                }
+                else {
+                    res.status(500).json({
+                        success: false,
+                        error: {
+                            message: "College field is compulsory"
+                        }
+                    });
+                    return;
+                }
             }
-            else {
-                //write error
-                console.log('\n\n\n\\n\n\\neroroeoroe\n\n\n')
-            }
+            
             
             let validRoleID = await db.public.roles.findOne({
                 where : {id : create_obj.roleId}
