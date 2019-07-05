@@ -321,7 +321,11 @@ async function getDepartmentWise(req, res) {
                 }
             }
             else {
-                //enter them
+                res.status(500).json({
+                    success : false,
+                    message : "role_responsibility and department are required fields"
+                });
+                return;
             }
             
 
