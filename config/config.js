@@ -23,8 +23,8 @@ var db = {
     hr_db: {
         DATABASE_HOST: process.env.DATABASE_HOST || 'localhost',
         DATABASE_NAME: process.env.DATABASE_NAME || 'fountanehrdb',
-        DATABASE_USERNAME: process.env.DATABASE_USERNAME || 'postgres',
-        DATABASE_PASSWORD: process.env.DATABASE_PASSWORD || 'fountane',
+        DATABASE_USERNAME: process.env.DATABASE_USERNAME || 'fountane',
+        DATABASE_PASSWORD: process.env.DATABASE_PASSWORD || 'Co0kies!',
         DATABASE_PORT: process.env.DATABASE_PORT || 5432,
         DATABASE_DIALECT: process.env.DATABASE_DIALECT || 'postgres',
         NODE_ENV: process.env.NODE_ENV || 'development',
@@ -46,9 +46,9 @@ var config = {
     app: {
         jwtKey: 'nfsdikgnsdkf6agfa5wrg4awr',
         sessionKey: "SecretSessionKey",
-        port: process.env.PORT || '4900',
+        port: process.env.PORT || '4192',
         name: "generic Services API Platform",
-        local_domain: "http://localhost:" + (process.env.PORT || '4900') + "/api/v1",
+        local_domain: "http://localhost:" + (process.env.PORT || '4192') + "/api/v1",
     },
 
     db: {
