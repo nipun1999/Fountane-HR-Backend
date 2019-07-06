@@ -123,6 +123,10 @@ router.get('/get/rp',rpCtrl.getRP)
 router.get('/get/roles',rpCtrl.getRoles)
 router.get('/get/perm',rpCtrl.getPermissions)
 
+//Edit password
+
+router.post('/edit/password',registerCtrl.editPassword)
+
 module.exports = router;
 
 
