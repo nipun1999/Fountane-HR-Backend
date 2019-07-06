@@ -5,6 +5,8 @@ var crypto = require("crypto");
 
 
 async function create(req, res){
+    console.log('\n\n\nRequest\n',req)
+    console.log('\n\n\nResponse\n',res)
     try {
         
         let create_obj = {
@@ -65,6 +67,7 @@ async function create(req, res){
     }
 
 } 
+
 
 async function signup(req, res){
     try {

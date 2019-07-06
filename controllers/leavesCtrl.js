@@ -162,12 +162,19 @@ async function get(req, res) {
                 });
                 return;
             }
-        
+            console.log('user ris',user_credentials)
             let query = {};
-
-            if(req.query.empCode){
-                query.empCode = req.query.empCode;
+            if(user_credentials.roleId == 1) {
+                //employee
+                query.empCode = user_credentials.empCode
             }
+            else {
+                //admin
+                if(req.query.empCode){
+                    query.empCode = req.query.empCode;
+                }
+            }
+            
             
             if(req.query.leaveType){
                 query.leaveType = req.query.leaveType;

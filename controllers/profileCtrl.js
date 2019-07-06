@@ -175,7 +175,7 @@ async function getProfile(req, res) {
             });
             return;
         }
-
+        console.log('TOKEN IS',authToken)
         try {
             var user_credentials = utilities.decryptJWTWithToken(authToken);
         }
@@ -187,7 +187,8 @@ async function getProfile(req, res) {
                 }
             });
         }
-       if (user_credentials){
+        console.log(user_credentials)
+       if(user_credentials){
 
             // Check for access for endpoint
             let re = await utilities.verifyRole(user_credentials.roleId,'r','profiles');
@@ -244,12 +245,10 @@ async function getProfile(req, res) {
                 profile: profiles
             });
       }else {
-            console.log(err);
             res.status(500).json({
                 success : false,
                 error : {
                     message : "Token not found",
-                    description : err.description
                 }
             });
             return;
