@@ -210,7 +210,9 @@ async function getProfile(req, res) {
             }
 
             if(req.query.name) {
-                query.name = req.query.name
+                query.name = {
+                    [db.public.sequelize.Op.iLike]: `%${query.name}%`
+                }
             }
 
             if(req.query.fountaneEmail) {
@@ -226,16 +228,7 @@ async function getProfile(req, res) {
             }
 
             let profiles = await db.public.profiles.findAll({
-                where: {
-                    empCode: query.empCode? query.empCode: undefined,
-                    name: {
-                        [db.public.sequelize.Op.iLike]: `%${query.name}%`
-                    },
-                    designation: query.designation? query.designation : undefined,
-                    fountaneEmail: query.fountaneEmail? query.fountaneEmail : undefined,
-                    role_responsibility: query.role_responsibility? query.role_responsibility : undefined,
-                    college: query.college? query.college : undefined
-                }
+                where: query
             })
             // console.log(profiles[0])
             // console.log(profiles[0].profile)
