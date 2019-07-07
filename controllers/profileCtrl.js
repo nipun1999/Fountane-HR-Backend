@@ -211,7 +211,7 @@ async function getProfile(req, res) {
 
             if(req.query.name) {
                 query.name = {
-                    [db.public.sequelize.Op.iLike]: `%${query.name}%`
+                    [db.public.sequelize.Op.iLike]: `%${req.query.name}%`
                 }
             }
 
