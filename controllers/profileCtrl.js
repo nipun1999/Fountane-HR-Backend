@@ -200,36 +200,36 @@ async function getProfile(req, res) {
                 return;
             }
 
-            let query = {};
+            // let query = {};
 
-            if(req.query.empCode){
-                query.empCode = req.query.empCode;
-            }
-            if(req.query.designation){
-                query.designation = req.query.designation;
-            }
-            if(req.query.name){
-                query.designation = req.query.designation;
-            }
+            // if(req.query.empCode){
+            //     query.empCode = req.query.empCode;
+            // }
+            // if(req.query.designation){
+            //     query.designation = req.query.designation;
+            // }
+            // if(req.query.name){
+            //     query.designation = req.query.designation;
+            // }
 
-            if(req.query.name) {
-                query.name = req.query.name
-            }
+            // if(req.query.name) {
+            //     query.name = req.query.name
+            // }
 
-            if(req.query.fountaneEmail) {
-                query.fountaneEmail = req.query.fountaneEmail
-            }
+            // if(req.query.fountaneEmail) {
+            //     query.fountaneEmail = req.query.fountaneEmail
+            // }
 
-            if(req.query.role_responsibility) {
-                query.role_responsibility = req.query.role_responsibility
-            }
+            // if(req.query.role_responsibility) {
+            //     query.role_responsibility = req.query.role_responsibility
+            // }
 
-            if(req.query.college) {
-                query.college = req.query.college
-            }
+            // if(req.query.college) {
+            //     query.college = req.query.college
+            // }
 
             let profiles = await db.public.profiles.findAll({
-                where: query
+                where: req.query
             })
             // console.log(profiles[0])
             // console.log(profiles[0].profile)
