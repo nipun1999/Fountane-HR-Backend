@@ -162,12 +162,19 @@ async function get(req, res) {
                 });
                 return;
             }
-        
+            console.log('user ris',user_credentials)
             let query = {};
-
-            if(req.query.empCode){
-                query.empCode = req.query.empCode;
+            if(user_credentials.roleId == 1) {
+                //employee
+                query.empCode = user_credentials.empCode
             }
+            else {
+                //admin
+                if(req.query.empCode){
+                    query.empCode = req.query.empCode;
+                }
+            }
+            
             
             if(req.query.leaveType){
                 query.leaveType = req.query.leaveType;
@@ -484,10 +491,121 @@ async function updateFalse(req,res) {
     }
 }
 
+async function update(req,res) {
+    try {
+
+        // Authoization check for JWT token
+        var authToken = req.header('X-AUTH-TOKEN')
+
+        if (authToken == null || authToken ==""){
+            res.status(500).json({
+                success: false,
+                error : {
+                    message : "Token not provided"
+                }
+            });
+            return;
+        }
+
+        try {
+            var user_credentials = utilities.decryptJWTWithToken(authToken);
+        }
+        catch(err){
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Invalid token provided"
+                }
+            });
+        }
+        
+        if (user_credentials){
+            let re = await utilities.verifyRole(user_credentials.roleId,'u','leaves');
+            if(re) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
+
+            let query = {};
+            if(!req.body.leaveId) {
+                res.status(500).json({
+                    success : false,
+                    error : {
+                        message : "Pass the leaveId"
+                    }
+                });
+                return;
+            }
+            query.leaveId = req.body.leaveId
+
+            let leaveObj = await db.public.leavesobj.findOne({
+                where : query
+            })
+            if(!leaveObj) {
+                res.status(500).json({
+                    success : false,
+                    error : {
+                        message : "No such leave exists"
+                    }
+                });
+                return;
+            }
+            if(leaveObj.status == 'accepted') {
+                res.status(500).json({
+                    success : false,
+                    error : {
+                        message : "Leave has already been approved"
+                    }
+                });
+                return;
+            }
+            let create_obj = {}
+            if(req.body.fromDate) create_obj.fromDate = req.body.fromDate
+            if(req.body.toDate) create_obj.toDate = req.body.toDate
+            if(req.body.description) create_obj.description = req.body.description
+            
+            let leaveUpdated = await db.public.leavesobj.update(create_obj,{
+                where : query
+            })
+
+            res.status(200).json({
+                success : true,
+                leavesobj : leaveUpdated
+            });
+        }
+
+        else {
+            console.log(err);
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Token not found",
+                    description : err.description
+                }
+            });
+            return;
+        }
+        
+    } catch(err) {
+        console.log(err);
+        res.status(500).json({
+            success: false,
+            error: {
+                message: "Please put all body parameters",
+                description: err.description
+            }
+        });
+    }
+}
+
 module.exports = {
     create,
     get,
     updateTrue,
     updateFalse,
+    update
     //updateCount
 }

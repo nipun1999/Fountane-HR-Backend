@@ -5,6 +5,8 @@ var crypto = require("crypto");
 
 
 async function create(req, res){
+    console.log('\n\n\nRequest\n',req)
+    console.log('\n\n\nResponse\n',res)
     try {
         
         let create_obj = {
@@ -65,6 +67,81 @@ async function create(req, res){
     }
 
 } 
+
+async function editPassword(req,res) {
+    try {
+        //
+        var authTOKEN = req.header('X-AUTH-TOKEN');
+        if(authTOKEN == "" || authTOKEN == null) {
+            res.status(500).json({
+                success: false,
+                error: {
+                    message: "Token not passed"
+                }
+            });
+        }
+        try{
+            var user = utilities.decryptJWTWithToken(authTOKEN)
+        }    
+        catch{
+            res.status(500).json({
+                success: false,
+                error: {
+                    message: "invalid Token"
+                }
+            });    
+        }
+
+        if(user) {
+            let email = user.fountaneEmail
+            console.log(email)
+            if(!req.body.password) {
+                res.status(500).json({
+                    success: false,
+                    error: {
+                        message: "Please send the new password"
+                    }
+                });
+                return ;
+            }
+            let salt = crypto.randomBytes(16).toString('hex');
+            let password = crypto.pbkdf2Sync(req.body.password, salt, 1000, 512, "sha512").toString('hex');
+            let create_obj = {
+                password : password,
+                salt : salt
+            }
+            let updatePassword = await db.public.signInObj.update(create_obj,{
+                where : {
+                    fountaneEmail:email
+                }
+            })
+
+            res.status(200).json({
+                success : true,
+                passwordUpdate : updatePassword
+            });
+        }
+        else {
+            res.status(500).json({
+                success: false,
+                error: {
+                    message: "Token not found"
+                }
+            });
+            return ;
+        }
+    }catch(err) {
+        console.log(err);
+        res.status(500).json({
+            success: false,
+            error: {
+                message: "Server Error",
+                description: err.description
+            }
+        });
+    }
+}
+
 
 async function signup(req, res){
     try {
@@ -143,5 +220,6 @@ async function signup(req, res){
 
 module.exports = {
     create,
-    signup
+    signup,
+    editPassword
 }
