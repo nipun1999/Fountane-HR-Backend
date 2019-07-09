@@ -276,6 +276,13 @@ async function updateTrue(req,res) {
             )
             
             leaveCount = leaveCountValue[type] - noOfDays
+            if (leaveCount<0){
+                res.status(500).json({
+                    success : false,
+                    message : "Leave can't be approved , Not sufficient leaves remaining"
+                });
+                return;
+            }
             if (query) {
 
                 leaveUpdated = await db.public.leavesobj.update(
