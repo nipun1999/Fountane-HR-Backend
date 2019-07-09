@@ -90,6 +90,26 @@ async function create(req, res){
                 return;
             }
 
+            let existing = await db.public.leavesobj.findAll({
+                where : {empCode: create_obj.empCode}
+            })
+
+            for (var exist of existing){
+                to = new Date(create_obj.toDate);
+                from = new Date(create_obj.fromDate);
+                existTo = new Date(exist.toDate);
+                existFrom = new Date(exist.fromDate);
+                if (!(existTo<from || existFrom>to)){
+                    if(exist.status != 'rejected'){
+                        res.status(500).json({
+                            success : false,
+                            message : "Leave already exists for these dates"
+                        });
+                        return;
+                    }
+                }
+            }
+
             let leaves_created = await db.public.leavesobj.create(create_obj);
 
             res.status(200).json({
