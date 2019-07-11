@@ -4,7 +4,7 @@ var utilities = require("../utilities/utilities");
 
 async function createProject(req, res){
     
-
+	console.log('the fucking request isis ',req)
     try {
         console.log('PROJECT ID ',req.body.project.id)
         console.log('PROJECT NAME ',req.body.project.name)
