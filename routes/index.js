@@ -131,6 +131,7 @@ router.post('/edit/password',registerCtrl.editPassword)
 //For JIRA webhooks
 router.post('/createProject',jiraCtrl.createProject)
 router.post('/issueUpdate',jiraCtrl.issueUpdated)
+router.get('/get/projects',jiraCtrl.getProject)
 module.exports = router;
 
 

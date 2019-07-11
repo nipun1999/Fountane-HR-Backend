@@ -46,8 +46,107 @@ async function issueUpdated(req, res){
             }
         });
     }
-} 
+}
+
+async function getProject(req, res) {
+    
+    try {
+        // Authorization check for JWT token
+        var authToken = req.header('X-AUTH-TOKEN')
+
+        if (authToken == null || authToken ==""){
+            res.status(500).json({
+                success: false,
+                error : {
+                    message : "Token not provided"
+                }
+            });
+            return;
+        }
+
+        try {
+            var user_credentials = utilities.decryptJWTWithToken(authToken);
+        }
+        catch(err){
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Invalid token provided"
+                }
+            });
+        }
+
+        if (user_credentials){
+            let re = await utilities.verifyRole(user_credentials.roleId,'r','events');
+            if(re) {
+                res.status(500).json({
+                    success : false,
+                    message : "Permissions not available"
+                });
+                return;
+            }
+
+            let query = {};
+
+            if (!req.query.empCode){
+                res.status(500).json({
+                    success : false,
+                    message : "empCode is a required field"
+                });
+                return;
+            }
+
+            if(req.query.status){
+                query.status = req.query.status;
+            }
+            
+            let email = await db.public.profiles.findOne({
+                where : {empCode : query.empCode}
+            })
+
+            if (!email){
+                res.status(500).json({
+                    success : false,
+                    message : "empCode does not exist"
+                });
+                return;
+            }
+
+            fountaneEmail = email.fountaneEmail;
+            query.fountaneEmail = fountaneEmail;
+
+            let getProjects = await db.public.project.findAll({
+                where: query
+            })
+    
+            res.status(200).json({
+                success: true,
+                events : getEvent
+            });
+        }
+
+        else {
+            res.status(500).json({
+                success : false,
+                error : {
+                    message : "Token not found",
+                }
+            });
+            return;
+        }
+
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            error: {
+                message: "Internal Server Error",
+                description: err.description
+            }
+        });
+    }
+}
 module.exports = {
     createProject,
-    issueUpdated
+    issueUpdated,
+    getProject
 }
