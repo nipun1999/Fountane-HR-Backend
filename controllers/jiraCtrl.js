@@ -4,7 +4,7 @@ var utilities = require("../utilities/utilities");
 
 async function createProject(req, res){
     
-	console.log('the fucking request isis ',req)
+	
     try {
         console.log('PROJECT ID ',req.body.project.id)
         console.log('PROJECT NAME ',req.body.project.name)
@@ -25,7 +25,7 @@ async function issueUpdated(req, res){
             console.log('issue id ',req.body.issue.id)
             console.log('project id ',req.body.issue.fields.project.id,req.body.issue.fields.project.name)
             console.log('name of issue ',req.body.issue.fields.summary)
-            console.log('email ',req.body.issue.assignee.emailAddress)
+            console.log('email ',req.body.issue.fields.assignee.emailAddress)
             //give status null      
         }
         
