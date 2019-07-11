@@ -18,6 +18,7 @@ const sequelize = new Sequelize(env.DATABASE_NAME, env.DATABASE_USERNAME, env.DA
 //  logging: false
 });
 
+
 // Connect all the models/tables in the database to a db object,
 //so everything is accessible via one object
 const db = {};
@@ -49,8 +50,9 @@ db.events = require('./events.js')(sequelize,Sequelize);
 db.roles = require('./roles.js')(sequelize,Sequelize)
 db.permissions = require('./permissions.js')(sequelize,Sequelize)
 db.rpObj = require('./roles_permissions.js')(sequelize,Sequelize)
+db.project_jira = require('./project_jira.js')(sequelize,Sequelize)
+db.project = require('./project.js')(sequelize,Sequelize)
 
 //Relations
 // db.profile.belongsTo(db.login, {onDelete: "CASCADE"});
-
 module.exports = db;
