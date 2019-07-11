@@ -7,7 +7,7 @@ async function createProject(req, res){
 	
     try {
         let create_obj = {
-            projectId : req.body.project.id,
+            projectID : req.body.project.id,
             projectName : req.body.project.name
         }
         let result = await db.public.project_jira.create(create_obj)
