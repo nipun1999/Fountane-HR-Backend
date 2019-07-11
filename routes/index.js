@@ -18,7 +18,7 @@ var teamCtrl = require("../controllers/teamCtrl");
 var docsCtrl = require("../controllers/docsCtrl");
 var newsCtrl = require("../controllers/newsCtrl");
 var eventCtrl = require("../controllers/eventCtrl");
-
+var jiraCtrl = require("../controllers/jiraCtrl")
 var rpCtrl = require("../controllers/rpCtrl")
 // // Login and onboarding
 // router.post("/register", login.register);
@@ -127,6 +127,10 @@ router.get('/get/perm',rpCtrl.getPermissions)
 
 router.post('/edit/password',registerCtrl.editPassword)
 
+
+//For JIRA webhooks
+router.post('/createProject',jiraCtrl.createProject)
+router.post('/issueUpdate',jiraCtrl.issueUpdated)
 module.exports = router;
 
 
