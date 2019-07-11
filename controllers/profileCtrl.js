@@ -341,7 +341,8 @@ async function getDepartmentWise(req, res) {
             for(let i=0;i<profiles.length;i++) {
                 newProfile[k++] = {
                     name : profiles[i].name,
-                    empCode : profiles[i].empCode
+                    empCode : profiles[i].empCode,
+                    profilePic : profiles[i].profilePic
                 }
             }
             res.status(200).json({
