@@ -23,7 +23,7 @@ async function issueUpdated(req, res){
         if(eventType === 'issue_assigned') {
             //user assigned an issue.. add user to that project
             console.log('issue id ',req.body.issue.id)
-            console.log('project id ',req.body.fields.project.id,req.body.fields.project.name)
+            console.log('project id ',req.body.issue.fields.project.id,req.body.issue.fields.project.name)
             console.log('name of issue ',req.body.issue.fields.summary)
             console.log('email ',req.body.issue.assignee.emailAddress)
             //give status null      
