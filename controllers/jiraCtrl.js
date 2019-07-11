@@ -25,6 +25,8 @@ async function issueUpdated(req, res){
         let eventType = req.body.issue_event_type_name
         if(eventType === 'issue_assigned') {
             //user assigned an issue.. add user to that project
+            console.log('email ',req.body.issue.assignee.emailAddress)
+            console.log('\n\nbody',req.body)
             let create_obj = {
                 projectID :req.body.issue.fields.project.id,
                 fountaneEmail :req.body.issue.assignee.emailAddress,
