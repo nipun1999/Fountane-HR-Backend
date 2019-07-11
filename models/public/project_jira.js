@@ -1,4 +1,3 @@
-
 module.exports = (sequelize, DataTypes) => {
     const project_jira = sequelize.define('project_jira', {
         
