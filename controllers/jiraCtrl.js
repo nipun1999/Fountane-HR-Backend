@@ -6,11 +6,14 @@ async function createProject(req, res){
     
 
     try {
-        console.log('PROJECT ID ',req.body.project.id)
-        console.log('PROJECT NAME ',req.body.project.name)
+        let create_obj = {
+            projectId : req.body.project.id,
+            projectName : req.body.project.name
+        }
+        let result = await db.public.project_jira.create(create_obj)
+        console.log(result)
     } catch(err) {
         console.log(err);
-        
     }
 } 
 
@@ -22,14 +25,15 @@ async function issueUpdated(req, res){
         let eventType = req.body.issue_event_type_name
         if(eventType === 'issue_assigned') {
             //user assigned an issue.. add user to that project
-            console.log('issue id ',req.body.issue.id)
-            console.log('project id ',req.body.issue.fields.project.id,req.body.issue.fields.project.name)
-            console.log('name of issue ',req.body.issue.fields.summary)
-            console.log('email ',req.body.issue.assignee.emailAddress)
-            //give status null      
+            let create_obj = {
+                projectID :req.body.issue.fields.project.id,
+                fountaneEmail :req.body.issue.assignee.emailAddress,
+                issueId :req.body.issue.id,
+                issueName: req.body.issue.fields.summary
+            }
+            let result = await db.public.project.create(create_obj)
+            console.log(result)
         }
-        
-
     } catch(err) {
         console.log(err);
         res.status(500).json({
