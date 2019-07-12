@@ -23,7 +23,7 @@ async function get() {
                     i=m;
                 }
                 tempRes[department] = tempRes[department] ? tempRes[department] : [];
-                let newQuery = `select distinct(project_jiras."projectName") as projectName from project_jiras inner join projects on project_jiras."projectKey" = projects."projectKey" where projects."assigneeEmail"='${resss.fountaneEmail}'`
+                let newQuery = `select distinct(project_jiras."projectName") as projectName from project_jiras inner join projects on project_jiras."projectKey" = projects."projectKey" where projects."assigneeEmail"='${resss.fountaneEmail.toLowerCase()}'`
                 let newResult = await db.public.sequelize.query(newQuery,{
                     type: db.public.sequelize.QueryTypes.SELECT
                 });
