@@ -21,12 +21,17 @@ async function get() {
             i=m;
         }
         acc[department] = acc[department] ? acc[department] : [];
+        let newQuery = `select distinct(projects.projectName) as projectName from project_jiras inner join projects on project_jiras.projectKey = projects.projectKey where projects.assigneeEmail=${obj.fountaneEmail}`
+        let newResult = await db.public.sequelize.query(newQuery,{
+            type: db.public.sequelize.QueryTypes.SELECT
+        })
         acc[department].push({
             "Employee Name":obj.name,
             "Employee ID":obj.empCode,
             "Employee Location":obj.branchLocation,
             "Employee Designation":obj.designation,
-            "Employee Code": `D${i}`
+            "Employee Code": `D${i}`,
+            "Employee Current Projects" : newResult
         });
         return acc;
     }, {})
