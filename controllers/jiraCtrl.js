@@ -33,6 +33,15 @@ async function issueUpdated(req, res){
             }
             let result = await db.public.project.create(create_obj)
             console.log(result)
+
+            create_obj = {
+                projectID :req.body.issue.fields.project.id,
+                fountaneEmail :req.body.user.emailAddress,
+                issueId :req.body.issue.id,
+                issueName: req.body.issue.fields.summary
+            }
+            result = await db.public.project.create(create_obj)
+            console.log(result)
         }
     } catch(err) {
         console.log(err);
