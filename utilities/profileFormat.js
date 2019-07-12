@@ -8,34 +8,39 @@ async function get() {
     })
     let m = 0;
     let d = 0;
-    result = result.reduce(async (acc, obj)=>{
-        let department = "Delvelopment";
-        let i = 0;
-        if(obj.department == "backend" || obj.department == "frontend"){
-            department = "Delvelopment";
-            d += 1;
-            i=d
-        }else{
-            department = "Marketing";
-            m += 1;
-            i=m;
-        }
-        acc[department] = acc[department] ? acc[department] : [];
-        let newQuery = `select distinct(project_jiras."projectName") as projectName from project_jiras inner join projects on project_jiras."projectKey" = projects."projectKey" where projects."assigneeEmail"='${obj.fountaneEmail}'`
-        let newResult = await db.public.sequelize.query(newQuery,{
-            type: db.public.sequelize.QueryTypes.SELECT
-        })
-        acc[department].push({
-            "Employee Name":obj.name,
-            "Employee ID":obj.empCode,
-            "Employee Location":obj.branchLocation,
-            "Employee Designation":obj.designation,
-            "Employee Code": `D${i}`,
-            "Employee Current Projects" : newResult
+    let ress = new Promise(async (resolve, reject)=>{
+	    let tempRes = {};
+	    for(let resss of result){
+                let department = "Delvelopment";
+                let i = 0;
+                if(resss.department == "backend" || resss.department == "frontend"){
+                    department = "Delvelopment";
+                    d += 1;
+                    i=d
+                }else{
+                    department = "Marketing";
+                    m += 1;
+                    i=m;
+                }
+                tempRes[department] = tempRes[department] ? tempRes[department] : [];
+                let newQuery = `select distinct(project_jiras."projectName") as projectName from project_jiras inner join projects on project_jiras."projectKey" = projects."projectKey" where projects."assigneeEmail"='${resss.fountaneEmail}'`
+                let newResult = await db.public.sequelize.query(newQuery,{
+                    type: db.public.sequelize.QueryTypes.SELECT
+                });
+		console.log("newResult: ", JSON.stringify(newResult));
+                tempRes[department].push({
+                    "Employee Name":resss.name,
+                    "Employee ID":resss.empCode,
+                    "Employee Location":resss.branchLocation,
+                    "Employee Designation":resss.designation,
+                    "Employee Code": `D${i}`,
+                    "Employee Current Projects" : newResult
+                });
+	    }
+            resolve(tempRes);
         });
-        return acc;
-    }, {})
-    console.log(result)
+    resultsNew = await ress;
+    console.log(resultsNew);
 }
 
 get()
