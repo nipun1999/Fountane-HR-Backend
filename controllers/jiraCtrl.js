@@ -19,7 +19,7 @@ async function createProject(req, res){
 
 async function issueUpdated(req, res){
     
-	console.log('request \n',req)
+	console.log('request \n',req.body)
     try {
 
         let eventType = req.body.issue_event_type_name
