@@ -1,12 +1,4 @@
-const Sequelize = require('sequelize');
-const sequelize = new Sequelize('fountanehrdb', 'fountane', 'Co0kies!', {
-  dialect : 'postgres',
-});
-
-
-
-const DataTypes = Sequelize;
-// module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes) => {
     const project = sequelize.define('project', {
         
 
@@ -51,11 +43,8 @@ const DataTypes = Sequelize;
     project.addHook('afterCreate', 'postOnboarding', (permission, options) => {
         console.log("Data to be written in redis here");
     });
-//     return project;
-// };
-project.sync({
-    force : true,
-})
+    return project;
+};
 
 
 

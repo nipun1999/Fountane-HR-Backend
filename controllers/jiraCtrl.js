@@ -7,11 +7,12 @@ async function createProject(req, res){
 	
     try {
         let create_obj = {
-            projectID : req.body.project.id,
+            projectKey : req.body.project.key,
             projectName : req.body.project.name
         }
         let result = await db.public.project_jira.create(create_obj)
-        console.log(result)
+        // console.log(result)
+        console.log('created\n\n')
     } catch(err) {
         console.log(err);
     }
@@ -19,39 +20,25 @@ async function createProject(req, res){
 
 async function issueUpdated(req, res){
     
-	console.log('request \n',req.body)
+	// console.log('request \n',req.body)
     try {
 
         let eventType = req.body.issue_event_type_name
         if(eventType === 'issue_assigned') {
             //user assigned an issue.. add user to that project
             let create_obj = {
-                projectID :req.body.issue.fields.project.id,
-                fountaneEmail :req.body.issue.fields.assignee.emailAddress,
+                projectKey :req.body.issue.fields.project.key,
+                assigneeEmail :req.body.issue.fields.assignee.emailAddress,
+                reporterEmail :req.body.user.emailAddress,
                 issueId :req.body.issue.id,
                 issueName: req.body.issue.fields.summary
             }
             let result = await db.public.project.create(create_obj)
-            console.log(result)
-
-            create_obj = {
-                projectID :req.body.issue.fields.project.id,
-                fountaneEmail :req.body.user.emailAddress,
-                issueId :req.body.issue.id,
-                issueName: req.body.issue.fields.summary
-            }
-            result = await db.public.project.create(create_obj)
-            console.log(result)
+            // console.log(result)
+            // console.log('created\n\n')
         }
     } catch(err) {
         console.log(err);
-        res.status(500).json({
-            success: false,
-            error: {
-                message: "Internal Server Error",
-                description: err.description
-            }
-        });
     }
 }
 
