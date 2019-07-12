@@ -8,7 +8,7 @@ async function get() {
     })
     let m = 0;
     let d = 0;
-    result = result.reduce((acc, obj)=>{
+    result = result.reduce(async (acc, obj)=>{
         let department = "Delvelopment";
         let i = 0;
         if(obj.department == "backend" || obj.department == "frontend"){
