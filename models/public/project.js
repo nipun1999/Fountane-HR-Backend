@@ -1,5 +1,12 @@
+const Sequelize = require('sequelize');
+const sequelize = new Sequelize('fountanehrdb', 'fountane', 'Co0kies!', {
+  dialect : 'postgres',
+});
 
-module.exports = (sequelize, DataTypes) => {
+
+
+const DataTypes = Sequelize;
+// module.exports = (sequelize, DataTypes) => {
     const project = sequelize.define('project', {
         
 
@@ -8,7 +15,11 @@ module.exports = (sequelize, DataTypes) => {
             allowNull : false
         },
 
-        fountaneEmail: {
+        assigneeEmail: {
+            type:DataTypes.STRING
+        },
+
+        reporterEmail: {
             type:DataTypes.STRING,
             allowNull : false
         },
@@ -40,9 +51,18 @@ module.exports = (sequelize, DataTypes) => {
     project.addHook('afterCreate', 'postOnboarding', (permission, options) => {
         console.log("Data to be written in redis here");
     });
-    return project;
-};
+//     return project;
+// };
+project.sync({
+    force : true,
+})
 
 
 
  
+
+
+
+
+
+    
