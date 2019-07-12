@@ -27,7 +27,11 @@ async function get() {
                 let newResult = await db.public.sequelize.query(newQuery,{
                     type: db.public.sequelize.QueryTypes.SELECT
                 });
-		console.log("newResult: ", JSON.stringify(newResult));
+        console.log("newResult: ", JSON.stringify(newResult));
+                newResult = JSON.parse(JSON.stringify(newResult));
+                newResult = newResult.map(ressss=>{
+                    return ressss.projectName
+                });
                 tempRes[department].push({
                     "Employee Name":resss.name,
                     "Employee ID":resss.empCode,
