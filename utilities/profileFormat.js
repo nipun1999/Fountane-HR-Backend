@@ -14,7 +14,12 @@ async function get() {
             department = "Marketing";
         }
         acc[department] = acc[department] ? acc[department] : [];
-        acc[department].push(obj);
+        acc[department].push({
+            "Employee Name":obj.name,
+            "Employee ID":obj.empCode,
+            "Employee Location":obj.branchLocation,
+            "Employee Designation":obj.designation
+        });
         return acc;
     }, {})
     console.log(result)
