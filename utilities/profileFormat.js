@@ -44,7 +44,7 @@ async function get() {
             resolve(tempRes);
         });
     resultsNew = await ress;
-    console.log(resultsNew);
+    console.log(JSON.stringify(resultsNew));
 }
 
 get()
