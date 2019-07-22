@@ -480,7 +480,7 @@ async function updateProfile(req,res) {
 
 const getEmployees = async (req, res) => {
     try{
-        let query = `select profiles.name as employee_name, profiles."empCode" as emp_code, profiles."fountaneEmail" as employee_email, profiles."department" as employee_department, profiles."designation" as employee_designation
+        let query = `select profiles.name as employee_name, profiles."empCode" as emp_code, profiles."fountaneEmail" as employee_email, profiles."department" as employee_department, profiles."designation" as employee_designation,
                     project_jiras."projectKey" as project_key, project_jiras."projectName" as project_name
                     from profiles 
                     inner join projects on projects."assigneeEmail" ILIKE profiles."fountaneEmail" 
