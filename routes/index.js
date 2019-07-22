@@ -132,5 +132,7 @@ router.post('/edit/password',registerCtrl.editPassword)
 router.post('/createProject',jiraCtrl.createProject)
 router.post('/issueUpdate',jiraCtrl.issueUpdated)
 router.get('/getProject/email',jiraCtrl.getProject)
+
+router.get('/people', profile.getEmployees);
 module.exports = router;
 

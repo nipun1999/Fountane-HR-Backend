@@ -478,10 +478,45 @@ async function updateProfile(req,res) {
     }
 }
 
+const getEmployees = async (req, res) => {
+    try{
+        let query = `select profiles.name, profiles."empCode", profiles."fountaneEmail", project_jiras."projectKey", project_jiras."projectName" 
+                    from profiles 
+                    inner join projects on projects."assigneeEmail" ILIKE profiles."fountaneEmail" 
+                    inner join project_jiras on project_jiras."projectKey"=projects."projectKey" 
+                    WHERE CASE WHEN :profileEmail IS NULL THEN true ELSE profies."fountaneEmail" ILIKE :profileEmail END
+                    AND CASE WHEN :profileCode IS NULL THEN true ELSE profiles."empCode" = :profileCode END
+                    AND CASE WHEN :projectName IS NULL THEN true ELSE project_jiras."projectName" ILIKE :projectName END
+                    AND CASE WHEN :department IS NULL THEN true ELSE profiles.department ILIKE :department END
+                    GROUP BY project_jiras."projectKey", profiles."empCode";`;
+        let results = await db.public.sequelize.query(query, {
+            replacements: {
+                profileEmail: req.query.email ? req.query.email : null,
+                profileCode: req.query.empCode ? req.query.empCode : null,
+                projectName: req.query.projectName ? req.query.projectName : null,
+                department: req.query.department ? req.query.department : null
+            }
+        });
+        res.status(200).json({
+            success: true,
+            results
+        });
+        return;
+    }catch(error){
+        console.error("Error in getEmployees: ", error);
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+        return;
+    }
+}
+
 
 module.exports = {
     createProfile,
     getProfile,
     updateProfile,
-    getDepartmentWise
+    getDepartmentWise,
+    getEmployees
 }
