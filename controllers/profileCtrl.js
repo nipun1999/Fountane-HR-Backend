@@ -480,7 +480,8 @@ async function updateProfile(req,res) {
 
 const getEmployees = async (req, res) => {
     try{
-        let query = `select profiles.name, profiles."empCode", profiles."fountaneEmail", project_jiras."projectKey", project_jiras."projectName" 
+        let query = `select profiles.name as employee_name, profiles."empCode" as emp_code, profiles."fountaneEmail" as employee_email, profiles."department" as employee_department, profiles."designation" as employee_designation
+                    project_jiras."projectKey" as project_key, project_jiras."projectName" as project_name
                     from profiles 
                     inner join projects on projects."assigneeEmail" ILIKE profiles."fountaneEmail" 
                     inner join project_jiras on project_jiras."projectKey"=projects."projectKey" 
@@ -492,11 +493,23 @@ const getEmployees = async (req, res) => {
         let results = await db.public.sequelize.query(query, {
             replacements: {
                 profileEmail: req.query.email ? req.query.email : null,
-                profileCode: req.query.empCode ? req.query.empCode : null,
-                projectName: req.query.projectName ? req.query.projectName : null,
+                profileCode: req.query.emp_code ? req.query.emp_code : null,
+                projectName: req.query.project_name ? req.query.project_name : null,
                 department: req.query.department ? req.query.department : null
             }
         });
+        results = results.reduce((acc, obj) => {
+            acc[obj.emp_code] = acc[obj.emp_code] ? acc[obj.emp_code] : {
+                employee_name: obj.employee_name,
+                emp_code: obj.emp_code,
+                employee_email: obj.employee_email,
+                employee_department: obj.employee_department,
+                employee_designation: obj.employee_designation,
+                projects: []
+            };
+            acc[obj.emp_code].projects.push(obj.project_name);
+            return acc;
+        }, {});
         res.status(200).json({
             success: true,
             results
