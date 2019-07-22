@@ -496,7 +496,8 @@ const getEmployees = async (req, res) => {
                 profileCode: req.query.emp_code ? req.query.emp_code : null,
                 projectName: req.query.project_name ? req.query.project_name : null,
                 department: req.query.department ? req.query.department : null
-            }
+            },
+            type: db.public.sequelize.QueryTypes.SELECT
         });
         results = results.reduce((acc, obj) => {
             acc[obj.emp_code] = acc[obj.emp_code] ? acc[obj.emp_code] : {
