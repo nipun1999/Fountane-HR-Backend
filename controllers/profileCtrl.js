@@ -485,7 +485,7 @@ const getEmployees = async (req, res) => {
                     from profiles 
                     inner join projects on projects."assigneeEmail" ILIKE profiles."fountaneEmail" 
                     inner join project_jiras on project_jiras."projectKey"=projects."projectKey" 
-                    WHERE CASE WHEN :profileEmail IS NULL THEN true ELSE profies."fountaneEmail" ILIKE :profileEmail END
+                    WHERE CASE WHEN :profileEmail IS NULL THEN true ELSE profiles."fountaneEmail" ILIKE :profileEmail END
                     AND CASE WHEN :profileCode IS NULL THEN true ELSE profiles."empCode" = :profileCode END
                     AND CASE WHEN :projectName IS NULL THEN true ELSE project_jiras."projectName" ILIKE :projectName END
                     AND CASE WHEN :department IS NULL THEN true ELSE profiles.department ILIKE :department END
