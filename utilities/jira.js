@@ -54,33 +54,35 @@ request(options, function (error, response, body) {
     console.log("after");
     body =   JSON.parse(body)
     let issueArray = body.issues
-    for(let i=0;i<issueArray.length;i++) {
-        let aEmail = null
-        if(issueArray[i].fields.assignee) {
-            aEmail = issueArray[i].fields.assignee.emailAddress
-        }
-        let reqObject = {
-            body : {
-                issue_event_type_name : "issue_assigned",
-                issue : {
-                    id : issueArray[i].id,
-                    fields : {
-                        project : {
-                            key : issueArray[i].fields.project.key
-                        },
-                        assignee : {
-                            emailAddress : aEmail
-                        },
-                        summary : issueArray[i].fields.issuetype.name
+    if(issueArray){
+        for(let i=0;i<issueArray.length;i++) {
+            let aEmail = null
+            if(issueArray[i].fields.assignee) {
+                aEmail = issueArray[i].fields.assignee.emailAddress
+            }
+            let reqObject = {
+                body : {
+                    issue_event_type_name : "issue_assigned",
+                    issue : {
+                        id : issueArray[i].id,
+                        fields : {
+                            project : {
+                                key : issueArray[i].fields.project.key
+                            },
+                            assignee : {
+                                emailAddress : aEmail
+                            },
+                            summary : issueArray[i].fields.issuetype.name
+                        }
+                    },
+                    user : {
+                        emailAddress: issueArray[i].fields.reporter.emailAddress
                     }
-                },
-                user : {
-                    emailAddress: issueArray[i].fields.reporter.emailAddress
                 }
             }
-        }
-        // jiraCtrl.issueUpdated(reqObject,{})
-        resolve('CREATED')
+            // jiraCtrl.issueUpdated(reqObject,{})
+            resolve('CREATED')
+        }   
     }
 });
     })
