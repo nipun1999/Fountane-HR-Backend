@@ -1,0 +1,53 @@
+{
+	"info": {
+		"_postman_id": "1207510a-42cc-4f54-87f2-456ea9f5c31b",
+		"name": "HRAPP",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get people",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "hrapp.o.fountane.xyz/api/v1/people",
+					"host": [
+						"hrapp",
+						"o",
+						"fountane",
+						"xyz"
+					],
+					"path": [
+						"api",
+						"v1",
+						"people"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "ashwin@fountane.com",
+							"disabled": true
+						},
+						{
+							"key": "emp_code",
+							"value": "FMS025",
+							"disabled": true
+						},
+						{
+							"key": "project_name",
+							"value": "test",
+							"disabled": true
+						},
+						{
+							"key": "department",
+							"value": "manager",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

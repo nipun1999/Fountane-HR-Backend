@@ -14,6 +14,7 @@ function getAllProjects() {
 
 request(options, function (error, response, body) {
   if (error) throw new Error(error);
+  console.log("body received: ", body);
   body = JSON.parse(body)
   for(let i=0;i<body.length;i++) {
       let reqObject = {
@@ -26,7 +27,7 @@ request(options, function (error, response, body) {
           }
       }
     //   console.log(reqObject)
-    jiraCtrl.createProject(reqObject,{})
+    // jiraCtrl.createProject(reqObject,{})
   }
 });
 
@@ -72,7 +73,7 @@ request(options, function (error, response, body) {
                 }
             }
         }
-        jiraCtrl.issueUpdated(reqObject,{})
+        // jiraCtrl.issueUpdated(reqObject,{})
         resolve('CREATED')
     }
 });
@@ -94,7 +95,6 @@ async function issues() {
     }
     console.log('\n\ndatabase updated')
 }
-issues()
+// issues()
 
-
-
+getAllProjects();
