@@ -33,7 +33,7 @@ async function issueUpdated(req, res){
                 issueId :req.body.issue.id,
                 issueName: req.body.issue.fields.summary
             }
-            let result = await db.public.project.create(create_obj)
+            let result = await db.public.project.upsert(create_obj)
             // console.log(result)
             // console.log('created\n\n')
         }
