@@ -80,10 +80,10 @@ request(options, function (error, response, body) {
                     }
                 }
             }
-            // jiraCtrl.issueUpdated(reqObject,{})
-            resolve('CREATED')
+            jiraCtrl.issueUpdated(reqObject,{})
         }   
     }
+    resolve('CREATED')
 });
     })
     
