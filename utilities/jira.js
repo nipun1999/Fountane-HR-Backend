@@ -46,6 +46,7 @@ function getAllIssues(projectKey) {
 
 request(options, function (error, response, body) {
   if (error) throw new Error(error);
+    console.log("received body: ", body);
     body =   JSON.parse(body)
     let issueArray = body.issues
     for(let i=0;i<issueArray.length;i++) {
