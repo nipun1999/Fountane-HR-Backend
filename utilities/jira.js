@@ -36,8 +36,7 @@ request(options, function (error, response, body) {
 function getAllIssues(projectKey) {
     return new Promise((resolve,reject) => {
         var options = { method: 'GET',
-  url: 'http://fountane.atlassian.net/rest/api/latest/search',
-  qs: { projectKey: projectKey },
+  url: `http://fountane.atlassian.net/rest/api/latest/search?jql=project=${projectKey}`,
   headers: 
    { 'Postman-Token': 'd70eb6eb-f004-4fa1-8194-5b43779586bc',
      'cache-control': 'no-cache',
@@ -48,11 +47,11 @@ function getAllIssues(projectKey) {
 
 request(options, function (error, response, body) {
   if (error) throw new Error(error);
-    // console.log("before");
-    // console.log("before");
-    // // console.log("received body: ", body);
-    // console.log("after");
-    // console.log("after");
+    console.log("before");
+    console.log("before");
+    console.log("received body: ", body);
+    console.log("after");
+    console.log("after");
     body =   JSON.parse(body)
     let issueArray = body.issues
     for(let i=0;i<issueArray.length;i++) {
