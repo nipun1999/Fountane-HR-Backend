@@ -44,13 +44,15 @@ function getAllIssues(projectKey) {
      Authorization: 'Basic cHJhYmhkZWVwQGZvdW50YW5lLmNvbTpXZ2RyeTVMdEZzT1JrcVBDaWx0ekI0RTA=',
      'Content-Type': 'application/json' } };
 
+     console.log("url : ", options.url);
+
 request(options, function (error, response, body) {
   if (error) throw new Error(error);
-    console.log("before");
-    console.log("before");
-    console.log("received body: ", body);
-    console.log("after");
-    console.log("after");
+    // console.log("before");
+    // console.log("before");
+    // // console.log("received body: ", body);
+    // console.log("after");
+    // console.log("after");
     body =   JSON.parse(body)
     let issueArray = body.issues
     for(let i=0;i<issueArray.length;i++) {
