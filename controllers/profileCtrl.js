@@ -480,11 +480,11 @@ async function updateProfile(req,res) {
 
 const getEmployees = async (req, res) => {
     try{
-        let query = `select profiles.name as employee_name, profiles."empCode" as emp_code, profiles."fountaneEmail" as employee_email, profiles."department" as employee_department, profiles."designation" as employee_designation,
+        let query = `select profiles.name as employee_name, profiles."empCode" as emp_code, profiles."fountaneEmail" as employee_email, profiles."department" as employee_department, profiles."designation" as employee_designation, profiles."profilePic" as employee_profile_pic
                     project_jiras."projectKey" as project_key, project_jiras."projectName" as project_name
                     from profiles 
-                    inner join projects on projects."assigneeEmail" ILIKE profiles."fountaneEmail" 
-                    inner join project_jiras on project_jiras."projectKey"=projects."projectKey" 
+                    left join projects on projects."assigneeEmail" ILIKE profiles."fountaneEmail" 
+                    left join project_jiras on project_jiras."projectKey"=projects."projectKey" 
                     WHERE CASE WHEN :profileEmail IS NULL THEN true ELSE profiles."fountaneEmail" ILIKE :profileEmail END
                     AND CASE WHEN :profileCode IS NULL THEN true ELSE profiles."empCode" = :profileCode END
                     AND CASE WHEN :projectName IS NULL THEN true ELSE project_jiras."projectName" ILIKE :projectName END
@@ -506,9 +506,12 @@ const getEmployees = async (req, res) => {
                 employee_email: obj.employee_email,
                 employee_department: obj.employee_department,
                 employee_designation: obj.employee_designation,
+                employee_profile_pic: obj.employee_profile_pic,
                 projects: []
             };
-            acc[obj.emp_code].projects.push(obj.project_name);
+            if(obj.project_name){
+                acc[obj.emp_code].projects.push(obj.project_name);
+            }
             return acc;
         }, {});
         res.status(200).json({
