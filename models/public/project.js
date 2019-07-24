@@ -18,7 +18,8 @@ module.exports = (sequelize, DataTypes) => {
 
         issueId : {
             type : DataTypes.BIGINT,
-            allowNull : true
+            allowNull : true,
+            primaryKey: true
         },
 
         issueName : {
