@@ -95,6 +95,6 @@ async function issues() {
     }
     console.log('\n\ndatabase updated')
 }
-// issues()
+issues()
 
-getAllProjects();
+// getAllProjects();
