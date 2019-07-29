@@ -20,6 +20,7 @@ var newsCtrl = require("../controllers/newsCtrl");
 var eventCtrl = require("../controllers/eventCtrl");
 var jiraCtrl = require("../controllers/jiraCtrl")
 var rpCtrl = require("../controllers/rpCtrl")
+const projectUpdateCtrl = require("../controllers/projectUpdatesCtrl");
 // // Login and onboarding
 // router.post("/register", login.register);
 // router.post("/login", login.login);
@@ -134,5 +135,7 @@ router.post('/issueUpdate',jiraCtrl.issueUpdated)
 router.get('/getProject/email',jiraCtrl.getProject)
 
 router.get('/people', profile.getEmployees);
+
+router.post('/projectUpdate', projectUpdateCtrl.createUpdate);
 module.exports = router;
 
