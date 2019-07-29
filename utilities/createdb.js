@@ -101,7 +101,7 @@ async function main(){
     
     var schemas = [
         // SchemaName, force_param, force_function(to be executed in case, the force param is true)
-        ['public', true, public_force],
+        ['public', false, public_force],
     //    ['atc', true, atc_force],
         // ['atc', true, atc_force]
     ], force_ret = 0;
