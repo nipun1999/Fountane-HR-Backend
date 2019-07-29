@@ -52,6 +52,7 @@ db.permissions = require('./permissions.js')(sequelize,Sequelize)
 db.rpObj = require('./roles_permissions.js')(sequelize,Sequelize)
 db.project_jira = require('./project_jira.js')(sequelize,Sequelize)
 db.project = require('./project.js')(sequelize,Sequelize)
+db.project_updates = require("./project_updates")(sequelize, Sequelize);
 
 //Relations
 // db.profile.belongsTo(db.login, {onDelete: "CASCADE"});

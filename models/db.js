@@ -44,6 +44,8 @@ db.public.team.belongsTo(db.public.register,{foreignKey:'empCode', onDelete:"CAS
 db.public.team.belongsTo(db.public.register,{foreignKey:'TLempCode', onDelete:"CASCADE"});
 db.public.signInObj.belongsTo(db.public.register,{foreignKey:'empCode', onDelete:"CASCADE"});
 
+db.public.project_updates.belongsTo(db.public.project, {foreignKey: 'project_id', onDelete: 'CASCADE'});
+
 
 // Hooks come here
 // db.atc.strips.addHook('afterCreate', 'updateCache', async (strip, options) => {
