@@ -51,7 +51,8 @@ module.exports.getUpdates = async (req, res) => {
             throw new Error("Can't find the project");
         }
         project = project[0];
-        let projectUpdatesQuery = `SELECT project_updates.* from project_updates
+        let projectUpdatesQuery = `SELECT project_updates.*, project_jiras."projectName" as project_name from project_updates
+                                inner join project_jiras on project_jiras."projectKey" = project_updates.project_id
                                 where project_updates.project_id=:projectKey 
                                 and project_updates.event_date::date = COALESCE(:time_filter, NOW())::timestamp::date`;
         let projectUpdates = await db.public.sequelize.query(projectUpdatesQuery, {
@@ -64,7 +65,10 @@ module.exports.getUpdates = async (req, res) => {
         projectUpdates = JSON.parse(JSON.stringify(projectUpdates));
         console.log("retrieved project updates are: ", JSON.stringify(projectUpdates));
         projectUpdates = projectUpdates.map(update=> {
-            return update.update;
+            return {
+                udpate: update.update,
+                project: update.project_name
+            };
         });
         res.status(200).json({
             success: true,
