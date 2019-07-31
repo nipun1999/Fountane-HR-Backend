@@ -64,12 +64,11 @@ module.exports.getUpdates = async (req, res) => {
         });
         projectUpdates = JSON.parse(JSON.stringify(projectUpdates));
         console.log("retrieved project updates are: ", JSON.stringify(projectUpdates));
-        projectUpdates = projectUpdates.map(update=> {
-            return {
-                udpate: update.update,
-                project: update.project_name
-            };
-        });
+        projectUpdates = projectUpdates.reduce((acc, obj)=>{
+            acc[obj.project_name] = acc[obj.project_name] ? acc[obj.project_name] : [];
+            acc[obj.project_name].push(obj.update);
+            return acc;
+        }, {});
         res.status(200).json({
             success: true,
             updates: projectUpdates
