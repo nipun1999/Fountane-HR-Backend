@@ -137,5 +137,6 @@ router.get('/getProject/email',jiraCtrl.getProject)
 router.get('/people', profile.getEmployees);
 
 router.post('/projectUpdate', projectUpdateCtrl.createUpdate);
+router.get('/getUpdates', projectUpdateCtrl.getUpdates);
 module.exports = router;
 
