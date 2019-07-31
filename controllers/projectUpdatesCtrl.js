@@ -66,7 +66,7 @@ module.exports.getUpdates = async (req, res) => {
         console.log("retrieved project updates are: ", JSON.stringify(projectUpdates));
         projectUpdates = projectUpdates.reduce((acc, obj)=>{
             acc[obj.project_name] = acc[obj.project_name] ? acc[obj.project_name] : [];
-            acc[obj.project_name].push(obj.update);
+            acc[obj.project_name].push(obj.updates);
             return acc;
         }, {});
         res.status(200).json({
