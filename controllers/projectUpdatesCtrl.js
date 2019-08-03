@@ -14,6 +14,7 @@ module.exports.createUpdate = async (req, res) => {
                 },
                 type: db.public.sequelize.QueryTypes.SELECT
         });
+        update = update.join(' ');
         project = JSON.parse(JSON.stringify(project));
         project = project[0];
         await db.public.project_updates.create({
