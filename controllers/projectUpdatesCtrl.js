@@ -54,7 +54,7 @@ module.exports.getUpdates = async (req, res) => {
         project = project[0];
         let projectUpdatesQuery = `SELECT project_updates.*, project_jiras."projectName" as project_name from project_updates
                                 inner join project_jiras on project_jiras."projectKey" = project_updates.project_id and project_jiras."projectName" ILIKE :projectName
-                                where and project_updates.event_date::date = COALESCE(:time_filter, NOW())::timestamp::date`;
+                                where project_updates.event_date::date = COALESCE(:time_filter, NOW())::timestamp::date`;
         let projectUpdates = await db.public.sequelize.query(projectUpdatesQuery, {
             replacements: {
                 projectKey: project.projectKey,
