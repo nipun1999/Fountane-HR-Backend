@@ -482,7 +482,7 @@ const updateSlackId = async (req, res) => {
     try{
         let fountaneEmail = req.body.fountaneEmail;
         let slackId = req.body.slackId;
-        let res = await db.public.profiles.update({
+        let ress = await db.public.profiles.update({
             slack_id: slackId
         }, {
             where: {
@@ -491,7 +491,7 @@ const updateSlackId = async (req, res) => {
         });
         res.status(200).json({
             success: true,
-            results: res
+            results: ress
         });
         return;
     }catch(error){
