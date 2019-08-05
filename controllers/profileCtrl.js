@@ -478,6 +478,32 @@ async function updateProfile(req,res) {
     }
 }
 
+const updateSlackId = async (req, res) => {
+    try{
+        let fountaneEmail = req.body.fountaneEmail;
+        let slackId = req.body.slackId;
+        let res = await db.public.profiles.update({
+            slack_id: slackId
+        }, {
+            where: {
+                fountaneEmail
+            }
+        });
+        res.status(200).json({
+            success: true,
+            results: res
+        });
+        return;
+    }catch(error){
+        console.error("error occured: ", error);
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+        return;
+    }
+}
+
 const getEmployees = async (req, res) => {
     try{
         let query = `select profiles.name as employee_name, profiles."empCode" as emp_code, profiles."fountaneEmail" as employee_email, profiles."department" as employee_department, profiles."designation" as employee_designation, profiles."profilePic" as employee_profile_pic,
@@ -535,5 +561,6 @@ module.exports = {
     getProfile,
     updateProfile,
     getDepartmentWise,
-    getEmployees
+    getEmployees,
+    updateSlackId
 }

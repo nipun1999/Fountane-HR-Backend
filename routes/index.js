@@ -138,5 +138,7 @@ router.get('/people', profile.getEmployees);
 
 router.post('/projectUpdate', projectUpdateCtrl.createUpdate);
 router.get('/getUpdates', projectUpdateCtrl.getUpdates);
+
+router.patch('/updateSlackId', profile.updateSlackId);
 module.exports = router;
 
