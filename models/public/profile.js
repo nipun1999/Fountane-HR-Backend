@@ -174,7 +174,8 @@ module.exports = (sequelize, DataTypes) => {
 
         slack_id: {
             type: DataTypes.STRING,
-            allowNull:true
+            allowNull:true,
+            unique: true
         },
         
         updated_at: DataTypes.DATE,
