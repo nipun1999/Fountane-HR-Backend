@@ -171,6 +171,11 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             defaultValue: new Date()
         },
+
+        slack_id: {
+            type: DataTypes.STRING,
+            allowNull:true
+        },
         
         updated_at: DataTypes.DATE,
         deleted_at: DataTypes.DATE
