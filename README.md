@@ -1,4 +1,4 @@
-# fountane-hr-backend
+# Fountane-HR-Backend
 This repo contains all the code for the backend for the Fountane HR App
 The codebase is developed in NodeJS framework and used postgresql as database
 ## About Codebase
