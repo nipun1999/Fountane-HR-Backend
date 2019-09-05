@@ -1,6 +1,6 @@
 var db = {
     staging: {
-        DATABASE_HOST: '/cloudsql/generic-services:asia-south1:services-database',
+        DATABASE_HOST: 'staging link',
         DATABASE_NAME: 'services',
         DATABASE_USERNAME: 'services',
         DATABASE_PASSWORD: 'services',
@@ -10,7 +10,7 @@ var db = {
         SCHEMA: "public",
     },
     prod: {
-        DATABASE_HOST: process.env.DATABASE_HOST || '/cloudsql/generic-services:asia-south1:services-database',
+        DATABASE_HOST: process.env.DATABASE_HOST || 'host link',
         DATABASE_NAME: process.env.DATABASE_NAME || 'services',
         DATABASE_USERNAME: process.env.DATABASE_USERNAME || 'services',
         DATABASE_PASSWORD: process.env.DATABASE_PASSWORD || 'services',
@@ -22,9 +22,9 @@ var db = {
 
     hr_db: {
         DATABASE_HOST: process.env.DATABASE_HOST || 'localhost',
-        DATABASE_NAME: process.env.DATABASE_NAME || 'fountanehrdb',
-        DATABASE_USERNAME: process.env.DATABASE_USERNAME || 'fountane',
-        DATABASE_PASSWORD: process.env.DATABASE_PASSWORD || 'Co0kies!',
+        DATABASE_NAME: process.env.DATABASE_NAME || 'db',
+        DATABASE_USERNAME: process.env.DATABASE_USERNAME || 'username',
+        DATABASE_PASSWORD: process.env.DATABASE_PASSWORD || 'password',
         DATABASE_PORT: process.env.DATABASE_PORT || 5432,
         DATABASE_DIALECT: process.env.DATABASE_DIALECT || 'postgres',
         NODE_ENV: process.env.NODE_ENV || 'development',
@@ -44,7 +44,7 @@ var cache = {
 var config = {
     dialect: "postgres",
     app: {
-        jwtKey: 'nfsdikgnsdkf6agfa5wrg4awr',
+        jwtKey: 'the jwt key',
         sessionKey: "SecretSessionKey",
         port: process.env.PORT || '4900',
         name: "generic Services API Platform",
