@@ -23,8 +23,8 @@ var db = {
     hr_db: {
         DATABASE_HOST: process.env.DATABASE_HOST || 'localhost',
         DATABASE_NAME: process.env.DATABASE_NAME || 'fountanehrdb',
-        DATABASE_USERNAME: process.env.DATABASE_USERNAME || 'fountane',
-        DATABASE_PASSWORD: process.env.DATABASE_PASSWORD || 'Co0kies!',
+        DATABASE_USERNAME: process.env.DATABASE_USERNAME || '',
+        DATABASE_PASSWORD: process.env.DATABASE_PASSWORD || '',
         DATABASE_PORT: process.env.DATABASE_PORT || 5432,
         DATABASE_DIALECT: process.env.DATABASE_DIALECT || 'postgres',
         NODE_ENV: process.env.NODE_ENV || 'development',
@@ -44,8 +44,8 @@ var cache = {
 var config = {
     dialect: "postgres",
     app: {
-        jwtKey: 'nfsdikgnsdkf6agfa5wrg4awr',
-        sessionKey: "SecretSessionKey",
+        jwtKey: 'jwt key',
+        sessionKey: "",
         port: process.env.PORT || '4900',
         name: "generic Services API Platform",
         local_domain: "http://localhost:" + (process.env.PORT || '4900') + "/api/v1",
@@ -61,7 +61,7 @@ var config = {
     },
     cloud: {
         gcp: {
-            service_account_path: "./config/creds/firebase-admin-sdk-service-account.json",
+            service_account_path: "path",
             project_id: "generic-services",
             storage: {
                 bucket_name: "generic-services.appspot.com"
