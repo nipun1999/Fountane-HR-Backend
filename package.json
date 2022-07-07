@@ -32,7 +32,7 @@
     "jade": "~1.11.0",
     "jsonwebtoken": "^8.4.0",
     "keypair": "^1.0.1",
-    "moment": "^2.22.2",
+    "moment": "^2.29.4",
     "morgan": "^1.9.1",
     "node-ga": "^0.1.1",
     "nonce-generator": "^1.0.2",
