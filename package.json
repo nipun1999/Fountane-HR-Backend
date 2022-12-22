@@ -30,7 +30,7 @@
     "hashids": "^1.2.2",
     "ioredis": "^4.2.0",
     "jade": "~1.11.0",
-    "jsonwebtoken": "^8.4.0",
+    "jsonwebtoken": "^9.0.0",
     "keypair": "^1.0.1",
     "moment": "^2.22.2",
     "morgan": "^1.9.1",
